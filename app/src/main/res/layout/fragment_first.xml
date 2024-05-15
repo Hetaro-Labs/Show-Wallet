@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp">
+
+            <Button
+                android:id="@+id/generate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create Wallet" />
+
+            <Button
+                android:id="@+id/fromPrivateKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="From Private Key" />
+
+            <Button
+                android:id="@+id/getPrivateKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get Private Key" />
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send" />
+
+            <Button
+                android:id="@+id/send_spl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send SPL" />
+
+            <Button
+                android:id="@+id/balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SPL Balance" />
+
+            <TextView
+                android:id="@+id/key"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Not connected" />
+
+            <TextView
+                android:id="@+id/bal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/sig"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
