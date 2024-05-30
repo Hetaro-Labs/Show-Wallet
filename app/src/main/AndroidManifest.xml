@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".FakeWalletApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,15 +15,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+
+        <activity android:name=".MobileWalletAdapterActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.solana.mobilewalletadapter.fakewallet.mwa_host_task"
+            android:exported="true"
+            android:theme="@style/Theme.MyApplication">
+            <!-- Default solana-wallet URI from a browser or native dapp -->
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="solana-wallet" />
+            </intent-filter>
+            <!-- Any other uncategorized solana-wallet URI not covered by above -->
+            <intent-filter android:order="0">
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="solana-wallet" />
+            </intent-filter>
+        </activity>
+
         <activity
-            android:name=".MainActivity"
+            android:name=".WalletActivity"
+            android:launchMode="singleTask"
             android:exported="true"
             android:theme="@style/Theme.MyApplication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

@@ -19,6 +19,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "My Application"
+rootProject.name = "showallet"
 include ':app'
-include ':wallib'
+include ':sol4k'
+include ':walletlib'
+include ':common'
