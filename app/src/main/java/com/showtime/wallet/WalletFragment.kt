@@ -49,7 +49,7 @@ class WalletFragment : Fragment() {
     private fun onAccountConnected(keypair: Keypair){
         sender = keypair
         binding.key.text = "Connected to: " + sender.publicKey.toBase58()
-        loadBalance()
+        // loadBalance()
     }
 
     private fun loadBalance(){
@@ -82,7 +82,7 @@ class WalletFragment : Fragment() {
 
         binding.generate.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
-                val app = requireActivity().application as FakeWalletApplication
+                val app = requireActivity().application as ShoWalletApplication
                 val keypair = async(Dispatchers.IO) {
                     app.keyRepository.generateKeypair()
                 }
@@ -113,7 +113,7 @@ class WalletFragment : Fragment() {
         }
 
         GlobalScope.launch(Dispatchers.Main) {
-            val app = requireActivity().application as FakeWalletApplication
+            val app = requireActivity().application as ShoWalletApplication
             val keypair = async(Dispatchers.IO) {
                 app.keyRepository.getOne()
             }

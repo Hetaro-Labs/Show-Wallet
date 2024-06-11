@@ -28,11 +28,10 @@ import kotlinx.coroutines.flow.*
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters
 import java.nio.charset.StandardCharsets
 
-class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(application) {
-    private val _mobileWalletAdapterServiceEvents =
-        MutableStateFlow<MobileWalletAdapterServiceRequest>(MobileWalletAdapterServiceRequest.None)
-    val mobileWalletAdapterServiceEvents =
-        _mobileWalletAdapterServiceEvents.asSharedFlow() // expose as event stream, rather than a stateful object
+class ShoWalletViewModel(application: Application) : AndroidViewModel(application) {
+    private val _walletServiceEvents =
+        MutableStateFlow<WalletServiceRequest>(WalletServiceRequest.None)
+    val walletServiceEvents = _walletServiceEvents.asSharedFlow() // expose as event stream, rather than a stateful object
 
     private var clientTrustUseCase: ClientTrustUseCase? = null
     private var scenario: LocalScenario? = null
@@ -69,7 +68,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
             // manually create the scenario here so we can override the association protocol version
             // this forces ProtocolVersion.LEGACY to simulate a wallet using walletlib 1.x (for testing)
             LocalWebSocketServerScenario(
-                getApplication<FakeWalletApplication>().applicationContext,
+                getApplication<ShoWalletApplication>().applicationContext,
                 MobileWalletAdapterConfig(
                     true,
                     10,
@@ -85,7 +84,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
             )
         } else {
             associationUri.createScenario(
-                getApplication<FakeWalletApplication>().applicationContext,
+                getApplication<ShoWalletApplication>().applicationContext,
                 MobileWalletAdapterConfig(
                     10,
                     10,
@@ -111,7 +110,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
 
 
     private suspend fun getAccounts(): List<AuthorizedAccount> {
-        val keypair = getApplication<FakeWalletApplication>().keyRepository.getOne()
+        val keypair = getApplication<ShoWalletApplication>().keyRepository.getOne()
         if (keypair == null){
             Log.w(TAG, "get no wallet")
             return emptyList()
@@ -126,7 +125,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
 
 
     fun authorizeDapp(
-        request: MobileWalletAdapterServiceRequest.AuthorizationRequest,
+        request: WalletServiceRequest.AuthorizationRequest,
         authorized: Boolean,
         numAccounts: Int = 1
     ) {
@@ -155,7 +154,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
     }
 
     fun authorizeDappSimulateClusterNotSupported(
-        request: MobileWalletAdapterServiceRequest.AuthorizeDapp
+        request: WalletServiceRequest.AuthorizeDapp
     ) {
         if (rejectStaleRequest(request)) {
             return
@@ -165,7 +164,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
     }
 
     fun authorizationSimulateInternalError(
-        request: MobileWalletAdapterServiceRequest.AuthorizationRequest
+        request: WalletServiceRequest.AuthorizationRequest
     ) {
         if (rejectStaleRequest(request)) {
             return
@@ -175,7 +174,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
     }
 
     fun signIn(
-        request: MobileWalletAdapterServiceRequest.SignIn,
+        request: WalletServiceRequest.SignIn,
         authorizeSignIn: Boolean
     ) {
         if (rejectStaleRequest(request)) {
@@ -185,7 +184,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         viewModelScope.launch {
             if (authorizeSignIn) {
 //                val keypair = getApplication<FakeWalletApplication>().keyRepository.generateKeypair()
-                val keypair = getApplication<FakeWalletApplication>().keyRepository.getOne()
+                val keypair = getApplication<ShoWalletApplication>().keyRepository.getOne()
                 if (keypair == null){
                     Log.w(TAG, "get no wallet")
                     return@launch
@@ -218,12 +217,12 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
     }
 
     fun signInSimulateSignInNotSupported(
-        request: MobileWalletAdapterServiceRequest.SignIn
+        request: WalletServiceRequest.SignIn
     ) {
         authorizeDapp(request, true)
     }
 
-    fun signPayloadsSimulateSign(request: MobileWalletAdapterServiceRequest.SignPayloads) {
+    fun signPayloadsSimulateSign(request: WalletServiceRequest.SignPayloads) {
         if (rejectStaleRequest(request)) {
             return
         }
@@ -232,11 +231,11 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
 
             val valid = BooleanArray(request.request.payloads.size) { true }
             val signedPayloads = when (request) {
-                is MobileWalletAdapterServiceRequest.SignTransactions -> {
+                is WalletServiceRequest.SignTransactions -> {
                     Array(request.request.payloads.size) { i ->
                         val tx = request.request.payloads[i]
                         val keypairs = SolanaSigningUseCase.getSignersForTransaction(tx).mapNotNull {
-                            getApplication<FakeWalletApplication>().keyRepository.getKeypair(it)
+                            getApplication<ShoWalletApplication>().keyRepository.getKeypair(it)
                         }
                         Log.d(TAG, "Simulating transaction signing with ${keypairs.joinToString {
                             Base58.encodeToString((it.public as Ed25519PublicKeyParameters).encoded)
@@ -250,9 +249,9 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
                         }
                     }
                 }
-                is MobileWalletAdapterServiceRequest.SignMessages -> {
+                is WalletServiceRequest.SignMessages -> {
                     val keypairs = request.request.addresses.map {
-                        val keypair = getApplication<FakeWalletApplication>().keyRepository.getKeypair(it)
+                        val keypair = getApplication<ShoWalletApplication>().keyRepository.getKeypair(it)
                         check(keypair != null) { "Unknown public key for signing request" }
                         keypair
                     }
@@ -276,21 +275,21 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-    fun signPayloadsDeclined(request: MobileWalletAdapterServiceRequest.SignPayloads) {
+    fun signPayloadsDeclined(request: WalletServiceRequest.SignPayloads) {
         if (rejectStaleRequest(request)) {
             return
         }
         request.request.completeWithDecline()
     }
 
-    fun signPayloadsSimulateAuthTokenInvalid(request: MobileWalletAdapterServiceRequest.SignPayloads) {
+    fun signPayloadsSimulateAuthTokenInvalid(request: WalletServiceRequest.SignPayloads) {
         if (rejectStaleRequest(request)) {
             return
         }
         request.request.completeWithAuthorizationNotValid()
     }
 
-    fun signPayloadsSimulateInvalidPayloads(request: MobileWalletAdapterServiceRequest.SignPayloads) {
+    fun signPayloadsSimulateInvalidPayloads(request: WalletServiceRequest.SignPayloads) {
         if (rejectStaleRequest(request)) {
             return
         }
@@ -298,25 +297,25 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         request.request.completeWithInvalidPayloads(valid)
     }
 
-    fun signPayloadsSimulateTooManyPayloads(request: MobileWalletAdapterServiceRequest.SignPayloads) {
+    fun signPayloadsSimulateTooManyPayloads(request: WalletServiceRequest.SignPayloads) {
         if (rejectStaleRequest(request)) {
             return
         }
         request.request.completeWithTooManyPayloads()
     }
 
-    fun signPayloadsSimulateInternalError(request: MobileWalletAdapterServiceRequest.SignPayloads) {
+    fun signPayloadsSimulateInternalError(request: WalletServiceRequest.SignPayloads) {
         if (rejectStaleRequest(request)) {
             return
         }
         request.request.completeWithInternalError(RuntimeException("Internal error during signing: -1234"))
     }
 
-    fun signAndSendTransactionsSimulateSign(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsSimulateSign(request: WalletServiceRequest.SignAndSendTransactions) {
         viewModelScope.launch {
             val signingResults = request.request.payloads.map { tx ->
                 val keypairs = SolanaSigningUseCase.getSignersForTransaction(tx).mapNotNull {
-                    getApplication<FakeWalletApplication>().keyRepository.getKeypair(it)
+                    getApplication<ShoWalletApplication>().keyRepository.getKeypair(it)
                 }
                 Log.d(TAG, "Simulating transaction signing with ${keypairs.joinToString {
                     Base58.encodeToString((it.public as Ed25519PublicKeyParameters).encoded)
@@ -350,21 +349,21 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-    fun signAndSendTransactionsDeclined(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsDeclined(request: WalletServiceRequest.SignAndSendTransactions) {
         if (rejectStaleRequest(request)) {
             return
         }
         request.request.completeWithDecline()
     }
 
-    fun signAndSendTransactionsSimulateAuthTokenInvalid(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsSimulateAuthTokenInvalid(request: WalletServiceRequest.SignAndSendTransactions) {
         if (rejectStaleRequest(request)) {
             return
         }
         request.request.completeWithAuthorizationNotValid()
     }
 
-    fun signAndSendTransactionsSimulateInvalidPayloads(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsSimulateInvalidPayloads(request: WalletServiceRequest.SignAndSendTransactions) {
         if (rejectStaleRequest(request)) {
             return
         }
@@ -372,7 +371,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         request.request.completeWithInvalidSignatures(valid)
     }
 
-    fun signAndSendTransactionsSubmitted(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsSubmitted(request: WalletServiceRequest.SignAndSendTransactions) {
         if (rejectStaleRequest(request)) {
             return
         }
@@ -382,7 +381,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         request.request.completeWithSignatures(request.signatures!!)
     }
 
-    fun signAndSendTransactionsNotSubmitted(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsNotSubmitted(request: WalletServiceRequest.SignAndSendTransactions) {
         if (rejectStaleRequest(request)) {
             return
         }
@@ -396,7 +395,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         request.request.completeWithNotSubmitted(notSubmittedSignatures)
     }
 
-    fun signAndSendTransactionsSend(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsSend(request: WalletServiceRequest.SignAndSendTransactions) {
         if (rejectStaleRequest(request)) {
             return
         }
@@ -425,28 +424,28 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-    fun signAndSendTransactionsSimulateTooManyPayloads(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsSimulateTooManyPayloads(request: WalletServiceRequest.SignAndSendTransactions) {
         if (rejectStaleRequest(request)) {
             return
         }
         request.request.completeWithTooManyPayloads()
     }
 
-    fun signAndSendTransactionsSimulateInternalError(request: MobileWalletAdapterServiceRequest.SignAndSendTransactions) {
+    fun signAndSendTransactionsSimulateInternalError(request: WalletServiceRequest.SignAndSendTransactions) {
         if (rejectStaleRequest(request)) {
             return
         }
         request.request.completeWithInternalError(RuntimeException("Internal error during sign_and_send_transactions: -1234"))
     }
 
-    private fun rejectStaleRequest(request: MobileWalletAdapterServiceRequest): Boolean {
-        if (!_mobileWalletAdapterServiceEvents.compareAndSet(
+    private fun rejectStaleRequest(request: WalletServiceRequest): Boolean {
+        if (!_walletServiceEvents.compareAndSet(
                 request,
-                MobileWalletAdapterServiceRequest.None
+                WalletServiceRequest.None
             )
         ) {
             Log.w(TAG, "Discarding stale request")
-            if (request is MobileWalletAdapterServiceRequest.MobileWalletAdapterRemoteRequest) {
+            if (request is WalletServiceRequest.MobileWalletAdapterRemoteRequest) {
                 request.request.cancel()
             }
             return true
@@ -454,12 +453,12 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         return false
     }
 
-    private fun <T : MobileWalletAdapterServiceRequest.MobileWalletAdapterRemoteRequest> updateExistingRequest(
+    private fun <T : WalletServiceRequest.MobileWalletAdapterRemoteRequest> updateExistingRequest(
         request: T,
         updated: T
     ): Boolean {
         require(request.request === updated.request) { "When updating a request, the same underlying ScenarioRequest is expected" }
-        if (!_mobileWalletAdapterServiceEvents.compareAndSet(request, updated)
+        if (!_walletServiceEvents.compareAndSet(request, updated)
         ) {
             Log.w(TAG, "Discarding stale request")
             request.request.cancel()
@@ -468,9 +467,9 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         return true
     }
 
-    private fun cancelAndReplaceRequest(request: MobileWalletAdapterServiceRequest) {
-        val oldRequest = _mobileWalletAdapterServiceEvents.getAndUpdate { request }
-        if (oldRequest is MobileWalletAdapterServiceRequest.MobileWalletAdapterRemoteRequest) {
+    private fun cancelAndReplaceRequest(request: WalletServiceRequest) {
+        val oldRequest = _walletServiceEvents.getAndUpdate { request }
+        if (oldRequest is WalletServiceRequest.MobileWalletAdapterRemoteRequest) {
             oldRequest.request.cancel()
         }
     }
@@ -503,7 +502,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         override fun onScenarioServingComplete() {
             viewModelScope.launch(Dispatchers.Main) {
                 scenario?.close()
-                cancelAndReplaceRequest(MobileWalletAdapterServiceRequest.None)
+                cancelAndReplaceRequest(WalletServiceRequest.None)
             }
         }
         override fun onScenarioComplete() = Unit
@@ -514,7 +513,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
             viewModelScope.launch {
                 // No need to cancel any outstanding request; the scenario is torn down, and so
                 // cancelling a request that originated from it isn't actionable
-                _mobileWalletAdapterServiceEvents.emit(MobileWalletAdapterServiceRequest.SessionTerminated)
+                _walletServiceEvents.emit(WalletServiceRequest.SessionTerminated)
             }
         }
 
@@ -524,11 +523,11 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
             val clientTrustUseCase = clientTrustUseCase!! // should never be null if we get here
 
             val authorizationRequest = request.signInPayload?.let { signInPayload ->
-                MobileWalletAdapterServiceRequest.SignIn(
+                WalletServiceRequest.SignIn(
                     request, signInPayload,
                     clientTrustUseCase.verificationInProgress
                 )
-            } ?: MobileWalletAdapterServiceRequest.AuthorizeDapp(
+            } ?: WalletServiceRequest.AuthorizeDapp(
                 request,
                 clientTrustUseCase.verificationInProgress
             )
@@ -543,9 +542,9 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
                 if (!updateExistingRequest(
                         authorizationRequest,
                         when (authorizationRequest) {
-                            is MobileWalletAdapterServiceRequest.AuthorizeDapp ->
+                            is WalletServiceRequest.AuthorizeDapp ->
                                 authorizationRequest.copy(sourceVerificationState = verificationState)
-                            is MobileWalletAdapterServiceRequest.SignIn ->
+                            is WalletServiceRequest.SignIn ->
                                 authorizationRequest.copy(sourceVerificationState = verificationState)
                         }
                     )
@@ -592,7 +591,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
             Log.d(TAG, "onSignTransactionsRequest: ")
 
             if (verifyPrivilegedMethodSource(request)) {
-                cancelAndReplaceRequest(MobileWalletAdapterServiceRequest.SignTransactions(request))
+                cancelAndReplaceRequest(WalletServiceRequest.SignTransactions(request))
             } else {
                 request.completeWithDecline()
             }
@@ -607,7 +606,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
                         request.completeWithAuthorizationNotValid()
                     } else {
                         cancelAndReplaceRequest(
-                            MobileWalletAdapterServiceRequest.SignMessages(
+                            WalletServiceRequest.SignMessages(
                                 request
                             )
                         )
@@ -624,7 +623,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
             if (verifyPrivilegedMethodSource(request)) {
                 val endpointUri = chainOrClusterToRpcUri(request.chain)
                 cancelAndReplaceRequest(
-                    MobileWalletAdapterServiceRequest.SignAndSendTransactions(
+                    WalletServiceRequest.SignAndSendTransactions(
                         request,
                         endpointUri
                     )
@@ -649,18 +648,18 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
         override fun onLowPowerAndNoConnection() {
             Log.w(TAG, "Device is in power save mode and no connection was made. The connection was likely suppressed by power save mode.")
             viewModelScope.launch {
-                _mobileWalletAdapterServiceEvents.emit(MobileWalletAdapterServiceRequest.LowPowerNoConnection)
+                _walletServiceEvents.emit(WalletServiceRequest.LowPowerNoConnection)
             }
         }
     }
 
-    sealed interface MobileWalletAdapterServiceRequest {
-        object None : MobileWalletAdapterServiceRequest
-        object SessionTerminated : MobileWalletAdapterServiceRequest
-        object LowPowerNoConnection : MobileWalletAdapterServiceRequest
+    sealed interface WalletServiceRequest {
+        object None : WalletServiceRequest
+        object SessionTerminated : WalletServiceRequest
+        object LowPowerNoConnection : WalletServiceRequest
 
         sealed class MobileWalletAdapterRemoteRequest(open val request: ScenarioRequest) :
-            MobileWalletAdapterServiceRequest
+            WalletServiceRequest
         sealed class AuthorizationRequest(
             override val request: AuthorizeRequest,
             open val sourceVerificationState: ClientTrustUseCase.VerificationState
@@ -693,7 +692,7 @@ class MobileWalletAdapterViewModel(application: Application) : AndroidViewModel(
     }
 
     companion object {
-        private val TAG = MobileWalletAdapterViewModel::class.simpleName
+        private val TAG = ShoWalletViewModel::class.simpleName
         private const val SOURCE_VERIFICATION_TIMEOUT_MS = 3000L
         private const val LOW_POWER_NO_CONNECTION_TIMEOUT_MS = 3000L
     }

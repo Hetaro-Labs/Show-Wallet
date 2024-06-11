@@ -12,17 +12,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.showtime.wallet.MobileWalletAdapterViewModel
+import com.showtime.wallet.ShoWalletViewModel
 import com.showtime.wallet.R
 import com.showtime.wallet.databinding.FragmentSignInBinding
 import com.showtime.wallet.usecase.ClientTrustUseCase
 import kotlinx.coroutines.launch
 
 class SignInFragment : Fragment() {
-    private val activityViewModel: MobileWalletAdapterViewModel by activityViewModels()
+    private val activityViewModel: ShoWalletViewModel by activityViewModels()
     private lateinit var viewBinding: FragmentSignInBinding
 
-    private var request: MobileWalletAdapterViewModel.MobileWalletAdapterServiceRequest.SignIn? = null
+    private var request: ShoWalletViewModel.WalletServiceRequest.SignIn? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +37,9 @@ class SignInFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                activityViewModel.mobileWalletAdapterServiceEvents.collect { request ->
+                activityViewModel.walletServiceEvents.collect { request ->
                     when (request) {
-                        is MobileWalletAdapterViewModel.MobileWalletAdapterServiceRequest.SignIn -> {
+                        is ShoWalletViewModel.WalletServiceRequest.SignIn -> {
                             this@SignInFragment.request = request
 
                             if (request.request.identityUri?.isAbsolute == true &&
