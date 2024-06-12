@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.*
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters
 import java.nio.charset.StandardCharsets
 
-class ShoWalletViewModel(application: Application) : AndroidViewModel(application) {
+class ShowVaultViewModel(application: Application) : AndroidViewModel(application) {
     private val _walletServiceEvents =
         MutableStateFlow<WalletServiceRequest>(WalletServiceRequest.None)
     val walletServiceEvents = _walletServiceEvents.asSharedFlow() // expose as event stream, rather than a stateful object
@@ -68,7 +68,7 @@ class ShoWalletViewModel(application: Application) : AndroidViewModel(applicatio
             // manually create the scenario here so we can override the association protocol version
             // this forces ProtocolVersion.LEGACY to simulate a wallet using walletlib 1.x (for testing)
             LocalWebSocketServerScenario(
-                getApplication<ShoWalletApplication>().applicationContext,
+                getApplication<ShowVaultApplication>().applicationContext,
                 MobileWalletAdapterConfig(
                     true,
                     10,
@@ -84,7 +84,7 @@ class ShoWalletViewModel(application: Application) : AndroidViewModel(applicatio
             )
         } else {
             associationUri.createScenario(
-                getApplication<ShoWalletApplication>().applicationContext,
+                getApplication<ShowVaultApplication>().applicationContext,
                 MobileWalletAdapterConfig(
                     10,
                     10,
@@ -110,7 +110,7 @@ class ShoWalletViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     private suspend fun getAccounts(): List<AuthorizedAccount> {
-        val keypair = getApplication<ShoWalletApplication>().keyRepository.getOne()
+        val keypair = getApplication<ShowVaultApplication>().keyRepository.getOne()
         if (keypair == null){
             Log.w(TAG, "get no wallet")
             return emptyList()
@@ -184,7 +184,7 @@ class ShoWalletViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             if (authorizeSignIn) {
 //                val keypair = getApplication<FakeWalletApplication>().keyRepository.generateKeypair()
-                val keypair = getApplication<ShoWalletApplication>().keyRepository.getOne()
+                val keypair = getApplication<ShowVaultApplication>().keyRepository.getOne()
                 if (keypair == null){
                     Log.w(TAG, "get no wallet")
                     return@launch
@@ -235,7 +235,7 @@ class ShoWalletViewModel(application: Application) : AndroidViewModel(applicatio
                     Array(request.request.payloads.size) { i ->
                         val tx = request.request.payloads[i]
                         val keypairs = SolanaSigningUseCase.getSignersForTransaction(tx).mapNotNull {
-                            getApplication<ShoWalletApplication>().keyRepository.getKeypair(it)
+                            getApplication<ShowVaultApplication>().keyRepository.getKeypair(it)
                         }
                         Log.d(TAG, "Simulating transaction signing with ${keypairs.joinToString {
                             Base58.encodeToString((it.public as Ed25519PublicKeyParameters).encoded)
@@ -251,7 +251,7 @@ class ShoWalletViewModel(application: Application) : AndroidViewModel(applicatio
                 }
                 is WalletServiceRequest.SignMessages -> {
                     val keypairs = request.request.addresses.map {
-                        val keypair = getApplication<ShoWalletApplication>().keyRepository.getKeypair(it)
+                        val keypair = getApplication<ShowVaultApplication>().keyRepository.getKeypair(it)
                         check(keypair != null) { "Unknown public key for signing request" }
                         keypair
                     }
@@ -315,7 +315,7 @@ class ShoWalletViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             val signingResults = request.request.payloads.map { tx ->
                 val keypairs = SolanaSigningUseCase.getSignersForTransaction(tx).mapNotNull {
-                    getApplication<ShoWalletApplication>().keyRepository.getKeypair(it)
+                    getApplication<ShowVaultApplication>().keyRepository.getKeypair(it)
                 }
                 Log.d(TAG, "Simulating transaction signing with ${keypairs.joinToString {
                     Base58.encodeToString((it.public as Ed25519PublicKeyParameters).encoded)
@@ -692,7 +692,7 @@ class ShoWalletViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     companion object {
-        private val TAG = ShoWalletViewModel::class.simpleName
+        private val TAG = ShowVaultViewModel::class.simpleName
         private const val SOURCE_VERIFICATION_TIMEOUT_MS = 3000L
         private const val LOW_POWER_NO_CONNECTION_TIMEOUT_MS = 3000L
     }

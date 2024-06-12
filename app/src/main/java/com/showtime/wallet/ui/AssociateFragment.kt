@@ -16,12 +16,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.showtime.wallet.R
 import com.showtime.wallet.databinding.FragmentAssociateBinding
-import com.showtime.wallet.ShoWalletViewModel
-import com.showtime.wallet.ShoWalletViewModel.WalletServiceRequest
+import com.showtime.wallet.ShowVaultViewModel
+import com.showtime.wallet.ShowVaultViewModel.WalletServiceRequest
 import kotlinx.coroutines.launch
 
 class AssociateFragment : Fragment() {
-    private val activityViewModel: ShoWalletViewModel by activityViewModels()
+    private val activityViewModel: ShowVaultViewModel by activityViewModels()
     private lateinit var viewBinding: FragmentAssociateBinding
 
     override fun onCreateView(

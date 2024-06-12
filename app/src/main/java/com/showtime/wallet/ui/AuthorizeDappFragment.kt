@@ -12,17 +12,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.showtime.wallet.ShoWalletViewModel
+import com.showtime.wallet.ShowVaultViewModel
 import com.showtime.wallet.R
 import com.showtime.wallet.databinding.FragmentAuthorizeDappBinding
 import com.showtime.wallet.usecase.ClientTrustUseCase
 import kotlinx.coroutines.launch
 
 class AuthorizeDappFragment : Fragment() {
-    private val activityViewModel: ShoWalletViewModel by activityViewModels()
+    private val activityViewModel: ShowVaultViewModel by activityViewModels()
     private lateinit var viewBinding: FragmentAuthorizeDappBinding
 
-    private var request: ShoWalletViewModel.WalletServiceRequest.AuthorizeDapp? = null
+    private var request: ShowVaultViewModel.WalletServiceRequest.AuthorizeDapp? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +39,7 @@ class AuthorizeDappFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 activityViewModel.walletServiceEvents.collect { request ->
                     when (request) {
-                        is ShoWalletViewModel.WalletServiceRequest.AuthorizeDapp -> {
+                        is ShowVaultViewModel.WalletServiceRequest.AuthorizeDapp -> {
                             this@AuthorizeDappFragment.request = request
 
                             if (request.request.identityUri?.isAbsolute == true &&

@@ -17,12 +17,12 @@ import androidx.navigation.fragment.findNavController
 import com.funkatronics.encoders.Base58
 import com.showtime.wallet.R
 import com.showtime.wallet.databinding.FragmentSignPayloadBinding
-import com.showtime.wallet.ShoWalletViewModel
-import com.showtime.wallet.ShoWalletViewModel.WalletServiceRequest
+import com.showtime.wallet.ShowVaultViewModel
+import com.showtime.wallet.ShowVaultViewModel.WalletServiceRequest
 import kotlinx.coroutines.launch
 
 class SignPayloadFragment : Fragment() {
-    private val activityViewModel: ShoWalletViewModel by activityViewModels()
+    private val activityViewModel: ShowVaultViewModel by activityViewModels()
     private lateinit var viewBinding: FragmentSignPayloadBinding
 
     override fun onCreateView(

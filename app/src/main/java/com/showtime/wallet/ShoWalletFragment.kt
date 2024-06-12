@@ -27,7 +27,7 @@ import org.sol4k.instruction.TransferInstruction
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class WalletFragment : Fragment() {
+class ShoWalletFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -82,7 +82,7 @@ class WalletFragment : Fragment() {
 
         binding.generate.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
-                val app = requireActivity().application as ShoWalletApplication
+                val app = requireActivity().application as ShowVaultApplication
                 val keypair = async(Dispatchers.IO) {
                     app.keyRepository.generateKeypair()
                 }
@@ -113,7 +113,7 @@ class WalletFragment : Fragment() {
         }
 
         GlobalScope.launch(Dispatchers.Main) {
-            val app = requireActivity().application as ShoWalletApplication
+            val app = requireActivity().application as ShowVaultApplication
             val keypair = async(Dispatchers.IO) {
                 app.keyRepository.getOne()
             }
