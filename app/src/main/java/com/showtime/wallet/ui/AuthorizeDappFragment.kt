@@ -49,7 +49,7 @@ class AuthorizeDappFragment : Fragment() {
                                     request.request.identityUri!!,
                                     request.request.iconRelativeUri!!.encodedPath
                                 )
-                                viewBinding.imageIcon.setImageURI(uri)
+//                                viewBinding.imageIcon.loadImage(uri.toString())
                             }
                             viewBinding.textName.text = request.request.identityName ?: "<no name>"
                             viewBinding.textUri.text =
@@ -89,13 +89,6 @@ class AuthorizeDappFragment : Fragment() {
             }
         }
 
-        viewBinding.btnAuthorizeX3.setOnClickListener {
-            request?.let {
-                Log.i(TAG, "Authorizing dapp, with 3 accounts")
-                activityViewModel.authorizeDapp(it, true, 3)
-            }
-        }
-
         viewBinding.btnDecline.setOnClickListener {
             request?.let {
                 Log.w(TAG, "Not authorizing dapp")
@@ -103,19 +96,6 @@ class AuthorizeDappFragment : Fragment() {
             }
         }
 
-        viewBinding.btnSimulateClusterNotSupported.setOnClickListener {
-            request?.let {
-                Log.w(TAG, "Simulating cluster not supported")
-                activityViewModel.authorizeDappSimulateClusterNotSupported(it)
-            }
-        }
-
-        viewBinding.btnSimulateInternalError.setOnClickListener {
-            request?.let {
-                Log.w(TAG, "Simulating internal error")
-                activityViewModel.authorizationSimulateInternalError(it)
-            }
-        }
     }
 
     companion object {

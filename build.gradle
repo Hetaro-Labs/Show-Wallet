@@ -12,6 +12,13 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
 
-    id 'org.jetbrains.kotlin.multiplatform' version '2.0.0-RC3'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.0-RC3'
+
+//    id 'org.jetbrains.kotlin.jvm' version '1.9.24'
+//    id 'org.jetbrains.dokka' version '1.9.20'
+//    id 'com.vanniktech.maven.publish' version '0.28.0'
+//    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.24'
+//    id 'org.jlleitschuh.gradle.ktlint' version '11.1.0'
+
+//    id 'org.jetbrains.kotlin.jvm' version '1.8.0' // or the latest version
+//    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.0' // or the latest version
 }

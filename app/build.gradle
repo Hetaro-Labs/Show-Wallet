@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 //    id 'kotlinx-serialization'
-    id "org.jetbrains.kotlin.plugin.serialization"
+//    id "org.jetbrains.kotlin.plugin.serialization"
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
 }
@@ -41,8 +41,9 @@ android {
 }
 
 dependencies {
-    implementation project(':sol4k')
-//    implementation 'org.sol4k:sol4k:0.4.1'
+    implementation 'org.sol4k:sol4k:0.4.2'
+//    implementation project(':sol4k')
+
     implementation project(':walletlib')
 
 
@@ -68,7 +69,8 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.6.1'
 
 
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0-RC"
+//    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0" // or the latest version
+//    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0-RC"
 //    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
 //    implementation("com.solanamobile:mobile-wallet-adapter-clientlib-ktx:2.0.0")

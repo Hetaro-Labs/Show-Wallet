@@ -15,7 +15,6 @@ import com.funkatronics.encoders.Base58
 import com.showtime.wallet.usecase.ClientTrustUseCase
 import com.showtime.wallet.usecase.SendTransactionsUseCase
 import com.showtime.wallet.usecase.SolanaSigningUseCase
-import com.solana.digitalassetlinks.BuildConfig
 import com.solana.mobilewalletadapter.common.ProtocolContract
 import com.solana.mobilewalletadapter.common.signin.SignInWithSolana
 import com.solana.mobilewalletadapter.walletlib.association.AssociationUri
@@ -31,7 +30,8 @@ import java.nio.charset.StandardCharsets
 class ShowVaultViewModel(application: Application) : AndroidViewModel(application) {
     private val _walletServiceEvents =
         MutableStateFlow<WalletServiceRequest>(WalletServiceRequest.None)
-    val walletServiceEvents = _walletServiceEvents.asSharedFlow() // expose as event stream, rather than a stateful object
+    val walletServiceEvents =
+        _walletServiceEvents.asSharedFlow() // expose as event stream, rather than a stateful object
 
     private var clientTrustUseCase: ClientTrustUseCase? = null
     private var scenario: LocalScenario? = null
@@ -63,26 +63,23 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
         )
 
         scenario =
-            if (BuildConfig.DEBUG) {
-//            if (BuildConfig.PROTOCOL_VERSION == SessionProperties.ProtocolVersion.LEGACY) {
-            // manually create the scenario here so we can override the association protocol version
-            // this forces ProtocolVersion.LEGACY to simulate a wallet using walletlib 1.x (for testing)
-            LocalWebSocketServerScenario(
-                getApplication<ShowVaultApplication>().applicationContext,
-                MobileWalletAdapterConfig(
-                    true,
-                    10,
-                    10,
-                    arrayOf(MobileWalletAdapterConfig.LEGACY_TRANSACTION_VERSION, 0),
-                    LOW_POWER_NO_CONNECTION_TIMEOUT_MS
-                ),
-                AuthIssuerConfig("showallet"),
-                MobileWalletAdapterScenarioCallbacks(),
-                associationUri.associationPublicKey,
-                listOf(),
-                associationUri.port,
-            )
-        } else {
+//            if (BuildConfig.DEBUG) {
+//            LocalWebSocketServerScenario(
+//                getApplication<FakeWalletApplication>().applicationContext,
+//                MobileWalletAdapterConfig(
+//                    true,
+//                    10,
+//                    10,
+//                    arrayOf(MobileWalletAdapterConfig.LEGACY_TRANSACTION_VERSION, 0),
+//                    LOW_POWER_NO_CONNECTION_TIMEOUT_MS
+//                ),
+//                AuthIssuerConfig("showallet"),
+//                MobileWalletAdapterScenarioCallbacks(),
+//                associationUri.associationPublicKey,
+//                listOf(),
+//                associationUri.port,
+//            )
+//        } else {
             associationUri.createScenario(
                 getApplication<ShowVaultApplication>().applicationContext,
                 MobileWalletAdapterConfig(
@@ -98,7 +95,8 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
                 AuthIssuerConfig("showallet"),
                 MobileWalletAdapterScenarioCallbacks()
             )
-        }.also { it.start() }
+//    }
+        .also { it.start() }
 
         return true
     }
@@ -228,7 +226,6 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
         }
 
         viewModelScope.launch {
-
             val valid = BooleanArray(request.request.payloads.size) { true }
             val signedPayloads = when (request) {
                 is WalletServiceRequest.SignTransactions -> {
@@ -266,12 +263,12 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
                 }
             }
 
-            if (valid.all { it }) {
-                request.request.completeWithSignedPayloads(signedPayloads)
-            } else {
-                Log.e(TAG, "One or more transactions not valid")
-                request.request.completeWithInvalidPayloads(valid)
-            }
+//            if (valid.all { it }) {
+//                request.request.completeWithSignedPayloads(signedPayloads)
+//            } else {
+//                Log.e(TAG, "One or more transactions not valid")
+//                request.request.completeWithInvalidPayloads(valid)
+//            }
         }
     }
 

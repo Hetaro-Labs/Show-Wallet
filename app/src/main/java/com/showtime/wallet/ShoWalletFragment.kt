@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters
 import org.sol4k.Base58
 import org.sol4k.Connection
@@ -30,9 +31,6 @@ import org.sol4k.instruction.TransferInstruction
 class ShoWalletFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var sender: Keypair
@@ -41,15 +39,18 @@ class ShoWalletFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     private fun onAccountConnected(keypair: Keypair){
         sender = keypair
-        binding.key.text = "Connected to: " + sender.publicKey.toBase58()
-        // loadBalance()
+        showAccount()
+        loadBalance()
+    }
+
+    private fun showAccount(){
+        binding.key.text = "account: " + sender.publicKey.toBase58()
     }
 
     private fun loadBalance(){
@@ -61,8 +62,31 @@ class ShoWalletFragment : Fragment() {
                 connection.getBalance(sender.publicKey).toString()
             }
             val balance = getBalance.await()
+            withContext(Dispatchers.Main) {
+                binding.bal.text = "balance: " + balance
+            }
 
-            binding.bal.text = balance
+        }
+    }
+
+    private fun sendSolana(pubkey: String, lamports: Long){
+        binding.sig.text = "sending solana...."
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val getSignature = async {
+                val connection = Connection(RpcUrl.DEVNET)
+                val blockhash = connection.getLatestBlockhash()
+                val receiver = PublicKey(pubkey)
+                val instruction = TransferInstruction(sender.publicKey, receiver, lamports)
+                val transaction = Transaction(blockhash, instruction, feePayer = sender.publicKey)
+                transaction.sign(sender)
+                connection.sendTransaction(transaction)
+            }
+            val signature = getSignature.await()
+            withContext(Dispatchers.Main) {
+                binding.sig.text = "signature: " + signature
+            }
+
         }
     }
 
@@ -92,25 +116,14 @@ class ShoWalletFragment : Fragment() {
             }
         }
 
-        binding.send.setOnClickListener {
-            binding.sig.text = "sending SOL to 9KUpYG22qNKSW3XkpZmBCyFiy1JsFC7rw6o4c7iUomEk..."
-            val handler = Handler()
-            object: Thread() {
-                override fun run() {
-                    val connection = Connection(RpcUrl.DEVNET)
-                    val blockhash = connection.getLatestBlockhash()
-                    val receiver = PublicKey("9KUpYG22qNKSW3XkpZmBCyFiy1JsFC7rw6o4c7iUomEk")
-                    val instruction = TransferInstruction(sender.publicKey, receiver, lamports = 1000)
-                    val transaction = Transaction(blockhash, instruction, feePayer = sender.publicKey)
-                    transaction.sign(sender)
-                    val signature = connection.sendTransaction(transaction)
-
-                    handler.post {
-                        binding.sig.text = signature
-                    }
-                }
-            }.start()
+        binding.solBalance.setOnClickListener {
+            loadBalance()
         }
+
+        binding.send.setOnClickListener {
+            sendSolana("9KUpYG22qNKSW3XkpZmBCyFiy1JsFC7rw6o4c7iUomEk", 10000)
+        }
+
 
         GlobalScope.launch(Dispatchers.Main) {
             val app = requireActivity().application as ShowVaultApplication

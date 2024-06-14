@@ -49,7 +49,7 @@ class SignInFragment : Fragment() {
                                     request.request.identityUri!!,
                                     request.request.iconRelativeUri!!.encodedPath
                                 )
-                                viewBinding.imageIcon.setImageURI(uri)
+//                                viewBinding.imageIcon.loadImage(uri.toString())
                             }
                             viewBinding.textName.text = request.request.identityName ?: "<no name>"
                             viewBinding.textUri.text = request.request.identityUri?.toString() ?: "<no URI>"

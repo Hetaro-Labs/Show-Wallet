@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.sendtransaction.SendTransactionFragment">
+    >
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/label_send_transaction"
@@ -42,6 +42,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_simulate_transactions_submitted"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -53,6 +54,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_simulate_transactions_not_submitted"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

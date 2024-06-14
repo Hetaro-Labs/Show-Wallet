@@ -9,7 +9,7 @@
     android:id="@+id/sign_payloads"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.signpayload.SignPayloadFragment">
+    >
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_sign_payloads"
@@ -83,6 +83,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_simulate_authorization_failed"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
@@ -95,6 +96,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_simulate_invalid_payloads"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -105,6 +107,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_simulate_too_many_payloads"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -115,6 +118,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_simulate_internal_error"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

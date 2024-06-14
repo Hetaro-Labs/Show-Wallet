@@ -18,18 +18,25 @@ class ShowVaultActivity : AppCompatActivity() {
     private val viewModel: ShowVaultViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "MobileWalletAdapterActivity onCreate")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mobile_wallet_adapter)
-        Log.d(TAG, "MobileWalletAdapterActivity start")
+        setContentView(R.layout.activity_vault)
 
-        // listen events
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.walletServiceEvents.collect { request ->
                     if (request is WalletServiceRequest.SessionTerminated) {
                         finish()
                     } else if (request is WalletServiceRequest.LowPowerNoConnection) {
-                        // TODO: Alert Dialog
+                        // should use dialog fragment, etc. but this is a quick demo
+//                        AlertDialog.Builder(this@MobileWalletAdapterActivity)
+//                            .setTitle(R.string.low_power_mode_warning_title)
+//                            .setMessage(R.string.str_low_power_mode_warning_dsc)
+//                            .setPositiveButton(android.R.string.ok) { _, _ ->
+//                                Log.w(TAG, "Connection failed due to device low power mode, returning to dapp.")
+//                                finish()
+//                            }
+//                            .show()
                     }
                 }
             }
