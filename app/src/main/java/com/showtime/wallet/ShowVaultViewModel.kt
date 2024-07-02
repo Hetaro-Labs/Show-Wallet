@@ -442,7 +442,7 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
             )
         ) {
             Log.w(TAG, "Discarding stale request")
-            if (request is WalletServiceRequest.MobileWalletAdapterRemoteRequest) {
+            if (request is WalletServiceRequest.WalletRemoteRequest) {
                 request.request.cancel()
             }
             return true
@@ -450,7 +450,7 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
         return false
     }
 
-    private fun <T : WalletServiceRequest.MobileWalletAdapterRemoteRequest> updateExistingRequest(
+    private fun <T : WalletServiceRequest.WalletRemoteRequest> updateExistingRequest(
         request: T,
         updated: T
     ): Boolean {
@@ -466,7 +466,7 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
 
     private fun cancelAndReplaceRequest(request: WalletServiceRequest) {
         val oldRequest = _walletServiceEvents.getAndUpdate { request }
-        if (oldRequest is WalletServiceRequest.MobileWalletAdapterRemoteRequest) {
+        if (oldRequest is WalletServiceRequest.WalletRemoteRequest) {
             oldRequest.request.cancel()
         }
     }
@@ -655,12 +655,12 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
         object SessionTerminated : WalletServiceRequest
         object LowPowerNoConnection : WalletServiceRequest
 
-        sealed class MobileWalletAdapterRemoteRequest(open val request: ScenarioRequest) :
+        sealed class WalletRemoteRequest(open val request: ScenarioRequest) :
             WalletServiceRequest
         sealed class AuthorizationRequest(
             override val request: AuthorizeRequest,
             open val sourceVerificationState: ClientTrustUseCase.VerificationState
-        ) : MobileWalletAdapterRemoteRequest(request)
+        ) : WalletRemoteRequest(request)
         data class AuthorizeDapp(
             override val request: AuthorizeRequest,
             override val sourceVerificationState: ClientTrustUseCase.VerificationState
@@ -672,7 +672,7 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
         ) : AuthorizationRequest(request, sourceVerificationState)
         sealed class SignPayloads(
             override val request: SignPayloadsRequest
-        ) : MobileWalletAdapterRemoteRequest(request)
+        ) : WalletRemoteRequest(request)
         data class SignTransactions(
             override val request: SignTransactionsRequest
         ) : SignPayloads(request)
@@ -685,7 +685,7 @@ class ShowVaultViewModel(application: Application) : AndroidViewModel(applicatio
             val endpointUri: Uri,
             val signedTransactions: Array<ByteArray>? = null,
             val signatures: Array<ByteArray>? = null
-        ) : MobileWalletAdapterRemoteRequest(request)
+        ) : WalletRemoteRequest(request)
     }
 
     companion object {

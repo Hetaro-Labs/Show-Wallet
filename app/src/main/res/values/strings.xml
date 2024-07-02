@@ -98,4 +98,10 @@
         work properly when the device battery save mode is active. Please turn off battery
         saver or plug in your phone and try again.
     </string>
+    <string name="enter_x_phrase">Please enter the 3rd phrase</string>
+    <string name="keep_wallet_secure">Keep secure</string>
+    <string name="write_down_phrase">"Please write down phrase and keep it safe. "</string>
+    <string name="wallet_receive">Receive</string>
+    <string name="wallet_send">Send</string>
+    <string name="wallet_swap">Swap</string>
 </resources>

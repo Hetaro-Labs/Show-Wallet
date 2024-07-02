@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-06-06T04:53:17.092635Z">
+        <DropdownSelection timestamp="2024-06-05T10:26:35.966038Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/skyhigh/.android/avd/Pixel_8_Pro_API_34.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/skyhigh/.android/avd/SOL_Watch_API_32.avd" />
             </handle>
           </Target>
         </DropdownSelection>

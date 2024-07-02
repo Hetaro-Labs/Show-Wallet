@@ -1,26 +1,56 @@
 [versions]
-agp = "8.4.0"
+activityKtx = "1.9.0"
+agp = "8.5.0"
+appcompatVersion = "1.7.0"
+bcprovJdk15to18 = "1.63"
+bitcoinjCore = "0.15.7"
+coil = "2.6.0"
+coilSvg = "2.6.0"
+digitalAssetLinksAndroid = "1.0.3"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
+kotlinxCoroutinesAndroid = "1.8.1"
+lifecycleViewmodelKtx = "2.8.3"
+lifecycleRuntimeKtx = "2.8.3"
 material = "1.12.0"
 constraintlayout = "2.1.4"
+multimult = "0.2.0"
 navigationFragmentKtx = "2.7.7"
 navigationUiKtx = "2.7.7"
+sol4k = "0.4.2"
+roomCompiler = "2.6.1"
+solanakt = "2.1.1"
 
 [libraries]
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
+androidx-appcompat-v170 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
+bcprov-jdk15to18 = { module = "org.bouncycastle:bcprov-jdk15to18", version.ref = "bcprovJdk15to18" }
+bitcoinj-core = { module = "org.bitcoinj:bitcoinj-core", version.ref = "bitcoinjCore" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+digital-asset-links-android = { module = "com.solanamobile:digital-asset-links-android", version.ref = "digitalAssetLinksAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+multimult = { module = "io.github.funkatronics:multimult", version.ref = "multimult" }
+sol4k = { module = "org.sol4k:sol4k", version.ref = "sol4k" }
+solanakt = { module = "com.github.metaplex-foundation.SolanaKT:solana", version.ref = "solanakt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

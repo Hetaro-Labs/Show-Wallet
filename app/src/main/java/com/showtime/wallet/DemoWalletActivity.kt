@@ -11,8 +11,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.showtime.wallet.databinding.ActivityMainBinding
 
-class ShoWalletActivity : AppCompatActivity() {
-    private lateinit var appConf: AppBarConfiguration
+class DemoWalletActivity : AppCompatActivity() {
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,14 +24,9 @@ class ShoWalletActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appConf = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appConf)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -45,9 +41,5 @@ class ShoWalletActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appConf)
-                || super.onSupportNavigateUp()
-    }
+
 }

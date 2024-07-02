@@ -43,19 +43,13 @@
                 android:text="Send" />
 
             <Button
-                android:id="@+id/sol_balance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="SOL Balance" />
-
-            <Button
                 android:id="@+id/send_spl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Send SPL" />
 
             <Button
-                android:id="@+id/spl_balance"
+                android:id="@+id/balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="SPL Balance" />

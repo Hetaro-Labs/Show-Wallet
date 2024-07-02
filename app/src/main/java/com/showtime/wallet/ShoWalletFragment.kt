@@ -15,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters
 import org.sol4k.Base58
 import org.sol4k.Connection
@@ -43,7 +42,7 @@ class ShoWalletFragment : Fragment() {
         return binding.root
     }
 
-    private fun onAccountConnected(keypair: Keypair){
+    private fun onAccountConnected(keypair: Keypair) {
         sender = keypair
         showAccount()
         loadBalance()
@@ -62,31 +61,8 @@ class ShoWalletFragment : Fragment() {
                 connection.getBalance(sender.publicKey).toString()
             }
             val balance = getBalance.await()
-            withContext(Dispatchers.Main) {
-                binding.bal.text = "balance: " + balance
-            }
 
-        }
-    }
-
-    private fun sendSolana(pubkey: String, lamports: Long){
-        binding.sig.text = "sending solana...."
-
-        GlobalScope.launch(Dispatchers.IO) {
-            val getSignature = async {
-                val connection = Connection(RpcUrl.DEVNET)
-                val blockhash = connection.getLatestBlockhash()
-                val receiver = PublicKey(pubkey)
-                val instruction = TransferInstruction(sender.publicKey, receiver, lamports)
-                val transaction = Transaction(blockhash, instruction, feePayer = sender.publicKey)
-                transaction.sign(sender)
-                connection.sendTransaction(transaction)
-            }
-            val signature = getSignature.await()
-            withContext(Dispatchers.Main) {
-                binding.sig.text = "signature: " + signature
-            }
-
+            binding.bal.text = "balance: " + balance
         }
     }
 
@@ -116,14 +92,31 @@ class ShoWalletFragment : Fragment() {
             }
         }
 
-        binding.solBalance.setOnClickListener {
-            loadBalance()
-        }
-
         binding.send.setOnClickListener {
-            sendSolana("9KUpYG22qNKSW3XkpZmBCyFiy1JsFC7rw6o4c7iUomEk", 10000)
-        }
+            binding.sig.text = "sending SOL to 9KUpYG22qNKSW3XkpZmBCyFiy1JsFC7rw6o4c7iUomEk..."
+            val handler = Handler()
+            object : Thread() {
+                override fun run() {
+                    val connection = Connection(RpcUrl.DEVNET)
+                    val blockhash = connection.getLatestBlockhash()
+                    val receiver = PublicKey("9KUpYG22qNKSW3XkpZmBCyFiy1JsFC7rw6o4c7iUomEk")
+                    val instruction =
+                        TransferInstruction(sender.publicKey, receiver, lamports = 1000)
+                    val transaction =
+                        Transaction(blockhash, instruction, feePayer = sender.publicKey)
+                    transaction.sign(sender)
 
+                    try {
+                        val signature = connection.sendTransaction(transaction)
+                        handler.post {
+                            binding.sig.text = signature
+                        }
+                    } catch (e: Exception) {
+                        binding.sig.text = e.message
+                    }
+                }
+            }.start()
+        }
 
         GlobalScope.launch(Dispatchers.Main) {
             val app = requireActivity().application as ShowVaultApplication
@@ -132,14 +125,15 @@ class ShoWalletFragment : Fragment() {
             }
 
             val privateKey = keypair.await()?.private as Ed25519PrivateKeyParameters?
-            if (privateKey != null){
+            if (privateKey != null) {
                 onAccountConnected(Keypair.fromSecretKey(privateKey.encoded))
             }
         }
     }
 
     private fun getTextFromClipboard(): String? {
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
         // Check if there is primary clip data available
         return if (clipboard.hasPrimaryClip()) {
@@ -152,7 +146,8 @@ class ShoWalletFragment : Fragment() {
     }
 
     private fun copyToClipboard(text: String) {
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("Copied Text", text)
         clipboard.setPrimaryClip(clip)
         Toast.makeText(context, "copied: " + text, Toast.LENGTH_SHORT).show()
