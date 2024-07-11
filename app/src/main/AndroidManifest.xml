@@ -16,7 +16,7 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
 
-        <activity android:name=".ShowVaultActivity"
+        <activity android:name=".demo.ShowVaultActivity"
             android:launchMode="singleTask"
             android:taskAffinity="com.solana.mobilewalletadapter.fakewallet.mwa_host_task"
             android:exported="true"
@@ -36,7 +36,7 @@
         </activity>
 
         <activity
-            android:name=".DemoWalletActivity"
+            android:name=".SplashActivity"
             android:launchMode="singleTask"
             android:exported="true"
             android:theme="@style/Theme.MyApplication">
@@ -46,6 +46,12 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".WelcomeActivity"/>
+        <activity android:name=".WalletActivity"/>
+        <activity android:name=".CreateWalletActivity"/>
+        <activity android:name=".ReceiveActivity"/>
+        <activity android:name=".SendTokenDetailActivity"/>
+        <activity android:name=".SendTokenListActivity"/>
     </application>
 
 </manifest>

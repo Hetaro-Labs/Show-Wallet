@@ -1,0 +1,89 @@
+plugins {
+    id 'com.android.library'
+    alias(libs.plugins.jetbrains.kotlin.android)
+}
+android {
+
+    namespace = "com.amez.mall.lib_base"
+
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 19
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //MultiDex subcontracting method
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    //Prevent OOM and GC during compilation
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    //Automatically generate, for example, home_fg_main.xml will generate HomeFgMainBinding, but if the generation fails, clean the project and rebuild it
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
+
+    //Declare resource prefix rules for each module: XML, color, drawable, style, etc
+    resourcePrefix "base_"
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+dependencies {
+    // All. jar ending files in libs in the project are dependencies
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'])
+    implementation libs.core.ktx
+    annotationProcessor libs.androidx.room.compiler
+    implementation libs.androidx.activity.ktx
+    implementation libs.androidx.appcompat.v170
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.lifecycle.runtime.ktx
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.navigation.fragment.ktx
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.ktx
+    implementation libs.material
+    implementation libs.digital.asset.links.android
+    implementation libs.coil
+    implementation libs.coil.svg
+    implementation libs.bcprov.jdk15to18
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.multimult
+    implementation libs.bitcoinj.core
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.navigation.fragment.ktx
+    implementation libs.androidx.navigation.ui.ktx
+
+    //Alibaba ARouter
+    //implementation libs.arouter
+    //EventBus
+    implementation libs.eventBus
+    //Logger
+    implementation libs.logger
+    //network
+    implementation libs.retrofit
+    implementation libs.convertergson
+    implementation libs.okhttp3interceptor
+    implementation libs.okhttp3
+    implementation libs.waitdialog
+    implementation libs.glide
+
+}

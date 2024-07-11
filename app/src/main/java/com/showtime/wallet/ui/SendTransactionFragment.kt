@@ -16,14 +16,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.showtime.wallet.R
 import com.showtime.wallet.databinding.FragmentSendTransactionBinding
-import com.showtime.wallet.ShowVaultViewModel
+import com.showtime.wallet.demo.ShowVaultViewModel
 import kotlinx.coroutines.launch
 
 class SendTransactionFragment : Fragment() {
     private val activityViewModel: ShowVaultViewModel by activityViewModels()
     private lateinit var viewBinding: FragmentSendTransactionBinding
 
-    private var request: ShowVaultViewModel.WalletServiceRequest.SignAndSendTransactions? = null
+    private var request: ShowVaultViewModel.MobileWalletAdapterServiceRequest.SignAndSendTransactions? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +38,9 @@ class SendTransactionFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                activityViewModel.walletServiceEvents.collect { request ->
+                activityViewModel.mobileWalletAdapterServiceEvents.collect { request ->
                     when (request) {
-                        is ShowVaultViewModel.WalletServiceRequest.SignAndSendTransactions -> {
+                        is ShowVaultViewModel.MobileWalletAdapterServiceRequest.SignAndSendTransactions -> {
                             this@SendTransactionFragment.request = request
                             viewBinding.textCluster.text = request.request.cluster
                         }

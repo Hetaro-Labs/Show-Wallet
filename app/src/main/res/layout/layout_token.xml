@@ -34,7 +34,7 @@
             android:layout_below="@+id/token_name"
             android:layout_toRightOf="@+id/token_icon"
             android:textSize="10dp"
-            android:text="129.12"
+            android:text="acmount"
             android:textColor="#88222211"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,11 +42,14 @@
 
 
         <TextView
+            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/token_price"
+            tools:comment="TODO fetch price"
+            android:visibility="gone"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textSize="10dp"
-            android:text="$12.12"
+            android:text="price in USD"
             android:textColor="#222211"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

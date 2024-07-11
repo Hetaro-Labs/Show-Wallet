@@ -1,13 +1,23 @@
 package com.showtime.wallet
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.amez.mall.lib_base.ui.BaseProjNotMVVMActivity
+import com.showtime.wallet.databinding.ActivityWelcomeBinding
+import com.showtime.wallet.utils.clickNoRepeat
 
-class WelcomeActivity : AppCompatActivity() {
+class WelcomeActivity : BaseProjNotMVVMActivity<ActivityWelcomeBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
+    override fun getBundleExtras(extras: Bundle?) {
+    }
+
+    override fun getContentViewLayoutID() = R.layout.activity_welcome
+
+    override fun ActivityWelcomeBinding.initView() {
+        mBinding.apply {
+            btnCreateWallet.clickNoRepeat {
+                openActivity(CreateWalletActivity::class.java,true)
+            }
+        }
     }
 
 }

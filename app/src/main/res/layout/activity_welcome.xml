@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="20dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
 
-    <TextView
-        android:text="Welcome!"
-        android:textColor="@color/black"
-        android:textSize="24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-    <TextView
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
         android:gravity="center"
-        android:text="showtime wallet is the first wallet on watch. "
-        android:textColor="@color/black"
-        android:textSize="14dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-    <Button
-        android:id="@+id/btn_create_wallet"
-        android:layout_marginTop="10dp"
+        android:padding="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create Wallet" />
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <TextView
+            android:text="Welcome!"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:gravity="center"
+            android:text="showtime wallet is the first wallet on watch. "
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/btn_create_wallet"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Wallet" />
+
+    </LinearLayout>
+</layout>

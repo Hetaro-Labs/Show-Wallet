@@ -2,7 +2,7 @@
  * Copyright (c) 2022 Solana Mobile Inc.
  */
 
-package com.showtime.wallet
+package com.showtime.wallet.demo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +11,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.showtime.wallet.ShowVaultViewModel.WalletServiceRequest
+import com.showtime.wallet.R
+import com.showtime.wallet.demo.ShowVaultViewModel.MobileWalletAdapterServiceRequest
 import kotlinx.coroutines.launch
 
 class ShowVaultActivity : AppCompatActivity() {
@@ -24,10 +25,10 @@ class ShowVaultActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.walletServiceEvents.collect { request ->
-                    if (request is WalletServiceRequest.SessionTerminated) {
+                viewModel.mobileWalletAdapterServiceEvents.collect { request ->
+                    if (request is MobileWalletAdapterServiceRequest.SessionTerminated) {
                         finish()
-                    } else if (request is WalletServiceRequest.LowPowerNoConnection) {
+                    } else if (request is MobileWalletAdapterServiceRequest.LowPowerNoConnection) {
                         // should use dialog fragment, etc. but this is a quick demo
 //                        AlertDialog.Builder(this@MobileWalletAdapterActivity)
 //                            .setTitle(R.string.low_power_mode_warning_title)

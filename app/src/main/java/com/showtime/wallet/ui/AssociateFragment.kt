@@ -16,8 +16,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.showtime.wallet.R
 import com.showtime.wallet.databinding.FragmentAssociateBinding
-import com.showtime.wallet.ShowVaultViewModel
-import com.showtime.wallet.ShowVaultViewModel.WalletServiceRequest
+import com.showtime.wallet.demo.ShowVaultViewModel
+import com.showtime.wallet.demo.ShowVaultViewModel.MobileWalletAdapterServiceRequest
 import kotlinx.coroutines.launch
 
 class AssociateFragment : Fragment() {
@@ -37,7 +37,7 @@ class AssociateFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                activityViewModel.walletServiceEvents.collect { request ->
+                activityViewModel.mobileWalletAdapterServiceEvents.collect { request ->
                     val navController = findNavController()
                     // If several events are emitted back-to-back (e.g. during session
                     // teardown), this fragment may not have had a chance to transition
@@ -47,18 +47,18 @@ class AssociateFragment : Fragment() {
                     }
 
                     when (request) {
-                        is WalletServiceRequest.None ->
+                        is MobileWalletAdapterServiceRequest.None ->
                             Unit
-                        is WalletServiceRequest.AuthorizeDapp ->
+                        is MobileWalletAdapterServiceRequest.AuthorizeDapp ->
                             navController.navigate(AssociateFragmentDirections.actionAuthorizeDapp())
-                        is WalletServiceRequest.SignIn ->
+                        is MobileWalletAdapterServiceRequest.SignIn ->
                             navController.navigate(AssociateFragmentDirections.actionSignIn())
-                        is WalletServiceRequest.SignPayloads,
-                        is WalletServiceRequest.SignAndSendTransactions ->
+                        is MobileWalletAdapterServiceRequest.SignPayloads,
+                        is MobileWalletAdapterServiceRequest.SignAndSendTransactions ->
                             navController.navigate(AssociateFragmentDirections.actionSignPayload())
-                        is WalletServiceRequest.SessionTerminated ->
+                        is MobileWalletAdapterServiceRequest.SessionTerminated ->
                             Unit
-                        is WalletServiceRequest.LowPowerNoConnection ->
+                        is MobileWalletAdapterServiceRequest.LowPowerNoConnection ->
                             Unit
                     }
                 }

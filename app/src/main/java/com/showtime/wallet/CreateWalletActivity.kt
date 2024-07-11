@@ -1,24 +1,67 @@
 package com.showtime.wallet
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.solana.core.DerivationPath
-import com.solana.core.HotAccount
-import com.solana.vendor.bip39.Mnemonic
-import com.solana.vendor.bip39.WordCount
+import android.util.Log
+import com.amez.mall.lib_base.ui.BaseProjActivity
+import com.showtime.wallet.adapter.MnemonicAdapter
+import com.showtime.wallet.data.Ed25519KeyRepositoryNew
+import com.showtime.wallet.databinding.ActivityGeneratePhraseBinding
+import com.showtime.wallet.utils.AppConstants
+import com.showtime.wallet.utils.CryptoUtils
+import com.showtime.wallet.utils.MmkvUtils
+import com.showtime.wallet.utils.clickNoRepeat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair
+import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters
 
 
-class CreateWalletActivity: AppCompatActivity(){
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_generate_phrase)
+class CreateWalletActivity: BaseProjActivity<ActivityGeneratePhraseBinding,CreateWalletVModel>(){
 
-        val phrase24 = Mnemonic(WordCount.COUNT_24).phrase
+    override fun getBundleExtras(extras: Bundle?) {
+    }
 
-        val account = HotAccount.fromMnemonic(phrase24, "", DerivationPath.BIP44_M_44H_501H_0H)
-        account.publicKey.toString() // G75kGJiizyFNdnvvHxkrBrcwLomGJT2CigdXnsYzrFHv
+    override fun getContentViewLayoutID() = R.layout.activity_generate_phrase
 
+    override fun ActivityGeneratePhraseBinding.initView() {
+        val mnemonic = CryptoUtils.generateMnemonic()
+        //1. display mnemonic in recyclerview
+        val adapter=MnemonicAdapter(this@CreateWalletActivity,mnemonic)
+        mBinding.recyclerView.adapter=adapter
 
+        val privateKey = CryptoUtils.mnemonicToPrivateKeyBytes(mnemonic)
+        val privateKeyParams = Ed25519PrivateKeyParameters(privateKey, 0)
+        val keypair = AsymmetricCipherKeyPair(privateKeyParams.generatePublicKey(), privateKeyParams)
+
+        btnNext.clickNoRepeat {
+            //3. go to WalletActivity and finish page
+            GlobalScope.launch(Dispatchers.IO) {
+
+                val publicKey = CryptoUtils.keypairToPublicKey(keypair)
+                Log.e("CreateWalletActivity", publicKey)
+
+                if(Ed25519KeyRepositoryNew.getAll().isNullOrEmpty()) {
+                    MmkvUtils.put(AppConstants.SELECTED_PUBLIC_KEY, publicKey)
+                }
+                //2. insert to db, see @Ed25519KeyRepository
+                Ed25519KeyRepositoryNew.insertOne(keypair)
+
+                openActivity(WalletActivity::class.java,true)
+            }
+        }
+    }
+
+    override fun initLiveDataObserve() {
+        mViewModel.createLiveData.observeForever {
+            //callback result,UI related operations
+        }
+
+    }
+
+    override fun initRequestData() {
+        //initialization get Request Data
+        mViewModel.createWallet()
     }
 
 }

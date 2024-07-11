@@ -18,6 +18,7 @@ import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters
 import java.security.SecureRandom
 
 class Ed25519KeyRepository(private val application: Application) {
+
     private val db by lazy {
         Room.databaseBuilder(application, Ed25519KeyDatabase::class.java, "keys").build()
     }
@@ -58,6 +59,15 @@ class Ed25519KeyRepository(private val application: Application) {
                 }else{
                     null
                 }
+            }
+        }
+    }
+
+    suspend fun getAll(): List<AsymmetricCipherKeyPair>? {
+        return withContext(Dispatchers.IO) {
+            db.keysDao().getAll()?.map{ keypair ->
+                val privateKeyParams = Ed25519PrivateKeyParameters(keypair.privateKey, 0)
+                AsymmetricCipherKeyPair(privateKeyParams.generatePublicKey(), privateKeyParams)
             }
         }
     }

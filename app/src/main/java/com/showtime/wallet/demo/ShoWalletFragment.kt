@@ -1,4 +1,4 @@
-package com.showtime.wallet
+package com.showtime.wallet.demo
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.showtime.wallet.ShowVaultApplication
 import com.showtime.wallet.databinding.FragmentFirstBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -44,15 +45,10 @@ class ShoWalletFragment : Fragment() {
 
     private fun onAccountConnected(keypair: Keypair) {
         sender = keypair
-        showAccount()
         loadBalance()
     }
 
-    private fun showAccount(){
-        binding.key.text = "account: " + sender.publicKey.toBase58()
-    }
-
-    private fun loadBalance(){
+    private fun loadBalance() {
         binding.bal.text = "loading balance...."
 
         GlobalScope.launch(Dispatchers.IO) {

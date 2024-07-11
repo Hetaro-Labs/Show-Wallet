@@ -31,6 +31,11 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
 
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
     publishing {
         singleVariant('release') {
             withSourcesJar()
@@ -112,7 +117,7 @@ tasks.whenTaskAdded { task ->
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'androidx.test:core:1.5.0'
+    testImplementation 'androidx.test:core:1.13.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
     testImplementation 'org.robolectric:robolectric:4.12.1'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1'

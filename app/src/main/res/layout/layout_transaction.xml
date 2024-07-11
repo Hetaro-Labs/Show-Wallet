@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#292929"
+    android:padding="6dp">
+
+    <!-- Left Icon with Overlapping Arrow -->
+    <FrameLayout
+        android:id="@+id/leftIconContainer"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/icon_token"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerInside" />
+
+        <ImageView
+            android:id="@+id/icon_transaction_type"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="bottom|end"
+            android:src="@android:drawable/ic_dialog_info"
+            android:scaleType="centerInside" />
+    </FrameLayout>
+
+    <!-- Text Container -->
+    <LinearLayout
+        android:id="@+id/textContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/leftIconContainer"
+        android:layout_alignTop="@id/leftIconContainer"
+        android:layout_marginStart="8dp">
+
+        <!-- Top Text -->
+        <TextView
+            android:id="@+id/tv_transaction_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sent"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp" />
+
+        <!-- Bottom Text -->
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="to EjAX...gnFX"
+            android:textColor="#888888"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Right Text -->
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-54.92391 USDC"
+        android:textColor="#FFFFFF"
+        android:textSize="11sp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true" />
+</RelativeLayout>

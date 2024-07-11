@@ -1,78 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
 
+    </data>
     <LinearLayout
         android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent">
 
-        <TextView
-            android:text="0.12 SOL"
-            android:textSize="23dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:textColor="@color/white"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:textSize="12dp"
-                android:gravity="center"
-                android:background="@color/design_default_color_primary"
-                android:text="@string/wallet_receive"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                />
-
-            <TextView
-                android:textColor="@color/white"
-                android:textSize="12dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:gravity="center"
-                android:background="@color/design_default_color_primary"
-                android:text="@string/wallet_send"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                />
-
-            <TextView
-                android:textColor="@color/white"
-                android:textSize="12dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:gravity="center"
-                android:background="@color/design_default_color_primary"
-                android:text="@string/wallet_swap"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                />
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="10dp"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:id="@+id/layout_account_selection"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_account_name"
+                    android:text="Account01"
+                    android:textSize="12dp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <ImageView
+                    android:src="@android:drawable/arrow_down_float"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:src="@android:drawable/ic_menu_manage"
+                android:layout_alignParentRight="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             />
 
     </LinearLayout>
-
-</ScrollView>
+</layout>

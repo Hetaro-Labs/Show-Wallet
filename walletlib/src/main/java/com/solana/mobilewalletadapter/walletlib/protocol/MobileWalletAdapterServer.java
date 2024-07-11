@@ -75,13 +75,11 @@ public class MobileWalletAdapterServer extends JsonRpc20Server {
                 case ProtocolContract.METHOD_GET_CAPABILITIES:
                     handleGetCapabilities(id, params);
                     break;
-                case ProtocolContract.METHOD_SIGN_TRANSACTIONS:
+                case "sign_transactions":
                     if (Arrays.asList(mConfig.optionalFeatures).contains(ProtocolContract.FEATURE_ID_SIGN_TRANSACTIONS)) {
                         handleSignTransactions(id, params);
                     } else {
-                        handleRpcError(id, JsonRpc20Server.ERROR_METHOD_NOT_FOUND, "method '" +
-                                ProtocolContract.METHOD_SIGN_TRANSACTIONS +
-                                "' not available", null);
+                        handleRpcError(id, JsonRpc20Server.ERROR_METHOD_NOT_FOUND, "method 'sign_transactions' not available", null);
                     }
                     break;
                 case ProtocolContract.METHOD_SIGN_MESSAGES:

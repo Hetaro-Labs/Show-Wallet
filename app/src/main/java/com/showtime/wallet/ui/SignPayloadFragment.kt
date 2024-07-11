@@ -17,8 +17,8 @@ import androidx.navigation.fragment.findNavController
 import com.funkatronics.encoders.Base58
 import com.showtime.wallet.R
 import com.showtime.wallet.databinding.FragmentSignPayloadBinding
-import com.showtime.wallet.ShowVaultViewModel
-import com.showtime.wallet.ShowVaultViewModel.WalletServiceRequest
+import com.showtime.wallet.demo.ShowVaultViewModel
+import com.showtime.wallet.demo.ShowVaultViewModel.MobileWalletAdapterServiceRequest
 import kotlinx.coroutines.launch
 
 class SignPayloadFragment : Fragment() {
@@ -38,11 +38,11 @@ class SignPayloadFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                activityViewModel.walletServiceEvents.collect { request ->
+                activityViewModel.mobileWalletAdapterServiceEvents.collect { request ->
                     when (request) {
-                        is WalletServiceRequest.SignPayloads -> {
+                        is MobileWalletAdapterServiceRequest.SignPayloads -> {
                             val res =
-                                if (request is WalletServiceRequest.SignTransactions) {
+                                if (request is MobileWalletAdapterServiceRequest.SignTransactions) {
                                     R.string.label_sign_transactions
                                 } else {
                                     R.string.label_sign_messages
@@ -53,7 +53,7 @@ class SignPayloadFragment : Fragment() {
 
                             viewBinding.textAccount.text =
                                 request.request.authorizedAccounts.filter { aa ->
-                                    if (request is WalletServiceRequest.SignMessages) {
+                                    if (request is MobileWalletAdapterServiceRequest.SignMessages) {
                                         request.request.addresses.any { it contentEquals aa.publicKey }
                                     } else {
                                         true
@@ -86,7 +86,7 @@ class SignPayloadFragment : Fragment() {
                                 activityViewModel.signPayloadsSimulateInternalError(request)
                             }
                         }
-                        is WalletServiceRequest.SignAndSendTransactions -> {
+                        is MobileWalletAdapterServiceRequest.SignAndSendTransactions -> {
                             request.signatures?.run {
                                 // When signatures are present, move on to sending the transaction
                                 findNavController().navigate(SignPayloadFragmentDirections.actionSendTransaction())
