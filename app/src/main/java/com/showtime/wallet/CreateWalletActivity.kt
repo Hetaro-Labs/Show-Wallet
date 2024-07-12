@@ -3,13 +3,14 @@ package com.showtime.wallet
 import android.os.Bundle
 import android.util.Log
 import com.amez.mall.lib_base.ui.BaseProjActivity
+import com.amez.mall.lib_base.utils.MmkvUtils
 import com.showtime.wallet.adapter.MnemonicAdapter
 import com.showtime.wallet.data.Ed25519KeyRepositoryNew
 import com.showtime.wallet.databinding.ActivityGeneratePhraseBinding
 import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.CryptoUtils
-import com.showtime.wallet.utils.MmkvUtils
 import com.showtime.wallet.utils.clickNoRepeat
+import com.showtime.wallet.vm.CreateWalletVModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters
 
 
-class CreateWalletActivity: BaseProjActivity<ActivityGeneratePhraseBinding,CreateWalletVModel>(){
+class CreateWalletActivity: BaseProjActivity<ActivityGeneratePhraseBinding, CreateWalletVModel>(){
 
     override fun getBundleExtras(extras: Bundle?) {
     }

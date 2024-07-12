@@ -2,8 +2,6 @@ package com.amez.mall.lib_base.networkutil
 
 /**
  * Describe:
- * Created by:Sky
- * Created time:
  */
 enum class ERROR(private val code: Int, private val err: String) {
 

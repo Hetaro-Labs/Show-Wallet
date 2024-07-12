@@ -3,15 +3,11 @@ package com.showtime.wallet
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.amez.mall.lib_base.ui.BaseProjActivity
-import com.showtime.wallet.data.Ed25519KeyRepositoryNew
+import com.amez.mall.lib_base.utils.MmkvUtils
 import com.showtime.wallet.databinding.ActivityWalletBinding
 import com.showtime.wallet.utils.AppConstants
-import com.showtime.wallet.utils.CryptoUtils
-import com.showtime.wallet.utils.MmkvUtils
 import com.showtime.wallet.utils.clickNoRepeat
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.showtime.wallet.vm.WalletHomeVModel
 
 class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>() {
 
@@ -53,6 +49,21 @@ class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>
             WalletHomeFragment.getInstance(publicKey)
         )
             ?.commit()
+    }
+
+    fun changeFrag(enum:WalletHomeVModel.FragmentTypeEnum){
+        val mFragmentTransaction = supportFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0)
+        when(enum.value){
+            WalletHomeVModel.FragmentTypeEnum.SWAP.value->{
+
+            }
+            WalletHomeVModel.FragmentTypeEnum.NFT.value->{
+
+            }
+            WalletHomeVModel.FragmentTypeEnum.TRANSACTION.value->{
+                mFragmentTransaction.replace(R.id.fragment_placeholder, TransactionHistoryFragment(selectedPublicKey)).commit()
+            }
+        }
     }
 
 

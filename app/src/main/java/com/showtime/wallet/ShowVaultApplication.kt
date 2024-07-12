@@ -5,8 +5,8 @@
 package com.showtime.wallet
 
 import android.app.Application
+import com.amez.mall.lib_base.utils.MmkvUtils
 import com.showtime.wallet.data.Ed25519KeyRepository
-import com.showtime.wallet.utils.MmkvUtils
 
 class ShowVaultApplication : Application() {
 

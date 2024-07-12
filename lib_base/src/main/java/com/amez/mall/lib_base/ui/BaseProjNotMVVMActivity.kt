@@ -5,7 +5,5 @@ import com.amez.mall.lib_base.base.mvvm.v.BaseFrameNotMVVMActivity
 
 /**
  * Description: Not a base class for MVVM pattern
- * Created by:Sky
- * Created time:
  */
 abstract class BaseProjNotMVVMActivity<VB : ViewDataBinding> : BaseFrameNotMVVMActivity<VB>()

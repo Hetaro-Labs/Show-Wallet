@@ -7,8 +7,9 @@ import com.showtime.wallet.adapter.TokenAccountsByOwnerAdapter
 import com.showtime.wallet.databinding.ActivitySendtokenlistBinding
 import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.AppConstants
+import com.showtime.wallet.vm.WalletHomeVModel
 
-class SendTokenListActivity : BaseProjActivity<ActivitySendtokenlistBinding,WalletHomeVModel>(){
+class SendTokenListActivity : BaseProjActivity<ActivitySendtokenlistBinding, WalletHomeVModel>(){
 
     private lateinit var tokenList: List<Token>
 

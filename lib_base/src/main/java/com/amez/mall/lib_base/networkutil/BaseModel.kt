@@ -4,8 +4,6 @@ import android.text.TextUtils
 
 /**
  * Describe:
- * Created by:Sky
- * Created time:
  */
 open class BaseModel<T> {
     var status: String? = null

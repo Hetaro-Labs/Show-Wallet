@@ -43,6 +43,7 @@ coreKtxVersion = "1.10.1"
 zxingVersion = "3.4.1"
 mmkvVersion = "1.2.13"
 jsonVersion = "1.6.3"
+gsonVersion = "2.8.1"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -88,6 +89,8 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxV
 zxing={ module = "com.google.zxing:core", version.ref = "zxingVersion"}
 mmkv={ module = "com.tencent:mmkv", version.ref = "mmkvVersion"}
 json= { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "jsonVersion"}
+gson= { module = "com.google.code.gson:gson", version.ref = "gsonVersion"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

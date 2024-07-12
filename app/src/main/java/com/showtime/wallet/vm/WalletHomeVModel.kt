@@ -1,4 +1,4 @@
-package com.showtime.wallet
+package com.showtime.wallet.vm
 
 import android.app.Activity
 import android.view.View
@@ -10,10 +10,12 @@ import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
 import com.amez.mall.lib_base.bean.Hydration
 import com.amez.mall.lib_base.bean.TokenInfoReq
 import com.amez.mall.lib_base.net.ApiRequest
+import com.showtime.wallet.R
 import com.showtime.wallet.data.Ed25519KeyRepositoryNew
 import com.showtime.wallet.net.AppConnection
 import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.CryptoUtils
+import com.showtime.wallet.utils.TokenListCache
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -115,10 +117,18 @@ class WalletHomeVModel : BaseViewModel() {
                         )
                     )
                     //5.post data to fill adapter
+                    //cache tokenList
+                    TokenListCache.saveList(tokensList)
                     _getTokens.postValue(tokensList)
                 }
             }
         }
+    }
+
+    enum class FragmentTypeEnum(val value: String){
+        SWAP("SWAP"),
+        NFT("NFT"),
+        TRANSACTION("TRANSACTION")
     }
 
 }

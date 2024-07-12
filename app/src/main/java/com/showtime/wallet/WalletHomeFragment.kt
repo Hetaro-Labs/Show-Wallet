@@ -8,6 +8,7 @@ import com.amez.mall.lib_base.ui.BaseProjFragment
 import com.showtime.wallet.adapter.TokenAccountsByOwnerAdapter
 import com.showtime.wallet.databinding.FragmentWalletHomeBinding
 import com.showtime.wallet.utils.AppConstants
+import com.showtime.wallet.vm.WalletHomeVModel
 import org.sol4k.PublicKey
 import java.util.ArrayList
 
@@ -55,14 +56,16 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
 
         mBinding.btnSwap.setOnClickListener {
             //TODO start a default activity that holds SwapFragment
+            (requireActivity() as WalletActivity).changeFrag(WalletHomeVModel.FragmentTypeEnum.SWAP)
         }
 
         mBinding.btnNft.setOnClickListener {
             //TODO start a default activity that holds NFTFragment
+            (requireActivity() as WalletActivity).changeFrag(WalletHomeVModel.FragmentTypeEnum.NFT)
         }
 
         mBinding.btnTransactions.setOnClickListener {
-            //TODO start a default activity that holds TransactionHistoryFragment
+            (requireActivity() as WalletActivity).changeFrag(WalletHomeVModel.FragmentTypeEnum.TRANSACTION)
         }
 
     }

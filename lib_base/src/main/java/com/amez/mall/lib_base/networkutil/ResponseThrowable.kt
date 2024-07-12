@@ -2,8 +2,6 @@ package com.amez.mall.lib_base.networkutil
 
 /**
  * Describe:
- * Created by:Sky
- * Created time:
  */
 open class ResponseThrowable : Exception{
     var code: Int

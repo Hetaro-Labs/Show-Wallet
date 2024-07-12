@@ -4,8 +4,6 @@ import android.os.Build
 
 /**
  * Describe:
- * Created by:Sky
- * Created time:
  */
 object DeviceUtils {
 

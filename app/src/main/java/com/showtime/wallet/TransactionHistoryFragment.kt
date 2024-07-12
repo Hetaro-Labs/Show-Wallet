@@ -1,19 +1,34 @@
 package com.showtime.wallet
 
-class TransactionHistoryFragment {
+import android.os.Bundle
+import com.amez.mall.lib_base.ui.BaseProjFragment
+import com.showtime.wallet.adapter.TransactionHistoryAdapter
+import com.showtime.wallet.databinding.FragmentTransactionHistoryBinding
+import com.showtime.wallet.vm.HistoryVModel
 
-    //TODO layout_transaction_history
-    // rv_transactions.adapter = item layout: layout_transaction
-    // for each item click: go TransactionDetailActivity
-    // data from getTransactions.curl
-    // if action == "transfer" ->
-    //   if source == myAccount -> tv_transaction_type.text = "sent"
-    //   if destination == myAccount -> tv_transaction_type.text = "receive"
-    //   if token == "" ->
-    //      icon_token.setImageResource(R.drawable.ic_solana)
-    //      tv_amount.text = amount / 10^8 + "SOL"
-    //   else call getTokenInfo
-    //      icon_token.setImageResource(info.logo)
-    //      tv_amount.text = amount / 10^info.decimals + info.symbol
+class TransactionHistoryFragment(val key:String?) : BaseProjFragment<FragmentTransactionHistoryBinding,HistoryVModel>(){
 
+    private val testKey="EjAX2KePXZEZEaADMVc5UT2SQDvBYfoP1Jyx7frignFX"
+
+    override fun getBundleExtras(extras: Bundle?) {
+    }
+
+    override fun getContentViewLayoutID() = R.layout.fragment_transaction_history
+
+    override fun FragmentTransactionHistoryBinding.initView(){
+
+    }
+
+    override fun initLiveDataObserve() {
+        mViewModel.getTransactions.observeForever {
+            //val adapter = TransactionHistoryAdapter(requireActivity(), it ,key?:"")
+            val adapter = TransactionHistoryAdapter(requireActivity(), it ,testKey) //test key
+            mBinding.rvTransactions.adapter = adapter
+        }
+    }
+
+    override fun initRequestData() {
+        //mViewModel.getTransactions(key?:"")
+        mViewModel.getTransactions(testKey) //test key
+    }
 }

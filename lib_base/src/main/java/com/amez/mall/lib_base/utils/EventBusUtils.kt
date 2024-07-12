@@ -4,8 +4,6 @@ import org.greenrobot.eventbus.EventBus
 
 /**
  * Describe:EventBus Tool class
- * Created by:Sky
- * Created time:
  */
 object EventBusUtils {
 

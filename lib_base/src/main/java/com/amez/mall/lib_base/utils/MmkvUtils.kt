@@ -1,4 +1,4 @@
-package com.showtime.wallet.utils
+package com.amez.mall.lib_base.utils
 
 import android.content.Context
 import android.os.Parcelable

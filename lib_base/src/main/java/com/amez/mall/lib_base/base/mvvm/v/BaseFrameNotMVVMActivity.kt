@@ -10,8 +10,6 @@ import com.amez.mall.lib_base.utils.EventBusUtils
 
 /**
  * Describe:Activity base class that does not use MVVM
- * Created by:Sky
- * Created time:
  */
 abstract class BaseFrameNotMVVMActivity<VB : ViewDataBinding> : AppCompatActivity(),
     FrameNotMVVMView<VB> {

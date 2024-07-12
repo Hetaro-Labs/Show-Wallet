@@ -1,4 +1,4 @@
-package com.showtime.wallet
+package com.showtime.wallet.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

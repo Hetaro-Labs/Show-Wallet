@@ -13,8 +13,6 @@ import java.util.*
 
 /**
  * Describe:Used for reflection to obtain ViewModel and ViewBinding
- * Created by:Sky
- * Created time:
  */
 object BindingReflex {
     /**

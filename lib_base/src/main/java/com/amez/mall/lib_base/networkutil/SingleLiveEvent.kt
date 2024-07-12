@@ -9,8 +9,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Describe:
- * Created by:Sky
- * Created time:
  */
 class SingleLiveEvent<T> : MutableLiveData<T>() {
     private val mPending = AtomicBoolean(false)
