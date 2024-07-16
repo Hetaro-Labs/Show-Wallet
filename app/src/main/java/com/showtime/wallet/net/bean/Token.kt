@@ -11,4 +11,5 @@ data class Token(
     val decimals: Double,
     val logo: String,
     val uiAmount: Double,
+    val isNFT: Boolean,
 ) : Parcelable

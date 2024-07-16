@@ -9,6 +9,7 @@
         android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        tools:listitem="@layout/layout_nft"
         />
 
 </layout>

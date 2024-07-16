@@ -13,7 +13,7 @@ payload = {
     "id": 1,
     "method": "getTokenAccountsByOwner",
     "params": [
-        "EjAX2KePXZEZEaADMVc5UT2SQDvBYfoP1Jyx7frignFX",
+        "3W1bVgaXPnhbbU8pWuSjBt7EZCcZ49XY9rzERt8U4piH",
         {
             "programId": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         },

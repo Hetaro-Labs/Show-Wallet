@@ -19,7 +19,7 @@
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已接收"
+                android:text="@string/transaction_receive"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/ic_solana" />
 
                 <ImageView
                     android:id="@+id/arrowIcon"
@@ -84,11 +84,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="日期"
+                        android:text="@string/transaction_time"
                         android:textColor="#888888"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Apr 11, 2024 ，12:04 am"
@@ -107,14 +108,15 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="状态"
+                        android:text="@string/transaction_status"
                         android:textColor="#888888"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="成功"
+                        android:text="Succeed"
                         android:textColor="#00FF00"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -130,14 +132,15 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="从"
+                        android:text="@string/transaction_from"
                         android:textColor="#888888"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_from"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ming (HeUR...CyW3)"
+                        android:text="HeUR...CyW3"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -153,7 +156,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="网络"
+                        android:text="@string/transaction_network"
                         android:textColor="#888888"
                         android:textSize="14sp" />
 
@@ -169,7 +172,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="在 Solscan 上查看"
+                    android:text="@string/view_on_solscan"
                     android:textColor="#8A2BE2"
                     android:textSize="14sp"
                     android:layout_marginTop="8dp"

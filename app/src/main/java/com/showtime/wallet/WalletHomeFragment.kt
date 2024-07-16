@@ -38,8 +38,8 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
 
         mViewModel.getBalance(PublicKey(selectedPublicKey ?: ""))
 
-        //mViewModel.getTokenAccountsByOwner(PublicKey(selectedPublicKey ?: ""))
-        mViewModel.getTokenAccountsByOwner(PublicKey("EjAX2KePXZEZEaADMVc5UT2SQDvBYfoP1Jyx7frignFX")) //test key
+        mViewModel.getTokenAccountsByOwner(PublicKey(selectedPublicKey ?: ""))
+//        mViewModel.getTokenAccountsByOwner(PublicKey("EjAX2KePXZEZEaADMVc5UT2SQDvBYfoP1Jyx7frignFX")) //test key
 
 
         mBinding.btnReceive.setOnClickListener {
@@ -49,18 +49,16 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
         }
 
         mBinding.btnSend.setOnClickListener {
-            val intent= Intent(requireActivity(),SendTokenListActivity::class.java)
+            val intent= Intent(requireActivity(),SearchTokenActivity::class.java)
             intent.putParcelableArrayListExtra(AppConstants.KEY, mViewModel.getTokens.value as ArrayList)
             requireActivity().startActivity(intent)
         }
 
         mBinding.btnSwap.setOnClickListener {
-            //TODO start a default activity that holds SwapFragment
             (requireActivity() as WalletActivity).changeFrag(WalletHomeVModel.FragmentTypeEnum.SWAP)
         }
 
         mBinding.btnNft.setOnClickListener {
-            //TODO start a default activity that holds NFTFragment
             (requireActivity() as WalletActivity).changeFrag(WalletHomeVModel.FragmentTypeEnum.NFT)
         }
 
@@ -77,8 +75,6 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
         mViewModel.getTokens.observeForever {
             val adapter = TokenAccountsByOwnerAdapter(requireActivity(), it)
             mBinding.rvTokenList.adapter = adapter
-            //TODO for each item onClick, call SendTokenDetailActivity.start(content, item)
-            //OnClick is bound in TokenAccountsByOwnerAdapter
         }
     }
 

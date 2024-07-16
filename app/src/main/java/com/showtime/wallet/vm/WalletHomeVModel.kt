@@ -10,6 +10,9 @@ import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
 import com.amez.mall.lib_base.bean.Hydration
 import com.amez.mall.lib_base.bean.TokenInfoReq
 import com.amez.mall.lib_base.net.ApiRequest
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.showtime.wallet.DefaultTokenListData
 import com.showtime.wallet.R
 import com.showtime.wallet.data.Ed25519KeyRepositoryNew
 import com.showtime.wallet.net.AppConnection
@@ -105,6 +108,7 @@ class WalletHomeVModel : BaseViewModel() {
                 //4.assemble all tokens
                 val tokensList= mutableListOf<Token>()
                 data.result?.forEachIndexed { index, it ->
+                    val amount=result.value.get(index).account.data.parsed.info.tokenAmount
                     //TODO Should the uiAmount here traverse the mint of the getTokenAccountsByOwner set as a condition to match
                     tokensList.add(
                         Token(
@@ -113,13 +117,31 @@ class WalletHomeVModel : BaseViewModel() {
                             symbol = it.data.symbol,
                             decimals = it.data.decimals,
                             logo = it.data.logo,
-                            uiAmount = result.value.get(index).account.data.parsed.info.tokenAmount.uiAmount
+                            uiAmount = result.value.get(index).account.data.parsed.info.tokenAmount.uiAmount,
+                            isNFT = (amount.decimals == 0 && amount.uiAmount == 1.0)
                         )
                     )
-                    //5.post data to fill adapter
+                    //5.if tokenList has the data, do not add,else add DefaultTokenListData
+                    if(tokensList.isEmpty()){
+                        val gson = Gson()
+                        val type = object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
+                        val defaultTokenList: List<DefaultTokenListData.DefaultToken> = gson.fromJson(DefaultTokenListData.JSON, type)
+                        defaultTokenList.forEach {
+                            tokensList.add(Token(
+                                mint = it.mint,
+                                symbol = it.symbol,
+                                logo = it.icon,
+                                tokenName = it.token_id,
+                                decimals = 0.0,
+                                uiAmount = 0.0,
+                                isNFT = false)
+                            )
+                        }
+                    }
+                    //6.post data to fill adapter
                     //cache tokenList
                     TokenListCache.saveList(tokensList)
-                    _getTokens.postValue(tokensList)
+                    _getTokens.postValue(tokensList.filter { !it.isNFT })
                 }
             }
         }

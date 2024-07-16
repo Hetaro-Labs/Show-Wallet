@@ -41,9 +41,11 @@
                 android:id="@+id/receiver_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
+                android:background="@android:drawable/editbox_dropdown_dark_frame"
+                android:textColorHint="#ABABAB"
+                android:textSize="12dp"
                 android:hint="Solana Address"
-                android:text="123"
+                android:text=""
                 android:textColor="#FFFFFF"
                 android:paddingEnd="40dp"/>
 
@@ -55,21 +57,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Invalid Solana address"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="-4dp"
+            android:textSize="10dp"
             android:textColor="#FF0000"
             />
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
             android:padding="4dp"
             >
 
             <EditText
                 android:id="@+id/amount"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="0.0001"
+                android:textColorHint="#ABABAB"
+                android:textSize="12dp"
+                android:background="@android:drawable/editbox_dropdown_dark_frame"
+                android:hint="1.00"
                 android:textColor="#FFFFFF"/>
 
             <TextView

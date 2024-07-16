@@ -1,5 +1,8 @@
 package com.amez.mall.lib_base.bean
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 data class TransactionsResp(
     val status:String?,
     val message:String?,
@@ -10,6 +13,8 @@ data class TransactionsResult(
     val transactionHash:String?,
     val data:List<TransactionsData>?
 )
+
+@Parcelize
 data class TransactionsData(
     val instructionIndex:Int?,
     val innerInstructionIndex:Int?,
@@ -21,5 +26,9 @@ data class TransactionsData(
     val destinationAssociation:String?,
     val token:String?,
     val amount:Double,
-    val timestamp:String?
-)
+    val timestamp:String?,
+
+    var showTransactionType:String?,
+    var showAmount:String?,
+    var showUrl:String?,
+) : Parcelable

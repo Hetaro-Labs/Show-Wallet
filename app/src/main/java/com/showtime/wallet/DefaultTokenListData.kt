@@ -1,7 +1,28 @@
 package com.showtime.wallet
 
+import com.showtime.wallet.net.bean.Token
+
 class DefaultTokenListData {
-    companion object{
+
+    data class DefaultToken(
+        val mint:String,
+        val symbol:String,
+        val icon:String,
+        val token_id:String
+    )
+
+    companion object {
+
+        val SOL = Token(
+            "So11111111111111111111111111111111111111112",
+            "Solana",
+            "SOL",
+            8.0,
+            "drawable://${R.drawable.ic_solana}",
+            0.0,
+            false
+        )
+
         val JSON = "[\n" +
                 "    {\n" +
                 "        \"mint\": \"So11111111111111111111111111111111111111112\",\n" +

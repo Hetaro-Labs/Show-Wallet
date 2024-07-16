@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/token_icon"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_solana"
             android:layout_marginRight="4dp"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -34,7 +34,7 @@
             android:layout_below="@+id/token_name"
             android:layout_toRightOf="@+id/token_icon"
             android:textSize="10dp"
-            android:text="acmount"
+            android:text="12.128 SOL"
             android:textColor="#88222211"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

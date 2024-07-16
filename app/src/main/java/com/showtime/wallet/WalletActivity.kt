@@ -11,7 +11,7 @@ import com.showtime.wallet.vm.WalletHomeVModel
 
 class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>() {
 
-    private var selectedPublicKey: String? = null
+    private var selectedPublicKey: String = ""
     private var mFragmentTransaction: FragmentTransaction? = null
 
     override fun getBundleExtras(extras: Bundle?) {
@@ -26,7 +26,7 @@ class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>
     }
 
     override fun ActivityWalletBinding.initView() {
-        selectedPublicKey = MmkvUtils.getString(AppConstants.SELECTED_PUBLIC_KEY)
+        selectedPublicKey = "3W1bVgaXPnhbbU8pWuSjBt7EZCcZ49XY9rzERt8U4piH"//MmkvUtils.getString(AppConstants.SELECTED_PUBLIC_KEY)
         selectedPublicKey?.let {
             if (it.length > 5) tvAccountName.text = it.substring(6)
             updateSelectedAccount(it)
@@ -58,7 +58,7 @@ class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>
 
             }
             WalletHomeVModel.FragmentTypeEnum.NFT.value->{
-
+                mFragmentTransaction.replace(R.id.fragment_placeholder, NFTFragment(selectedPublicKey)).commit()
             }
             WalletHomeVModel.FragmentTypeEnum.TRANSACTION.value->{
                 mFragmentTransaction.replace(R.id.fragment_placeholder, TransactionHistoryFragment(selectedPublicKey)).commit()

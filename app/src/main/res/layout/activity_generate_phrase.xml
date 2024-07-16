@@ -9,8 +9,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         >
@@ -33,11 +33,14 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_marginTop="4dp"
+            tools:listitem="@layout/layout_phrase"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
 
         <Button
             android:id="@+id/btn_next"

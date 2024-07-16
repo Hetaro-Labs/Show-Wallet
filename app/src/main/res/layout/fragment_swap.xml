@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#1C1C1E"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#1C1C1E"
         android:orientation="vertical"
         android:padding="4dp">
 
@@ -24,8 +24,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
                 <LinearLayout
+                    android:id="@+id/btn_swap_token_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -58,11 +58,17 @@
                             android:id="@+id/coin_balance_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="余额：0.00391 SOL"
+                            android:text="Balance：0.00391 SOL"
                             android:textColor="#9A9A9A"
                             android:textSize="8sp" />
                     </LinearLayout>
 
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="@android:drawable/arrow_down_float"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
 
                 </LinearLayout>
 
@@ -80,14 +86,14 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/max_button"
+                        android:id="@+id/max_butto_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="8dp"
-                        android:text="最大"
+                        android:text="@string/max"
                         android:textColor="#8E8EFC"
                         android:textSize="10sp" />
 
@@ -99,6 +105,8 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/btn_switch_tokens"
+            android:visibility="gone"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
@@ -107,6 +115,35 @@
             android:src="@android:drawable/ic_menu_directions" />
 
         <LinearLayout
+            android:id="@+id/btn_select_token"
+            android:layout_marginTop="4dp"
+            android:background="#2C2C2E"
+            android:layout_width="match_parent"
+            android:padding="4dp"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:src="@android:drawable/ic_menu_add"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                />
+
+            <TextView
+                android:text="@string/select_token"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/token2_layout"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -134,6 +171,7 @@
                         android:src="@mipmap/ic_launcher" />
 
                     <LinearLayout
+                        android:id="@+id/btn_swap_token_2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -154,11 +192,17 @@
                             android:id="@+id/coin_balance_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="余额：0.00391 SOL"
+                            android:text="Balance：0.00391 SOL"
                             android:textColor="#9A9A9A"
                             android:textSize="8sp" />
                     </LinearLayout>
 
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="@android:drawable/arrow_down_float"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
 
                 </LinearLayout>
 
@@ -168,6 +212,7 @@
 
                     <EditText
                         android:id="@+id/coin_amount_2"
+                        android:enabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -183,7 +228,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="8dp"
-                        android:text="最大"
+                        android:text="@string/max"
                         android:textColor="#8E8EFC"
                         android:textSize="10sp" />
 
@@ -206,7 +251,7 @@
                 android:id="@+id/provider_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="提供商"
+                android:text="@string/provider"
                 android:textColor="#9A9A9A"
                 android:textSize="10sp" />
 
@@ -232,7 +277,7 @@
                 android:id="@+id/lowest_price_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="最低价格"
+                android:text="@string/best_price"
                 android:textColor="#9A9A9A"
                 android:textSize="10sp" />
 
@@ -246,17 +291,19 @@
                 android:textSize="10sp" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/submit_order_button"
+        <TextView
+            android:id="@+id/btn_swap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:background="#8E8EFC"
-            android:padding="16dp"
-            android:text="审查订单"
+            android:gravity="center"
+            android:text="@string/wallet_swap"
             android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:padding="5dp"
+            android:textSize="12dp" />
+
     </LinearLayout>
 
 </ScrollView>

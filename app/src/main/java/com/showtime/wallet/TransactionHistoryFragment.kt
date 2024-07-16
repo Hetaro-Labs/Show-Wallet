@@ -6,9 +6,8 @@ import com.showtime.wallet.adapter.TransactionHistoryAdapter
 import com.showtime.wallet.databinding.FragmentTransactionHistoryBinding
 import com.showtime.wallet.vm.HistoryVModel
 
-class TransactionHistoryFragment(val key:String?) : BaseProjFragment<FragmentTransactionHistoryBinding,HistoryVModel>(){
-
-    private val testKey="EjAX2KePXZEZEaADMVc5UT2SQDvBYfoP1Jyx7frignFX"
+//TODO use arguments to pass key, like @WalletHomeFragment
+class TransactionHistoryFragment(val key:String) : BaseProjFragment<FragmentTransactionHistoryBinding,HistoryVModel>(){
 
     override fun getBundleExtras(extras: Bundle?) {
     }
@@ -22,13 +21,13 @@ class TransactionHistoryFragment(val key:String?) : BaseProjFragment<FragmentTra
     override fun initLiveDataObserve() {
         mViewModel.getTransactions.observeForever {
             //val adapter = TransactionHistoryAdapter(requireActivity(), it ,key?:"")
-            val adapter = TransactionHistoryAdapter(requireActivity(), it ,testKey) //test key
+            val adapter = TransactionHistoryAdapter(requireActivity(), it ,key) //test key
             mBinding.rvTransactions.adapter = adapter
         }
     }
 
     override fun initRequestData() {
         //mViewModel.getTransactions(key?:"")
-        mViewModel.getTransactions(testKey) //test key
+        mViewModel.getTransactions(key) //test key
     }
 }

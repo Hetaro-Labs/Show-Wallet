@@ -106,4 +106,16 @@
     <string name="wallet_swap">Swap</string>
     <string name="wallet_nfts">NFTs</string>
     <string name="wallet_transactions">History</string>
+    <string name="transaction_receive">Receive</string>
+    <string name="transaction_time">Time</string>
+    <string name="transaction_status">Status</string>
+    <string name="transaction_from">From</string>
+    <string name="transaction_network">Network</string>
+    <string name="view_on_solscan">View on solscan</string>
+    <string name="your_wallet_address_is">"Your wallet address is: "</string>
+    <string name="confirm">Confirm</string>
+    <string name="provider">Provider</string>
+    <string name="best_price">Best price</string>
+    <string name="max">Max</string>
+    <string name="select_token">Select token</string>
 </resources>

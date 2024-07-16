@@ -20,8 +20,9 @@
                 android:id="@+id/tv_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.12 SOL"
+                android:text="$ 1232.12"
                 android:textColor="@color/black"
+                android:layout_margin="6dp"
                 android:textSize="23dp"
                 android:textStyle="bold" />
 

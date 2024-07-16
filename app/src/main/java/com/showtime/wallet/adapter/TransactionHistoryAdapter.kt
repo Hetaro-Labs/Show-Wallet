@@ -13,6 +13,7 @@ import com.amez.mall.lib_base.bean.TransactionsData
 import com.amez.mall.lib_base.utils.ImageHelper
 import com.showtime.wallet.R
 import com.showtime.wallet.TransactionDetailActivity
+import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.utils.clickNoRepeat
 import kotlin.math.pow
@@ -36,21 +37,24 @@ class TransactionHistoryAdapter(private var mContext: Context,
             "sent"
         else
             if(bean.destination==myAccount) "receive" else ""
-
+        bean.showTransactionType=holder.tvTransactionType.text.toString()
         if(bean.token.isNullOrEmpty()){
             holder.iconToken.setImageResource(R.drawable.ic_solana)
             holder.tvAmount.text="${bean.amount/(10.toDouble().pow(8))} SOL"
+            bean.showUrl=""
         }else{
             val token=TokenListCache.getList().findLast { it.mint==bean.token }
             token?.let {
                 ImageHelper.obtainImage(mContext,it.logo,holder.iconToken)
                 holder.tvAmount.text=""+it.uiAmount/(10.toDouble().pow(it.decimals))+ " "+it.symbol
+                bean.showUrl=it.logo
             }
         }
-
+        bean.showAmount=holder.tvAmount.text.toString()
         holder.tvAddress.text=bean.source
         holder.itemView.clickNoRepeat {
             val intent= Intent(mContext, TransactionDetailActivity::class.java)
+            intent.putExtra(AppConstants.KEY,bean)
             mContext.startActivity(intent)
         }
 
