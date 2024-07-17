@@ -1,6 +1,7 @@
 package com.showtime.wallet.net
 
 import android.util.Log
+import com.showtime.wallet.net.bean.AccountInfo
 import com.showtime.wallet.net.bean.AppBalance
 import com.showtime.wallet.net.bean.AppErrorResponse
 import com.showtime.wallet.net.bean.AppResponse
@@ -37,6 +38,17 @@ class AppConnection @JvmOverloads constructor(
         ignoreUnknownKeys = true
         isLenient = true
     }
+
+    fun getAccountInfo(metadataPDA: String): AccountInfo {
+        val params = JSONArray()
+        params.put(metadataPDA)
+        val jsonObjectEnc = JSONObject()
+        jsonObjectEnc.put("encoding", "jsonParsed")
+        params.put(jsonObjectEnc)
+        val result: AccountInfo = rpcCall("getAccountInfo", params)
+        return result
+    }
+
 
     fun getTokenAccountsByOwner(walletAddress: PublicKey): TokenAccountsByOwnerBean {
         val params = JSONArray()

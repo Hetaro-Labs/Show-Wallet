@@ -10,4 +10,8 @@ object AppConstants {
     const val KEY = "KEY"
 
     const val SELECTED_PUBLIC_KEY="selected_public_key"
+
+    const val FROM_SWAP_TAG="from_swap_tag"
+
+    const val FROM_SWAP_TOKENTYPE="from_swap_tokentype"
 }

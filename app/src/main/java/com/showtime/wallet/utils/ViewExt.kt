@@ -5,7 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -136,4 +138,20 @@ fun AppCompatTextView.setTextMiddleLine() {
     paint.flags = Paint.STRIKE_THRU_TEXT_FLAG //strikethrough
     paint.flags = Paint.STRIKE_THRU_TEXT_FLAG or Paint.ANTI_ALIAS_FLAG // Set the center line and add it clearly
     paint.isAntiAlias = true
+}
+
+fun TextView.addTextChangeListener(onTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // What to do before changing the text
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            onTextChanged.invoke(s.toString())
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            // What to do after text changes
+        }
+    })
 }

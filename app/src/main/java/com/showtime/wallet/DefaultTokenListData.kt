@@ -20,7 +20,8 @@ class DefaultTokenListData {
             8.0,
             "drawable://${R.drawable.ic_solana}",
             0.0,
-            false
+            false,
+            ""
         )
 
         val JSON = "[\n" +

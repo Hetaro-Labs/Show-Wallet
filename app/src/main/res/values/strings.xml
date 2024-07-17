@@ -118,4 +118,12 @@
     <string name="best_price">Best price</string>
     <string name="max">Max</string>
     <string name="select_token">Select token</string>
+    <string name="swap_spend">Spend</string>
+    <string name="swap_receive">Receive</string>
+    <string name="swap_fee">Swap fee</string>
+    <string name="price_impact">Price impact</string>
+    <string name="slipage">Slipage</string>
+    <string name="swap_fee_includes">A fee of 0.01% is included in the price</string>
+    <string name="swap">Swap</string>
+    <string name="review_swap">Review swap</string>
 </resources>

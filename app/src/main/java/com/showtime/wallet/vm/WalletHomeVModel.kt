@@ -43,6 +43,9 @@ class WalletHomeVModel : BaseViewModel() {
     // Externally exposed and immutable LiveData
     val getTokens: MutableLiveData<List<Token>> = _getTokens
 
+    private val _getTokensBySearch = MutableLiveData<List<Token>>()
+    val getTokensBySearch: MutableLiveData<List<Token>> = _getTokensBySearch
+
     //Display Switch User PopWindows
     fun showAccountPopWindow(act: Activity, view: View, callback: (String) -> Unit) {
         if (null == listPopupWindow) {
@@ -118,32 +121,56 @@ class WalletHomeVModel : BaseViewModel() {
                             decimals = it.data.decimals,
                             logo = it.data.logo,
                             uiAmount = result.value.get(index).account.data.parsed.info.tokenAmount.uiAmount,
-                            isNFT = (amount.decimals == 0 && amount.uiAmount == 1.0)
+                            isNFT = (amount.decimals == 0 && amount.uiAmount == 1.0),
+                            tokenType = ""
                         )
                     )
-                    //5.if tokenList has the data, do not add,else add DefaultTokenListData
-                    if(tokensList.isEmpty()){
-                        val gson = Gson()
-                        val type = object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
-                        val defaultTokenList: List<DefaultTokenListData.DefaultToken> = gson.fromJson(DefaultTokenListData.JSON, type)
-                        defaultTokenList.forEach {
-                            tokensList.add(Token(
-                                mint = it.mint,
-                                symbol = it.symbol,
-                                logo = it.icon,
-                                tokenName = it.token_id,
-                                decimals = 0.0,
-                                uiAmount = 0.0,
-                                isNFT = false)
-                            )
-                        }
-                    }
-                    //6.post data to fill adapter
-                    //cache tokenList
-                    TokenListCache.saveList(tokensList)
-                    _getTokens.postValue(tokensList.filter { !it.isNFT })
                 }
+                //5.if tokenList has the data, do not add,else add DefaultTokenListData
+                val gson = Gson()
+                val type = object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
+                val defaultTokenList: List<DefaultTokenListData.DefaultToken> = gson.fromJson(DefaultTokenListData.JSON, type)
+                defaultTokenList.forEach { defaultToken->
+                    if(tokensList.filter { it.mint==defaultToken.mint }.isEmpty())
+                        tokensList.add(Token(
+                            mint = defaultToken.mint,
+                            symbol = defaultToken.symbol,
+                            logo = defaultToken.icon,
+                            tokenName = defaultToken.token_id,
+                            decimals = 0.0,
+                            uiAmount = 0.0,
+                            isNFT = false,
+                            tokenType = "")
+                        )
+                }
+                //6.post data to fill adapter
+                //cache tokenList
+                TokenListCache.saveList(tokensList)
+                _getTokens.postValue(tokensList.filter { !it.isNFT })
             }
+        }
+    }
+
+    fun getTokensBySearch(address:String){
+        val mintsList= arrayListOf<String>()
+        mintsList.add(address)
+        ApiRequest.getTokens(TokenInfoReq(Hydration(true),mintsList)){ data->
+            val tokensList= mutableListOf<Token>()
+            data.result?.forEach {
+                tokensList.add(
+                    Token(
+                        mint = it.data.mint,
+                        tokenName = it.data.tokenName,
+                        symbol = it.data.symbol,
+                        decimals = it.data.decimals,
+                        logo = it.data.logo,
+                        uiAmount = 0.0,
+                        isNFT = false,
+                        tokenType = ""
+                    )
+                )
+            }
+            _getTokensBySearch.postValue(tokensList)
         }
     }
 
