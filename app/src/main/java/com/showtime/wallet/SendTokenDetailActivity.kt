@@ -16,12 +16,12 @@ import org.sol4k.instruction.CreateAssociatedTokenAccountInstruction
 import org.sol4k.instruction.Instruction
 import org.sol4k.instruction.SplTransferInstruction
 import org.sol4k.instruction.TransferInstruction
+import kotlin.math.pow
 
 class SendTokenDetailActivity : BaseProjNotMVVMActivity<ActivitySendTokenDetailBinding>() {
 
     private lateinit var myAccount: Keypair
     private lateinit var token: Token
-
 
     override fun getBundleExtras(extras: Bundle?) {
         token = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
@@ -37,14 +37,14 @@ class SendTokenDetailActivity : BaseProjNotMVVMActivity<ActivitySendTokenDetailB
             if (token.mint.isEmpty()) {
                 sendSolToken(
                     PublicKey(receiverAddress.text.toString()),
-                    (amount.text.toString().toInt()) * Math.pow(10.0, token.decimals).toLong()
+                    (amount.text.toString().toInt()) * 10.0.pow(token.decimals.toDouble()).toLong()
                 )
             } else {
                 sendSPLToken(
                     myAccount,
                     PublicKey(token.mint),
                     PublicKey(receiverAddress.text.toString()),
-                    (amount.text.toString().toInt()) * Math.pow(10.0, token.decimals).toLong()
+                    (amount.text.toString().toInt()) * 10.0.pow(token.decimals.toDouble()).toLong()
                 )
             }
         }

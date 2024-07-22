@@ -1,17 +1,12 @@
 package com.showtime.wallet
 
 import android.os.Bundle
-import android.util.Log
 import com.amez.mall.lib_base.ui.BaseProjFragment
+import com.showtime.wallet.adapter.NFTAdapter
 import com.showtime.wallet.databinding.FragmentNftListBinding
-import com.showtime.wallet.net.bean.Token
-import com.showtime.wallet.utils.TokenListCache
-import com.showtime.wallet.vm.NftVModel
-import org.sol4k.PublicKey
+import com.showtime.wallet.vm.NFTVModel
 
-
-//TODO use arguments to pass key, like @WalletHomeFragment
-class NFTFragment(val key:String): BaseProjFragment<FragmentNftListBinding,NftVModel>(){
+class NFTFragment(val key:String): BaseProjFragment<FragmentNftListBinding,NFTVModel>(){
 
     override fun getBundleExtras(extras: Bundle?) {
     }
@@ -19,10 +14,14 @@ class NFTFragment(val key:String): BaseProjFragment<FragmentNftListBinding,NftVM
     override fun getContentViewLayoutID() = R.layout.fragment_nft_list
 
     override fun initLiveDataObserve() {
+        mViewModel.getAssetsByOwner.observeForever {
+            val adapter=NFTAdapter(requireActivity(),it.result.items)
+            mBinding.rvNft.adapter=adapter
+        }
     }
 
     override fun initRequestData() {
-        //TODO implement with new API, see scripts/getNFTListViaHelius.py
+        mViewModel.getAssetsByOwner(key)
     }
 
     override fun FragmentNftListBinding.initView() {

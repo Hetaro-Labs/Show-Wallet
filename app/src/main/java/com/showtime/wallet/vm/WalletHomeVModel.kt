@@ -137,7 +137,7 @@ class WalletHomeVModel : BaseViewModel() {
                             symbol = defaultToken.symbol,
                             logo = defaultToken.icon,
                             tokenName = defaultToken.token_id,
-                            decimals = 0.0,
+                            decimals = defaultToken.decimals,
                             uiAmount = 0.0,
                             isNFT = false,
                             tokenType = "")

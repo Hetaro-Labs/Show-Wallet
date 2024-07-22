@@ -1,7 +1,9 @@
 package com.showtime.wallet
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.bus.FlowEventBus
 import com.amez.mall.lib_base.ui.BaseProjFragment
 import com.amez.mall.lib_base.utils.ImageHelper
@@ -12,13 +14,13 @@ import com.showtime.wallet.utils.EventConstants
 import com.showtime.wallet.utils.addTextChangeListener
 import com.showtime.wallet.utils.visible
 import com.showtime.wallet.vm.SwapVModel
-import org.json.JSONObject
 import org.sol4k.Keypair
+import kotlin.math.pow
 
-class SwapFragment : BaseProjFragment<FragmentSwapBinding,SwapVModel>(){
+class SwapFragment(val key:String) : BaseProjFragment<FragmentSwapBinding,SwapVModel>(){
 
     private lateinit var myAccount: Keypair
-    private var quoteResponse: JSONObject? = null
+    private var respData: TokenPairUpdatedResp? = null
     private var price: Double? = null
     private var token1: Token? = null
     private var token2: Token? = null
@@ -46,10 +48,8 @@ class SwapFragment : BaseProjFragment<FragmentSwapBinding,SwapVModel>(){
             }
 
         mViewModel.getTokenPairUpdated.observeForever {
-            mBinding.coinAmount2.setText(((it.outAmount ?: (0.0 / Math.pow(
-                10.0,
-                token1!!.decimals
-            )))).toString())
+            respData=it
+            mBinding.coinAmount2.setText(it.outAmount!!.toString())
             price = it.inAmount?.toDouble()!! / it.outAmount?.toDouble()!!
             mBinding.lowestPriceInfo.text = "1 ${token1!!.symbol} = price ${token2!!.symbol}"
             var providerName=""
@@ -95,8 +95,7 @@ class SwapFragment : BaseProjFragment<FragmentSwapBinding,SwapVModel>(){
 
     private fun selectToken(tokenTypeEnum:SwapVModel.TokenTypeEnum) {
         price = null
-        quoteResponse = null
-
+        respData = null
         val bundle=Bundle()
         bundle.putBoolean(AppConstants.FROM_SWAP_TAG,true)
         bundle.putString(AppConstants.FROM_SWAP_TOKENTYPE,tokenTypeEnum.value)
@@ -108,11 +107,11 @@ class SwapFragment : BaseProjFragment<FragmentSwapBinding,SwapVModel>(){
         if (SwapVModel.TokenTypeEnum.TOKEN2 == tokenTypeEnum){
             mBinding.btnSwitchTokens.visible()
             mBinding.token2Layout.visible()
-            mBinding.coinName2.text=token?.symbol
+            mBinding.coinName2.text=token?.tokenName
             mBinding.coinBalance2.text=token?.uiAmount.toString()
             ImageHelper.obtainImage(requireActivity(),token?.logo?:"",mBinding.coinIcon2)
         }else{
-            mBinding.coinName1.text=token?.symbol
+            mBinding.coinName1.text=token?.tokenName
             mBinding.coinBalance1.text=token?.uiAmount.toString()
             ImageHelper.obtainImage(requireActivity(),token?.logo?:"",mBinding.coinIcon1)
         }
@@ -128,14 +127,19 @@ class SwapFragment : BaseProjFragment<FragmentSwapBinding,SwapVModel>(){
 
         val parameter1=token1!!.mint
         val parameter2=token2!!.mint
-        val parameter3=amount * (Math.pow(10.0, token1!!.decimals))
+        val parameter3=amount * (10.0.pow(token1!!.decimals.toDouble()))
         mViewModel.getTokenPairUpdated(parameter1,parameter2,parameter3.toInt())
     }
 
     private fun swap() {
-        if (token1 == null || token2 == null || quoteResponse == null) return
+        if (token1 == null || token2 == null || respData == null) return
 
-        //TODO start SwapConfirmActivity
+        val intent= Intent(requireActivity(),SwapConfirmActivity::class.java)
+        intent.putExtra(AppConstants.SELECTED_PUBLIC_KEY,key)
+        intent.putExtra(AppConstants.KEY,token1)
+        intent.putExtra(AppConstants.KEY2,token2)
+        intent.putExtra(AppConstants.KEY3,respData)
+        startActivity(intent)
     }
 
 }

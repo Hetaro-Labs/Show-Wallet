@@ -18,9 +18,11 @@ import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.utils.clickNoRepeat
 import kotlin.math.pow
 
-class TransactionHistoryAdapter(private var mContext: Context,
-                                private val mList: List<TransactionsData>,
-                                private val myAccount:String): RecyclerView.Adapter<TransactionHistoryAdapter.MyViewHolder>() {
+class TransactionHistoryAdapter(
+    private var mContext: Context,
+    private val mList: List<TransactionsData>,
+    private val myAccount: String
+) : RecyclerView.Adapter<TransactionHistoryAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView: View =
@@ -33,28 +35,28 @@ class TransactionHistoryAdapter(private var mContext: Context,
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val bean = mList[position]
 
-        holder.tvTransactionType.text = if(bean.source==myAccount)
+        holder.tvTransactionType.text = if (bean.source == myAccount)
             "sent"
         else
-            if(bean.destination==myAccount) "receive" else ""
-        bean.showTransactionType=holder.tvTransactionType.text.toString()
-        if(bean.token.isNullOrEmpty()){
+            if (bean.destination == myAccount) "receive" else ""
+        bean.showTransactionType = holder.tvTransactionType.text.toString()
+        if (bean.token.isNullOrEmpty()) {
             holder.iconToken.setImageResource(R.drawable.ic_solana)
-            holder.tvAmount.text="${bean.amount/(10.toDouble().pow(8))} SOL"
-            bean.showUrl=""
-        }else{
-            val token=TokenListCache.getList().findLast { it.mint==bean.token }
+            holder.tvAmount.text = "${bean.amount / (10.toDouble().pow(8))} SOL"
+            bean.showUrl = ""
+        } else {
+            val token = TokenListCache.getList().findLast { it.mint == bean.token }
             token?.let {
-                ImageHelper.obtainImage(mContext,it.logo,holder.iconToken)
-                holder.tvAmount.text=""+it.uiAmount/(10.toDouble().pow(it.decimals))+ " "+it.symbol
-                bean.showUrl=it.logo
+                ImageHelper.obtainImage(mContext, it.logo, holder.iconToken)
+                holder.tvAmount.text = "" + it.uiAmount + " " + it.symbol
+                bean.showUrl = it.logo
             }
         }
-        bean.showAmount=holder.tvAmount.text.toString()
-        holder.tvAddress.text=bean.source
+        bean.showAmount = holder.tvAmount.text.toString()
+        holder.tvAddress.text = bean.source
         holder.itemView.clickNoRepeat {
-            val intent= Intent(mContext, TransactionDetailActivity::class.java)
-            intent.putExtra(AppConstants.KEY,bean)
+            val intent = Intent(mContext, TransactionDetailActivity::class.java)
+            intent.putExtra(AppConstants.KEY, bean)
             mContext.startActivity(intent)
         }
 

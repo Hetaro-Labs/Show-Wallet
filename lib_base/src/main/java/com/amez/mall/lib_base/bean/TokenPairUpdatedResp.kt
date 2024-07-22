@@ -1,5 +1,9 @@
 package com.amez.mall.lib_base.bean
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class TokenPairUpdatedResp(
     val inputMint:String?,
     val inAmount:String?,
@@ -10,18 +14,21 @@ data class TokenPairUpdatedResp(
     val slippageBps:Int?,
     val platformFee:String?,
     val priceImpactPct:String?,
-    val contextSlot:String?,
-    val timeTaken:String?,
+    val contextSlot:Int?,
+    val timeTaken:Double?,
     val routePlan:List<TokenPairUpdateRoutePlan>?
-) {
+): Parcelable {
     constructor() : this(null,null,null,null,null,null,null,
         null,null,null,null,null)
 }
 
+@Parcelize
 data class TokenPairUpdateRoutePlan(
     val swapInfo:TokenPairUpdatedSwapInfo?,
     val percent:Int?
-)
+): Parcelable
+
+@Parcelize
 data class TokenPairUpdatedSwapInfo(
     val ammKey:String?,
     val label:String?,
@@ -31,4 +38,4 @@ data class TokenPairUpdatedSwapInfo(
     val outAmount:String?,
     val feeAmount:String?,
     val feeMint:String?
-)
+): Parcelable

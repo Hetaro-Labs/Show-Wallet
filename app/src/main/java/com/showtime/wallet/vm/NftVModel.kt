@@ -1,30 +1,21 @@
 package com.showtime.wallet.vm
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
-import com.showtime.wallet.net.AppConnection
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import org.sol4k.RpcUrl
+import com.amez.mall.lib_base.bean.GetAssetsByOwnerResp
+import com.amez.mall.lib_base.net.ApiRequest
 
+class NFTVModel :BaseViewModel() {
 
-class NftVModel :BaseViewModel() {
+    private val TAG = NFTVModel::class.simpleName
+    private val _getAssetsByOwner = MutableLiveData<GetAssetsByOwnerResp>()
+    val getAssetsByOwner: MutableLiveData<GetAssetsByOwnerResp> = _getAssetsByOwner
 
-    private val TAG = NftVModel::class.simpleName
-
-
-    fun getAccountInfo() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = async {
-                val connection = AppConnection(RpcUrl.MAINNNET)
-                connection.getAccountInfo("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s")
-            }
-            val result = response.await()
-            Log.d(TAG,"accountInfo=${result}")
+    fun getAssetsByOwner(ownerAddress:String){
+        ApiRequest.getAssetsByOwner(ownerAddress){
+            Log.d(TAG,"getAssetsByOwner=${it}")
+            _getAssetsByOwner.postValue(it)
         }
-
-
     }
 }

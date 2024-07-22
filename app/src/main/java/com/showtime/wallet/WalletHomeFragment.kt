@@ -41,7 +41,6 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
         mViewModel.getTokenAccountsByOwner(PublicKey(selectedPublicKey ?: ""))
 //        mViewModel.getTokenAccountsByOwner(PublicKey("EjAX2KePXZEZEaADMVc5UT2SQDvBYfoP1Jyx7frignFX")) //test key
 
-
         mBinding.btnReceive.setOnClickListener {
             val mBundle = Bundle()
             mBundle.putString(AppConstants.KEY, selectedPublicKey)

@@ -8,7 +8,7 @@ data class Token(
     val mint: String,
     val tokenName: String,
     val symbol: String,
-    val decimals: Double,
+    val decimals: Int,
     val logo: String,
     val uiAmount: Double,
     val isNFT: Boolean,

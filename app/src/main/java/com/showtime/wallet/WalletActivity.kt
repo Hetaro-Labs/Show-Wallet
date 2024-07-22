@@ -55,7 +55,7 @@ class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>
         val mFragmentTransaction = supportFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0)
         when(enum.value){
             WalletHomeVModel.FragmentTypeEnum.SWAP.value->{
-                mFragmentTransaction.replace(R.id.fragment_placeholder, SwapFragment()).commit()
+                mFragmentTransaction.replace(R.id.fragment_placeholder, SwapFragment(selectedPublicKey)).commit()
             }
             WalletHomeVModel.FragmentTypeEnum.NFT.value->{
                 mFragmentTransaction.replace(R.id.fragment_placeholder, NFTFragment(selectedPublicKey)).commit()

@@ -1,5 +1,10 @@
 package com.amez.mall.lib_base.net
 
+import com.amez.mall.lib_base.bean.GetAssetsByOwnerReq
+import com.amez.mall.lib_base.bean.GetAssetsByOwnerReqParams
+import com.amez.mall.lib_base.bean.GetAssetsByOwnerResp
+import com.amez.mall.lib_base.bean.SwapReq
+import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenInfoReq
 import com.amez.mall.lib_base.bean.TokenInfoResp
 import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
@@ -20,7 +25,6 @@ object ApiRequest {
 
 
     fun getTokens(req:TokenInfoReq,callback:(TokenInfoResp)->Unit){
-
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
         val httpClient = OkHttpClient.Builder()
@@ -90,6 +94,57 @@ object ApiRequest {
 
             override fun onResponse(call: Call<TokenPairUpdatedResp>, response: Response<TokenPairUpdatedResp>) {
                 if(response.isSuccessful) callback.invoke(response.body()?:TokenPairUpdatedResp())
+            }
+        })
+
+    }
+
+    fun getAssetsByOwner(ownerAddress: String,callback:(GetAssetsByOwnerResp)->Unit){
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(logging)  //Adding interceptors to OkHttp
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://mainnet.helius-rpc.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient.build())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+        val req = GetAssetsByOwnerReq(GetAssetsByOwnerReqParams(ownerAddress))
+        val call: Call<GetAssetsByOwnerResp> = apiService.getAssetsByOwner(req)
+        call.enqueue(object : Callback<GetAssetsByOwnerResp> {
+            override fun onFailure(call: Call<GetAssetsByOwnerResp>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<GetAssetsByOwnerResp>, response: Response<GetAssetsByOwnerResp>) {
+                if(response.isSuccessful) callback.invoke(response.body()!!)
+            }
+        })
+
+    }
+
+    fun swap(swapReq: SwapReq,callback:(SwapResp)->Unit){
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(logging)  //Adding interceptors to OkHttp
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://quote-api.jup.ag/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient.build())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+        val call: Call<SwapResp> = apiService.swap(swapReq)
+        call.enqueue(object : Callback<SwapResp> {
+            override fun onFailure(call: Call<SwapResp>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<SwapResp>, response: Response<SwapResp>) {
+                if(response.isSuccessful) callback.invoke(response.body()!!)
             }
         })
 

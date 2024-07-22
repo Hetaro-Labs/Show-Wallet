@@ -11,7 +11,7 @@
         />
 
     <TextView
-        android:id="@+id/nft_title"
+        android:id="@+id/nft_name"
         android:background="#99000000"
         android:padding="2dp"
         android:text="name of nft"

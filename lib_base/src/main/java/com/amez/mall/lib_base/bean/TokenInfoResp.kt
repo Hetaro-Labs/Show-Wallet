@@ -14,7 +14,7 @@ data class TokenInfoBeanData(
     val mint:String,
     val tokenName:String,
     val symbol:String,
-    val decimals:Double,
+    val decimals:Int,
     val description:String,
     val logo:String,
     val tags:List<String>,

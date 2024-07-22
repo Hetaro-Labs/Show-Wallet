@@ -1,60 +1,73 @@
 package com.showtime.wallet
 
-import org.sol4k.AccountMeta
-import org.sol4k.Connection
-import org.sol4k.Constants.SYSTEM_PROGRAM
-import org.sol4k.RpcUrl
-import org.sol4k.Transaction
-import org.sol4k.instruction.BaseInstruction
+import android.annotation.SuppressLint
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
+import com.amez.mall.lib_base.ui.BaseProjActivity
+import com.amez.mall.lib_base.utils.ImageHelper
+import com.google.gson.Gson
+import com.showtime.wallet.databinding.ActivityConfirmSwapBinding
+import com.showtime.wallet.net.bean.Token
+import com.showtime.wallet.utils.AppConstants
+import com.showtime.wallet.utils.clickNoRepeat
+import com.showtime.wallet.vm.SwapVModel
 
-class SwapConfirmActivity {
+class SwapConfirmActivity : BaseProjActivity<ActivityConfirmSwapBinding,SwapVModel>(){
 
-    /**private fun init() {
-        //TODO activity_swap_confirm
-        // display info, data from SwapFragment
+    private val TAG = SwapConfirmActivity::class.simpleName
+    private lateinit var token: Token
+    private lateinit var token2: Token
+    private lateinit var quoteResp: TokenPairUpdatedResp
+    private var publicKey:String?=null
+
+    override fun getBundleExtras(extras: Bundle?) {
+        token = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            intent.getParcelableExtra(AppConstants.KEY,Token::class.java)!!
+        else
+            intent.getParcelableExtra(AppConstants.KEY)!!
+
+        token2 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            intent.getParcelableExtra(AppConstants.KEY2,Token::class.java)!!
+        else
+            intent.getParcelableExtra(AppConstants.KEY2)!!
+
+        quoteResp = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            intent.getParcelableExtra(AppConstants.KEY3,TokenPairUpdatedResp::class.java)!!
+        else
+            intent.getParcelableExtra(AppConstants.KEY3)!!
+        publicKey=intent.getStringExtra(AppConstants.SELECTED_PUBLIC_KEY)
+        Log.d(TAG,"token==${token}")
+        Log.d(TAG,"token2==${token2}")
+        Log.d(TAG,"quoteResp==${quoteResp}")
+        Log.d(TAG,"publicKey==${publicKey}")
     }
 
-    private fun swap() {
-        //TODO get data from SwapFragment
+    override fun getContentViewLayoutID() = R.layout.activity_confirm_swap
 
-        // get serialized transactions for the swap
-        const { swapTransaction } = await(
-            await fetch ('https://quote-api.jup.ag/v6/swap', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json'
-            },
-                body: JSON.stringify({
-                // quoteResponse from /quote api
-                quoteResponse,
-                // user public key to be used for the swap
-                userPublicKey: wallet.publicKey.toString(),
-                // auto wrap and unwrap SOL. default is true
-                wrapAndUnwrapSol: true,
-            })
-            })
-        ).json();
+    override fun initLiveDataObserve() {
+    }
 
-        // deserialize the transaction
-        const swapTransactionBuf = Buffer . from (swapTransaction, 'base64');
+    override fun initRequestData() {
+    }
 
-        val sender = myAccount
-        val connection = Connection(RpcUrl.DEVNET)
-        val blockhash = connection.getLatestBlockhash()
-        val instruction =
-            BaseInstruction(
-                swapTransactionBuf, listOf(
-                    AccountMeta(myAccount.publicKey, writable = true, signer = true)
-                ),
-                SYSTEM_PROGRAM
-            )
-        val transaction =
-            Transaction(blockhash, instruction, feePayer = sender.publicKey)
-        transaction.sign(sender)
-
-        try {
-            val signature = connection.sendTransaction(transaction)
-        } catch (e: Exception) {
+    @SuppressLint("SetTextI18n")
+    override fun ActivityConfirmSwapBinding.initView() {
+        token.let {
+            //Payment Section
+            ImageHelper.obtainImage(this@SwapConfirmActivity,it.logo,mBinding.paymentIcon)
+            mBinding.paymentLabel.text=""
+            mBinding.paymentAmount.text="${it.uiAmount} ${it.symbol}"
+            mBinding.paymentValue.text=""
         }
-    }**/
+        token2.let {
+            //Exchange Section
+            ImageHelper.obtainImage(this@SwapConfirmActivity,it.logo,mBinding.exchangeIcon)
+            mBinding.exchangeLabel.text=""
+            mBinding.exchangeAmount.text="${it.uiAmount} ${it.symbol}"
+            mBinding.exchangeValue.text=""
+        }
+        swapButton.clickNoRepeat { mViewModel.doSwap(publicKey?:"",quoteResp) }
+    }
 }
