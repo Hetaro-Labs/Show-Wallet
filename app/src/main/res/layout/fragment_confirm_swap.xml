@@ -159,6 +159,7 @@
                         android:textSize="10sp" />
 
                     <TextView
+                        android:id="@+id/lowest_price_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

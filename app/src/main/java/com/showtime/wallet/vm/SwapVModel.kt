@@ -4,26 +4,48 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
 import com.amez.mall.lib_base.bean.SwapReq
+import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.net.ApiRequest
+import com.showtime.wallet.net.bean.Token
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import org.sol4k.Connection
+import org.sol4k.PublicKey
+import org.sol4k.RpcUrl
+import org.sol4k.exception.RpcException
+import java.lang.RuntimeException
+import java.math.BigInteger
 
-class SwapVModel :BaseViewModel() {
+class SwapVModel : BaseViewModel() {
 
     private val TAG = SwapVModel::class.simpleName
 
     private val _getTokenPairUpdated = MutableLiveData<TokenPairUpdatedResp>()
     val getTokenPairUpdated: MutableLiveData<TokenPairUpdatedResp> = _getTokenPairUpdated
 
-    fun getTokenPairUpdated(parameter1: String,parameter2: String,parameter3: Int){
-        ApiRequest.getTokenPairUpdated(parameter1,parameter2,parameter3){
+    private val _getSwapTransaction = MutableLiveData<SwapResp>()
+    val getSwapTransaction: MutableLiveData<SwapResp> = _getSwapTransaction
+
+    private val _getTokenAccountBalance = MutableLiveData<UpdateTokenAccountBalance>()
+    val getTokenAccountBalance: MutableLiveData<UpdateTokenAccountBalance> = _getTokenAccountBalance
+
+    private val _getTokenAccountBalanceErr = MutableLiveData<String>()
+    val getTokenAccountBalanceErr: MutableLiveData<String> = _getTokenAccountBalanceErr
+
+    fun getTokenPairUpdated(parameter1: String, parameter2: String, parameter3: BigInteger) {
+        ApiRequest.getTokenPairUpdated(parameter1, parameter2, parameter3) {
             _getTokenPairUpdated.postValue(it)
         }
     }
 
-    fun doSwap(publicKey:String,quoteResponse:TokenPairUpdatedResp) {
-        val req=SwapReq(publicKey,quoteResponse)
-        ApiRequest.swap(req){
-            Log.d(TAG,"swapTransaction==${it.swapTransaction}")
+    fun doSwap(publicKey: String, quoteResponse: TokenPairUpdatedResp) {
+        val req = SwapReq(publicKey, quoteResponse)
+        ApiRequest.swap(req) {
+            Log.d(TAG, "swapTransaction==${it.swapTransaction}")
+            _getSwapTransaction.postValue(it)
         }
 
         //TODO get data from SwapFragment
@@ -61,16 +83,45 @@ class SwapVModel :BaseViewModel() {
         val transaction =
         Transaction(blockhash, instruction, feePayer = sender.publicKey)
         transaction.sign(sender)
-
         try {
         val signature = connection.sendTransaction(transaction)
         //start TransactionStatusActivity and pass signature
         } catch (e: Exception) {
-        }**/
+        }
+
+         **/
     }
 
-    enum class TokenTypeEnum(val value: String){
+    fun getTokenAccountBalance(token:Token,type:String=""){
+        val coroutineExceptionHandler = CoroutineExceptionHandler {coroutineContext, throwable ->
+
+        }
+        GlobalScope.launch(coroutineExceptionHandler) {
+            try {
+                val response = async {
+                    val connection = Connection(RpcUrl.DEVNET)
+                    //connection.getTokenAccountBalance(PublicKey(token.tokenAccount))
+                    connection.getTokenAccountBalance(PublicKey("73d3sqQPLsiwKvdJt2XnnLEzNiEjfn2nreqLujM7zXiT")) //Test Key
+                }
+                val bean=response.await()
+                Log.d(TAG, "getTokenAccountBalance==${bean}")
+                _getTokenAccountBalance.postValue(UpdateTokenAccountBalance(bean.uiAmount,type))
+            }catch (e: RuntimeException){
+                _getTokenAccountBalanceErr.postValue(e.message)
+            }
+            catch (e: RpcException){
+                _getTokenAccountBalanceErr.postValue(e.message)
+            }
+        }
+    }
+
+    enum class TokenTypeEnum(val value: String) {
         TOKEN1("token1"),
         TOKEN2("token2")
     }
+
+    data class UpdateTokenAccountBalance(
+        val amount:String,
+        val type:String
+    )
 }

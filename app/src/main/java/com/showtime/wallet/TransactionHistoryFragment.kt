@@ -6,16 +6,11 @@ import com.showtime.wallet.adapter.TransactionHistoryAdapter
 import com.showtime.wallet.databinding.FragmentTransactionHistoryBinding
 import com.showtime.wallet.vm.HistoryVModel
 
-//TODO use arguments to pass key, like @WalletHomeFragment
-class TransactionHistoryFragment(val key:String) : BaseProjFragment<FragmentTransactionHistoryBinding,HistoryVModel>(){
-
-    override fun getBundleExtras(extras: Bundle?) {
-    }
+class TransactionHistoryFragment() : BaseSecondaryFragment<FragmentTransactionHistoryBinding,HistoryVModel>(){
 
     override fun getContentViewLayoutID() = R.layout.fragment_transaction_history
 
     override fun FragmentTransactionHistoryBinding.initView(){
-
     }
 
     override fun initLiveDataObserve() {

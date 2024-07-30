@@ -53,7 +53,7 @@ class ShoWalletFragment : Fragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
             val getBalance = async {
-                val connection = Connection(RpcUrl.DEVNET)
+                val connection = Connection(RpcUrl.MAINNNET)
                 connection.getBalance(sender.publicKey).toString()
             }
             val balance = getBalance.await()
@@ -93,7 +93,7 @@ class ShoWalletFragment : Fragment() {
             val handler = Handler()
             object : Thread() {
                 override fun run() {
-                    val connection = Connection(RpcUrl.DEVNET)
+                    val connection = Connection(RpcUrl.MAINNNET)
                     val blockhash = connection.getLatestBlockhash()
                     val receiver = PublicKey("9KUpYG22qNKSW3XkpZmBCyFiy1JsFC7rw6o4c7iUomEk")
                     val instruction =

@@ -1,0 +1,26 @@
+curl -X POST https://api.mainnet-beta.solana.com \
+  -H "Content-Type: application/json" \
+  -d '{
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getRecentBlockhash",
+        "params": []
+      }'
+
+
+#response
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "context": {
+      "slot": 12345678
+    },
+    "value": {
+      "blockhash": "5EYjGNy7ZsKc2eN5nQH6kVjNeyC3spb3mV7u3r4f1uyu",
+      "feeCalculator": {
+        "lamportsPerSignature": 5000
+      }
+    }
+  },
+  "id": 1
+}

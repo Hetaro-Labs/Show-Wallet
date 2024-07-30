@@ -4,18 +4,16 @@ import android.os.Bundle
 import com.amez.mall.lib_base.ui.BaseProjFragment
 import com.showtime.wallet.adapter.NFTAdapter
 import com.showtime.wallet.databinding.FragmentNftListBinding
+import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.vm.NFTVModel
 
-class NFTFragment(val key:String): BaseProjFragment<FragmentNftListBinding,NFTVModel>(){
-
-    override fun getBundleExtras(extras: Bundle?) {
-    }
+class NFTFragment: BaseSecondaryFragment<FragmentNftListBinding,NFTVModel>(){
 
     override fun getContentViewLayoutID() = R.layout.fragment_nft_list
 
     override fun initLiveDataObserve() {
         mViewModel.getAssetsByOwner.observeForever {
-            val adapter=NFTAdapter(requireActivity(),it.result.items)
+            val adapter=NFTAdapter(requireActivity(),it.result.items, key)
             mBinding.rvNft.adapter=adapter
         }
     }

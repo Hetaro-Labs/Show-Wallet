@@ -10,7 +10,8 @@ data class Token(
     val symbol: String,
     val decimals: Int,
     val logo: String,
-    val uiAmount: Double,
+    var uiAmount: Double,
     val isNFT: Boolean,
-    var tokenType:String
+    var tokenType:String,
+    var tokenAccount:String
 ) : Parcelable

@@ -11,6 +11,7 @@ import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
 import com.amez.mall.lib_base.utils.BindingReflex
 import com.amez.mall.lib_base.utils.EventBusRegister
 import com.amez.mall.lib_base.utils.EventBusUtils
+import com.amez.mall.lib_base.utils.Logger
 import com.kongzue.dialog.v2.WaitDialog
 
 /**
@@ -111,5 +112,9 @@ abstract class BaseFrameActivity<VB : ViewDataBinding, VM : BaseViewModel> :
         mViewModel.defUI.msgEvent.observe(this, Observer { t ->
 
         })
+    }
+
+    fun log(msg: String){
+        Logger.d(javaClass.simpleName, msg)
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amez.mall.lib_base.networkutil.*
+import com.amez.mall.lib_base.utils.Logger
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -122,5 +123,9 @@ abstract class BaseViewModel : ViewModel(),LifecycleObserver {
         val dismissDialog by lazy { SingleLiveEvent<Void>() }
         val toastEvent by lazy { SingleLiveEvent<String>() }
         val msgEvent by lazy { SingleLiveEvent<Message>() }
+    }
+
+    fun log(msg: String){
+        Logger.d(javaClass.simpleName, msg)
     }
 }

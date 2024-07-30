@@ -39,7 +39,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@drawable/ic_solana" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -84,13 +84,14 @@
                             android:id="@+id/coin_amount_1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
                             android:layout_gravity="center_vertical"
-                            android:text="0.0001"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp" />
 
                         <TextView
-                            android:id="@+id/max_butto_1"
+                            android:id="@+id/max_button_1"
+                            android:padding="4dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -103,6 +104,17 @@
 
                     </RelativeLayout>
 
+                    <TextView
+                        android:id="@+id/amount1_error_message"
+                        android:textColor="#FF0000"
+                        android:visibility="gone"
+                        android:textSize="9dp"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginLeft="4dp"
+                        android:text="@string/insufficient_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
 
                 </LinearLayout>
 
@@ -172,7 +184,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@drawable/ic_solana" />
 
                         <LinearLayout
                             android:id="@+id/btn_swap_token_2"
@@ -196,7 +208,7 @@
                                 android:id="@+id/coin_balance_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Balance：0.00391 SOL"
+                                android:text=""
                                 android:textColor="#9A9A9A"
                                 android:textSize="8sp" />
                         </LinearLayout>
@@ -220,24 +232,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="0.0001"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp" />
 
-                        <TextView
-                            android:id="@+id/max_button_2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="8dp"
-                            android:text="@string/max"
-                            android:textColor="#8E8EFC"
-                            android:textSize="10sp" />
-
                     </RelativeLayout>
-
 
                 </LinearLayout>
 
@@ -264,7 +262,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="Meteora DLMM + Whirlpool"
                     android:textColor="#FFFFFF"
                     android:textSize="10sp" />
             </RelativeLayout>
@@ -290,7 +287,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="1 SOL ≈ 142.59 USDC"
                     android:textColor="#FFFFFF"
                     android:textSize="10sp" />
             </RelativeLayout>

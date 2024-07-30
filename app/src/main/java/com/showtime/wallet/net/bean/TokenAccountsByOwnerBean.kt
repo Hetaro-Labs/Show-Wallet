@@ -15,7 +15,8 @@ data class TokenAccountsByOwnerBeanContext(
 )
 @Serializable
 data class TokenAccountsByOwnerBeanValue(
-    val account:TokenAccountsByOwnerBeanValueAcount
+    val account:TokenAccountsByOwnerBeanValueAcount,
+    val pubkey:String
 )
 @Serializable
 data class TokenAccountsByOwnerBeanValueAcount(

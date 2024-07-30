@@ -14,6 +14,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.math.BigInteger
 
 interface ApiService {
 
@@ -26,7 +27,7 @@ interface ApiService {
     @GET("v6/quote")
     fun getTokenPairUpdated(@Query("inputMint") parameterOne:String?,
                             @Query("outputMint") parameterTwo: String?,
-                            @Query("amount") parameterThree: Int?,
+                            @Query("amount") parameterThree: BigInteger?,
                             @Query("slippageBps") slippageBps:Int): Call<TokenPairUpdatedResp>
 
     @POST("?api-key=a9daec3e-c89d-41c3-a197-f7d7522fdfd7")

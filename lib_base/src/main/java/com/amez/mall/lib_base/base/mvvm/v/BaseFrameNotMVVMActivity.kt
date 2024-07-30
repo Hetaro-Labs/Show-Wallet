@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.amez.mall.lib_base.utils.EventBusRegister
 import com.amez.mall.lib_base.utils.EventBusUtils
+import com.amez.mall.lib_base.utils.Logger
 
 /**
  * Describe:Activity base class that does not use MVVM
@@ -80,4 +81,9 @@ abstract class BaseFrameNotMVVMActivity<VB : ViewDataBinding> : AppCompatActivit
         }
         startActivity(intent)
     }
+
+    fun log(msg: String){
+        Logger.d(javaClass.simpleName, msg)
+    }
+
 }

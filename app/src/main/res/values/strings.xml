@@ -126,4 +126,14 @@
     <string name="swap_fee_includes">A fee of 0.01% is included in the price</string>
     <string name="swap">Swap</string>
     <string name="review_swap">Review swap</string>
+    <string name="send">Send</string>
+    <string name="send_confirmation">Send confirmation</string>
+    <string name="to">To</string>
+    <string name="network_fee">Network fee</string>
+    <string name="cancel">Cancel</string>
+    <string name="invalid_address">Invalid Solana address</string>
+    <string name="insufficient_balance">Insufficient balance</string>
+    <string name="loading">loading...</string>
+    <string name="error">Error</string>
+    <string name="token_not_found">Token not found</string>
 </resources>

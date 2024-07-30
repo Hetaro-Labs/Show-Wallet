@@ -8,6 +8,7 @@ import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.util.encoders.Hex
+import org.sol4k.Base58
 import org.sol4k.Keypair
 import java.security.SecureRandom
 import java.security.Security
@@ -15,6 +16,24 @@ import java.security.Security
 class CryptoUtils{
 
     companion object{
+
+        fun isValidSolanaAddress(address: String): Boolean {
+            // Check if the address length is correct
+            if (address.length != 44) {
+                return false
+            }
+
+            return try {
+                // Decode the address using Base58
+                val decodedBytes = Base58.decode(address)
+
+                // Check if the decoded byte array length is 32 (256 bits)
+                decodedBytes.size == 32
+            } catch (e: Exception) {
+                // If decoding fails, the address is not valid
+                false
+            }
+        }
 
         fun convertKeypair(keypair: AsymmetricCipherKeyPair): Keypair{
             val privateKey = keypair.private as Ed25519PrivateKeyParameters

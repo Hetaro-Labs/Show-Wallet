@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
+
 
     <application
         android:name=".ShowVaultApplication"
@@ -16,16 +18,19 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
 
-        <activity android:name=".demo.ShowVaultActivity"
+        <activity
+            android:name=".demo.ShowVaultActivity"
+            android:exported="true"
             android:launchMode="singleTask"
             android:taskAffinity="com.solana.mobilewalletadapter.fakewallet.mwa_host_task"
-            android:exported="true"
             android:theme="@style/Theme.MyApplication">
             <!-- Default solana-wallet URI from a browser or native dapp -->
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="solana-wallet" />
             </intent-filter>
             <!-- Any other uncategorized solana-wallet URI not covered by above -->
@@ -37,8 +42,8 @@
 
         <activity
             android:name=".SplashActivity"
-            android:launchMode="singleTask"
             android:exported="true"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.MyApplication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,15 +51,36 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".WelcomeActivity"/>
-        <activity android:name=".WalletActivity"/>
-        <activity android:name=".CreateWalletActivity"/>
-        <activity android:name=".ReceiveActivity"/>
-        <activity android:name=".SendTokenDetailActivity"/>
-        <activity android:name=".SearchTokenActivity"/>
-        <activity android:name=".TransactionDetailActivity"/>
-        <activity android:name=".NFTDetailActivity"/>
-        <activity android:name=".SwapConfirmActivity"/>
+        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".WalletActivity" />
+        <activity android:name=".CreateWalletActivity" />
+        <activity android:name=".TerminalActivity" />
+
+        <activity
+            android:name=".NFCActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".DeeplinkActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="showallet"/>
+                <data android:host="send"/>
+                <data android:host="send.spl"/>
+                <data android:host="swap"/>
+
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

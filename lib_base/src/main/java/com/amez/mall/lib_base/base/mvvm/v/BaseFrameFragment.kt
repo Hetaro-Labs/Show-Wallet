@@ -33,8 +33,7 @@ abstract class BaseFrameFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fra
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var extras = arguments
-        extras?.let { getBundleExtras(it) }
+        arguments?.let { getBundleExtras(it) }
         if (getContentViewLayoutID() != 0) {
             mBinding= DataBindingUtil.inflate(inflater, getContentViewLayoutID(),container,false)
         } else {
@@ -62,7 +61,7 @@ abstract class BaseFrameFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fra
         super.onDestroy()
     }
 
-    protected abstract fun getBundleExtras(extras: Bundle?)
+    protected abstract fun getBundleExtras(extras: Bundle)
 
     protected abstract fun getContentViewLayoutID(): Int
 

@@ -13,7 +13,7 @@
         tools:context=".MainActivity">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -24,7 +24,7 @@
             />
 
         <ImageView
-            android:id="@+id/logo"
+            android:id="@+id/iv_logo"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -53,10 +53,11 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/error_message"
+            android:id="@+id/address_error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Invalid Solana address"
+            android:text="@string/invalid_address"
+            android:visibility="gone"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="-4dp"
             android:textSize="10dp"
@@ -75,9 +76,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="#ABABAB"
+                android:inputType="number"
                 android:textSize="12dp"
                 android:background="@android:drawable/editbox_dropdown_dark_frame"
-                android:hint="1.00"
+                android:hint="send amount"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -92,6 +94,19 @@
                 android:layout_alignParentRight="true"
                 />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/amount_error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/insufficient_balance"
+            android:visibility="gone"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="-4dp"
+            android:textSize="10dp"
+            android:textColor="#FF0000"
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

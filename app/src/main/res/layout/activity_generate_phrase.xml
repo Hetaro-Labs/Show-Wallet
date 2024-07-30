@@ -20,15 +20,15 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/keep_wallet_secure"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="24dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="@string/write_down_phrase"
-            android:textColor="@color/black"
             android:textSize="14dp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -44,6 +44,7 @@
 
         <Button
             android:id="@+id/btn_next"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

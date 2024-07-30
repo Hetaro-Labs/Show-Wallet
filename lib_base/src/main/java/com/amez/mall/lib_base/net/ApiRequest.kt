@@ -11,20 +11,22 @@ import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.bean.TransactionsResp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.bouncycastle.util.test.FixedSecureRandom.BigInteger
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.pow
 
 object ApiRequest {
 
     private val TAG = ApiRequest::class.simpleName
 
-    private const val SOLAN_BASE_URL="https://api.solana.fm/v0/"
+    private const val SOLAN_BASE_URL = "https://api.solana.fm/v0/"
 
 
-    fun getTokens(req:TokenInfoReq,callback:(TokenInfoResp)->Unit){
+    fun getTokens(req: TokenInfoReq, callback: (TokenInfoResp) -> Unit) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
         val httpClient = OkHttpClient.Builder()
@@ -43,12 +45,14 @@ object ApiRequest {
             }
 
             override fun onResponse(call: Call<TokenInfoResp>, response: Response<TokenInfoResp>) {
-                if(response.isSuccessful || response.code()==400) callback.invoke(response.body()?:TokenInfoResp(null,null,null))
+                if (response.isSuccessful || response.code() == 400) callback.invoke(
+                    response.body() ?: TokenInfoResp(null, null, null)
+                )
             }
         })
     }
 
-    fun getTransactions(publicKeyString:String,callback:(TransactionsResp)->Unit){
+    fun getTransactions(publicKeyString: String, callback: (TransactionsResp) -> Unit) {
 
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
@@ -67,14 +71,44 @@ object ApiRequest {
             override fun onFailure(call: Call<TransactionsResp>, t: Throwable) {
             }
 
-            override fun onResponse(call: Call<TransactionsResp>, response: Response<TransactionsResp>) {
-                if(response.isSuccessful) callback.invoke(response.body()?:TransactionsResp(null,null,null,null))
+            override fun onResponse(
+                call: Call<TransactionsResp>,
+                response: Response<TransactionsResp>
+            ) {
+                if (response.isSuccessful) callback.invoke(
+                    response.body() ?: TransactionsResp(
+                        null,
+                        null,
+                        null,
+                        null
+                    )
+                )
             }
         })
-
     }
 
-    fun getTokenPairUpdated(parameter1: String,parameter2: String,parameter3: Int,callback:(TokenPairUpdatedResp)->Unit){
+    fun getPriceInUSD(
+        amount: java.math.BigInteger,
+        mint: String,
+        index: Int,
+        callback: (Int, Double) -> Unit
+    ) {
+        getTokenPairUpdated(
+            mint,
+            "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            amount
+        ) {
+            val uiAmount = it.outAmount!!.toDouble() / 10000000
+            callback(index, uiAmount)
+        }
+    }
+
+    fun getTokenPairUpdated(
+        parameter1: String,
+        parameter2: String,
+        parameter3: java.math.BigInteger,
+        callback: (TokenPairUpdatedResp) -> Unit
+    ) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
         val httpClient = OkHttpClient.Builder()
@@ -87,19 +121,24 @@ object ApiRequest {
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
-        val call: Call<TokenPairUpdatedResp> = apiService.getTokenPairUpdated(parameter1,parameter2,parameter3,1)
+        val call: Call<TokenPairUpdatedResp> =
+            apiService.getTokenPairUpdated(parameter1, parameter2, parameter3, 1)
         call.enqueue(object : Callback<TokenPairUpdatedResp> {
             override fun onFailure(call: Call<TokenPairUpdatedResp>, t: Throwable) {
             }
 
-            override fun onResponse(call: Call<TokenPairUpdatedResp>, response: Response<TokenPairUpdatedResp>) {
-                if(response.isSuccessful) callback.invoke(response.body()?:TokenPairUpdatedResp())
+            override fun onResponse(
+                call: Call<TokenPairUpdatedResp>,
+                response: Response<TokenPairUpdatedResp>
+            ) {
+                if (response.isSuccessful) callback.invoke(
+                    response.body() ?: TokenPairUpdatedResp()
+                )
             }
         })
-
     }
 
-    fun getAssetsByOwner(ownerAddress: String,callback:(GetAssetsByOwnerResp)->Unit){
+    fun getAssetsByOwner(ownerAddress: String, callback: (GetAssetsByOwnerResp) -> Unit) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
         val httpClient = OkHttpClient.Builder()
@@ -118,14 +157,17 @@ object ApiRequest {
             override fun onFailure(call: Call<GetAssetsByOwnerResp>, t: Throwable) {
             }
 
-            override fun onResponse(call: Call<GetAssetsByOwnerResp>, response: Response<GetAssetsByOwnerResp>) {
-                if(response.isSuccessful) callback.invoke(response.body()!!)
+            override fun onResponse(
+                call: Call<GetAssetsByOwnerResp>,
+                response: Response<GetAssetsByOwnerResp>
+            ) {
+                if (response.isSuccessful) callback.invoke(response.body()!!)
             }
         })
 
     }
 
-    fun swap(swapReq: SwapReq,callback:(SwapResp)->Unit){
+    fun swap(swapReq: SwapReq, callback: (SwapResp) -> Unit) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
         val httpClient = OkHttpClient.Builder()
@@ -144,7 +186,7 @@ object ApiRequest {
             }
 
             override fun onResponse(call: Call<SwapResp>, response: Response<SwapResp>) {
-                if(response.isSuccessful) callback.invoke(response.body()!!)
+                if (response.isSuccessful) callback.invoke(response.body()!!)
             }
         })
 

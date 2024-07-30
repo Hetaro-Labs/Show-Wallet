@@ -10,14 +10,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amez.mall.lib_base.bean.GetAssetsByOwnerResultItem
 import com.amez.mall.lib_base.utils.ImageHelper
-import com.showtime.wallet.NFTDetailActivity
+import com.showtime.wallet.NFTDetailFragment
 import com.showtime.wallet.R
+import com.showtime.wallet.TerminalActivity
 import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.clickNoRepeat
 
-class NFTAdapter(private var mContext: Context,
-                 private val assetsByOwnerResultItem: List<GetAssetsByOwnerResultItem>
-): RecyclerView.Adapter<NFTAdapter.MyViewHolder>() {
+class NFTAdapter(
+    private var mContext: Context,
+    private val assetsByOwnerResultItem: List<GetAssetsByOwnerResultItem>,
+    private val key: String
+) : RecyclerView.Adapter<NFTAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView: View =
@@ -28,12 +31,15 @@ class NFTAdapter(private var mContext: Context,
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val bean = assetsByOwnerResultItem[position]
-        holder.nftTitle.text=bean.content.metadata.name
-        ImageHelper.obtainImage(mContext,bean.content.files[0].cdn_uri,holder.nftImage)
+        holder.nftTitle.text = bean.content.metadata.name
+        ImageHelper.obtainImage(mContext, bean.content.files[0].cdn_uri, holder.nftImage)
         holder.itemView.clickNoRepeat {
-            val intent= Intent(mContext, NFTDetailActivity::class.java)
-            intent.putExtra(AppConstants.KEY,bean)
-            mContext.startActivity(intent)
+            TerminalActivity.start(
+                mContext,
+                TerminalActivity.Companion.FragmentTypeEnum.NFT_DETAIL,
+                key,
+                NFTDetailFragment.getBundle(bean)
+            )
         }
     }
 

@@ -26,6 +26,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.sol4k.PublicKey
 import org.sol4k.RpcUrl
+import java.math.BigInteger
+import kotlin.math.pow
 
 
 class WalletHomeVModel : BaseViewModel() {
@@ -40,11 +42,15 @@ class WalletHomeVModel : BaseViewModel() {
 
     // Private variable LiveData
     private val _getTokens = MutableLiveData<List<Token>>()
+
     // Externally exposed and immutable LiveData
     val getTokens: MutableLiveData<List<Token>> = _getTokens
 
     private val _getTokensBySearch = MutableLiveData<List<Token>>()
     val getTokensBySearch: MutableLiveData<List<Token>> = _getTokensBySearch
+
+    private val _getBlanceTotal = MutableLiveData<String>()
+    val getBlanceTotal: LiveData<String> = _getBlanceTotal
 
     //Display Switch User PopWindows
     fun showAccountPopWindow(act: Activity, view: View, callback: (String) -> Unit) {
@@ -77,85 +83,124 @@ class WalletHomeVModel : BaseViewModel() {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    fun getBalance(key: PublicKey) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = async {
-                val connection = AppConnection(RpcUrl.DEVNET)
-                connection.getBalance(key).toString()
+    fun getBalance(tokenList: List<Token>) {
+        val tList = tokenList.filter { it.uiAmount > 0 }
+        var totalBalance = 0.0
+        tList.forEachIndexed { index, token ->
+            ApiRequest.getPriceInUSD(
+                BigInteger.valueOf((token.uiAmount * 10.0.pow(token.decimals)).toLong()),
+                token.mint,
+                index
+            ) { result1, result2 ->
+                totalBalance += result2
+                if (result1 == tList.size - 1) {
+                    _getBlanceTotal.postValue("$" + totalBalance)
+                }
             }
-            val result = response.await()
-            _getBlanceLiveData.postValue(result)
         }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-
-    fun getTokenAccountsByOwner(key:PublicKey){
+    fun getTokenAccountsByOwner(key: PublicKey) {
         GlobalScope.launch(Dispatchers.IO) {
+            _getTokens.postValue(TokenListCache.getList())
+
+            val balanceOfSOlResponse = async {
+                val connection = AppConnection(RpcUrl.MAINNNET)
+                (connection.getBalance(key)
+                    .toDouble() / 10.0.pow(DefaultTokenListData.SOL.decimals.toDouble())
+                        )
+            }
+            val balanceOfSol = balanceOfSOlResponse.await()
 
             //1.request getTokenAccountsByOwner
             val response = async {
                 val connection = AppConnection(RpcUrl.MAINNNET)
                 connection.getTokenAccountsByOwner(key)
             }
-            val result= response.await()
 
-            //2.assemble all mints
-            val mintsList= arrayListOf<String>()
-            //resultOne.value.forEach { mintsList.add(it.account.data.parsed.info.mint) }
-            //https://api.solana.fm/v0/tokens The interface limits the length of the mints input parameter set
-            result.value.forEachIndexed { index, it -> if(index<50) mintsList.add(it.account.data.parsed.info.mint) }
+            response.await()?.let { result ->
+                //2.assemble all mints
+                val mintsList = arrayListOf<String>()
+                //resultOne.value.forEach { mintsList.add(it.account.data.parsed.info.mint) }
+                //https://api.solana.fm/v0/tokens The interface limits the length of the mints input parameter set
+                result.value.forEachIndexed { index, it -> if (index < 50) mintsList.add(it.account.data.parsed.info.mint) }
 
-            //3.request getTokens,Data after successful callback request
-            ApiRequest.getTokens(TokenInfoReq(Hydration(true),mintsList)){ data->
-                //4.assemble all tokens
-                val tokensList= mutableListOf<Token>()
-                data.result?.forEachIndexed { index, it ->
-                    val amount=result.value.get(index).account.data.parsed.info.tokenAmount
-                    //TODO Should the uiAmount here traverse the mint of the getTokenAccountsByOwner set as a condition to match
-                    tokensList.add(
-                        Token(
-                            mint = it.data.mint,
-                            tokenName = it.data.tokenName,
-                            symbol = it.data.symbol,
-                            decimals = it.data.decimals,
-                            logo = it.data.logo,
-                            uiAmount = result.value.get(index).account.data.parsed.info.tokenAmount.uiAmount,
-                            isNFT = (amount.decimals == 0 && amount.uiAmount == 1.0),
-                            tokenType = ""
+                //3.request getTokens,Data after successful callback request
+                ApiRequest.getTokens(TokenInfoReq(Hydration(true), mintsList)) { data ->
+                    //4.assemble all tokens
+                    val tokensList = mutableListOf<Token>()
+                    data.result?.forEachIndexed { index, it ->
+                        val item = result.value.find { candidate ->
+                            candidate.account.data.parsed.info.mint == it.data.mint
+                        }!!
+
+                        val amount = item.account.data.parsed.info.tokenAmount
+                        val tokenAccount = item.pubkey
+
+                        tokensList.add(
+                            Token(
+                                mint = it.data.mint,
+                                tokenName = it.data.tokenName,
+                                symbol = it.data.symbol,
+                                decimals = it.data.decimals,
+                                logo = it.data.logo,
+                                uiAmount = item.account.data.parsed.info.tokenAmount.uiAmount,
+                                isNFT = (amount.decimals == 0 && amount.uiAmount == 1.0),
+                                tokenType = "",
+                                tokenAccount = tokenAccount
+                            )
                         )
-                    )
+                    }
+
+                    for (token in tokensList) {
+                        log("token: " + token.symbol + "->" + token.mint)
+                    }
+
+                    //5.if tokenList has the data, do not add,else add DefaultTokenListData
+                    val gson = Gson()
+                    val type =
+                        object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
+                    val defaultTokenList: List<DefaultTokenListData.DefaultToken> =
+                        gson.fromJson(DefaultTokenListData.JSON, type)
+                    defaultTokenList.forEach { defaultToken ->
+                        if (tokensList.find { it.mint == defaultToken.mint } == null)
+                            tokensList.add(
+                                Token(
+                                    mint = defaultToken.mint,
+                                    symbol = defaultToken.symbol,
+                                    logo = defaultToken.icon,
+                                    tokenName = defaultToken.token_id,
+                                    decimals = defaultToken.decimals,
+                                    uiAmount = 0.0,
+                                    isNFT = false,
+                                    tokenType = "",
+                                    tokenAccount = ""
+                                )
+                            )
+                    }
+
+                    //update balance of sol
+                    for (token in tokensList) {
+                        if (token.mint == DefaultTokenListData.SOL.mint) {
+                            token.uiAmount = balanceOfSol
+                        }
+                    }
+
+                    //6.post data to fill adapter
+                    //cache tokenList
+                    TokenListCache.saveList(tokensList)
+                    _getTokens.postValue(tokensList.filter { !it.isNFT })
                 }
-                //5.if tokenList has the data, do not add,else add DefaultTokenListData
-                val gson = Gson()
-                val type = object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
-                val defaultTokenList: List<DefaultTokenListData.DefaultToken> = gson.fromJson(DefaultTokenListData.JSON, type)
-                defaultTokenList.forEach { defaultToken->
-                    if(tokensList.filter { it.mint==defaultToken.mint }.isEmpty())
-                        tokensList.add(Token(
-                            mint = defaultToken.mint,
-                            symbol = defaultToken.symbol,
-                            logo = defaultToken.icon,
-                            tokenName = defaultToken.token_id,
-                            decimals = defaultToken.decimals,
-                            uiAmount = 0.0,
-                            isNFT = false,
-                            tokenType = "")
-                        )
-                }
-                //6.post data to fill adapter
-                //cache tokenList
-                TokenListCache.saveList(tokensList)
-                _getTokens.postValue(tokensList.filter { !it.isNFT })
             }
         }
     }
 
-    fun getTokensBySearch(address:String){
-        val mintsList= arrayListOf<String>()
+    fun getTokensBySearch(address: String) {
+        val mintsList = arrayListOf<String>()
         mintsList.add(address)
-        ApiRequest.getTokens(TokenInfoReq(Hydration(true),mintsList)){ data->
-            val tokensList= mutableListOf<Token>()
+        ApiRequest.getTokens(TokenInfoReq(Hydration(true), mintsList)) { data ->
+            val tokensList = mutableListOf<Token>()
             data.result?.forEach {
                 tokensList.add(
                     Token(
@@ -166,7 +211,8 @@ class WalletHomeVModel : BaseViewModel() {
                         logo = it.data.logo,
                         uiAmount = 0.0,
                         isNFT = false,
-                        tokenType = ""
+                        tokenType = "",
+                        tokenAccount = ""
                     )
                 )
             }
@@ -174,7 +220,7 @@ class WalletHomeVModel : BaseViewModel() {
         }
     }
 
-    enum class FragmentTypeEnum(val value: String){
+    enum class FragmentTypeEnum(val value: String) {
         SWAP("SWAP"),
         NFT("NFT"),
         TRANSACTION("TRANSACTION")

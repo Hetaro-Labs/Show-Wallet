@@ -17,7 +17,13 @@ object TokenListCache {
     fun getList():List<Token>{
         val gson = Gson()
         val type = object : TypeToken<List<Token?>?>() {}.type
+        if(getString("tokenList").isNullOrEmpty()) return mutableListOf()
         val list: List<Token> = gson.fromJson(getString("tokenList"), type)
         return list
     }
+
+    fun clear(){
+        put("tokenList", "")
+    }
+
 }

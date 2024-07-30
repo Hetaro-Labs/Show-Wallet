@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amez.mall.lib_base.bean.TransactionsData
 import com.amez.mall.lib_base.utils.ImageHelper
 import com.showtime.wallet.R
-import com.showtime.wallet.TransactionDetailActivity
+import com.showtime.wallet.TerminalActivity
+import com.showtime.wallet.TransactionDetailFragment
 import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.utils.clickNoRepeat
@@ -21,7 +22,7 @@ import kotlin.math.pow
 class TransactionHistoryAdapter(
     private var mContext: Context,
     private val mList: List<TransactionsData>,
-    private val myAccount: String
+    private val key: String
 ) : RecyclerView.Adapter<TransactionHistoryAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -35,10 +36,10 @@ class TransactionHistoryAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val bean = mList[position]
 
-        holder.tvTransactionType.text = if (bean.source == myAccount)
+        holder.tvTransactionType.text = if (bean.source == key)
             "sent"
         else
-            if (bean.destination == myAccount) "receive" else ""
+            if (bean.destination == key) "receive" else ""
         bean.showTransactionType = holder.tvTransactionType.text.toString()
         if (bean.token.isNullOrEmpty()) {
             holder.iconToken.setImageResource(R.drawable.ic_solana)
@@ -55,7 +56,12 @@ class TransactionHistoryAdapter(
         bean.showAmount = holder.tvAmount.text.toString()
         holder.tvAddress.text = bean.source
         holder.itemView.clickNoRepeat {
-            val intent = Intent(mContext, TransactionDetailActivity::class.java)
+            TerminalActivity.start(
+                mContext, TerminalActivity.Companion.FragmentTypeEnum.TRANSACTION_DETAIL,
+                key,
+                TransactionDetailFragment.getBundle(bean)
+            )
+            val intent = Intent(mContext, TransactionDetailFragment::class.java)
             intent.putExtra(AppConstants.KEY, bean)
             mContext.startActivity(intent)
         }
