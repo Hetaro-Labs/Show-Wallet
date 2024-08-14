@@ -4,6 +4,7 @@
 .idea
 .DS_Store
 /build
+/sol4k/build
 /captures
 .externalNativeBuild
 .cxx
