@@ -8,6 +8,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Describe:
+ * Created by:DK
+ * Created time:
  *Description: Using Flow and coroutines as event buses, it has an intuitive lifecycle and does not require manual unbinding
  *Binding event: FlowEventBus. wire<String>("key"). register (this) {}
  *Send event: FlowEventBus. wire<String>("key"). post ("value")

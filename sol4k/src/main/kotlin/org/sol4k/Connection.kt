@@ -29,6 +29,7 @@ import org.sol4k.rpc.RpcRequest
 import org.sol4k.rpc.RpcResponse
 import org.sol4k.rpc.SimulateTransactionResponse
 import org.sol4k.rpc.TokenBalanceResult
+import org.sol4k.transaction.EncodedTransaction
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.math.BigInteger
@@ -160,7 +161,7 @@ class Connection @JvmOverloads constructor(
         )
     }
 
-    fun sendTransaction(transaction: Transaction): String {
+    fun sendTransaction(transaction: EncodedTransaction): String {
         val encodedTransaction = Base64.getEncoder().encodeToString(transaction.serialize())
         return rpcCall(
             "sendTransaction",
@@ -169,6 +170,23 @@ class Connection @JvmOverloads constructor(
                 Json.encodeToJsonElement(mapOf("encoding" to "base64")),
             )
         )
+    }
+
+
+    fun sendTransaction(encodedTransaction: String): String {
+        return rpcCall(
+            "sendTransaction",
+            listOf(
+                Json.encodeToJsonElement(encodedTransaction),
+                Json.encodeToJsonElement(mapOf("encoding" to "base64")),
+            )
+        )
+    }
+
+
+    fun sendTransaction(transaction: Transaction): String {
+        val encodedTransaction = Base64.getEncoder().encodeToString(transaction.serialize())
+        return sendTransaction(encodedTransaction)
     }
 
     fun simulateTransaction(transaction: Transaction): TransactionSimulation {

@@ -13,16 +13,17 @@ import com.showtime.wallet.utils.addTextChangeListener
 import com.showtime.wallet.utils.clickNoRepeat
 import com.showtime.wallet.utils.gone
 import com.showtime.wallet.utils.visible
+import com.showtime.wallet.vm.SendTokenVModel
 import com.showtime.wallet.vm.SwapVModel
 
 class SendTokenDetailFragment :
-    BaseSecondaryFragment<FragmentSendTokenDetailBinding, SwapVModel>() {
+    BaseSecondaryFragment<FragmentSendTokenDetailBinding, SendTokenVModel>() {
 
     private lateinit var token: Token
     private var toAddress: String? = null
 
-    companion object{
-        fun start(context: Context, key: String, token: Token, to: String = ""){
+    companion object {
+        fun start(context: Context, key: String, token: Token, to: String = "") {
             val bundle = Bundle()
             bundle.putParcelable("token", token)
             bundle.putString("to", to)
@@ -50,27 +51,14 @@ class SendTokenDetailFragment :
 
     override fun FragmentSendTokenDetailBinding.initView() {
         receiverAddress.addTextChangeListener {
-            if (CryptoUtils.isValidSolanaAddress(it)) {
-                addressErrorMessage.gone()
-                nextButton.isEnabled = true
-            } else {
-                addressErrorMessage.visible()
-                nextButton.isEnabled = false
-            }
+            mViewModel.onAddressChange(it)
         }
 
         amount.addTextChangeListener {
-            val amount = it.toDouble()
-            if (amount > token.uiAmount) {
-                amountErrorMessage.visible()
-                nextButton.isEnabled = false
-            } else {
-                amountErrorMessage.gone()
-                nextButton.isEnabled = true
-            }
+            mViewModel.onAmountChange(token, it)
         }
 
-        tvTitle.text = getString(R.string.send) + " " + token.symbol
+        (activity as TerminalActivity).setTitle(getString(R.string.send) + " " + token.symbol)
         ImageHelper.obtainImage(requireContext(), token.logo, ivLogo)
         maxButton.setOnClickListener {
             amount.setText(token.uiAmount.toString())
@@ -84,6 +72,7 @@ class SendTokenDetailFragment :
                 receiverAddress.text.toString(),
                 amount.text.toString().toDouble()
             )
+            requireActivity().finish()
         }
         cancelButton.clickNoRepeat { requireActivity().finish() }
 
@@ -103,10 +92,28 @@ class SendTokenDetailFragment :
             newTokenList.findLast { it.mint == token.mint }?.tokenAccount = it.amount
             TokenListCache.saveList(newTokenList)
         }
-        mViewModel.getTokenAccountBalanceErr.observeForever {
-            mBinding.amountErrorMessage.visible()
-            mBinding.amountErrorMessage.text = it
+
+        mViewModel.getEnterAmountErr.observeForever { enterAmountErr ->
+            updateButtonState(enterAmountErr, mViewModel.getAddressErr.value ?: true)
+            if (enterAmountErr) {
+                mBinding.amountErrorMessage.visible()
+            } else {
+                mBinding.amountErrorMessage.gone()
+            }
         }
+
+        mViewModel.getAddressErr.observeForever { addressErr ->
+            updateButtonState(mViewModel.getEnterAmountErr.value ?: true, addressErr)
+            if (addressErr) {
+                mBinding.addressErrorMessage.visible()
+            } else {
+                mBinding.addressErrorMessage.gone()
+            }
+        }
+    }
+
+    private fun updateButtonState(enterAmountErr: Boolean, addressErr: Boolean) {
+        mBinding.nextButton.isEnabled = !enterAmountErr && !addressErr
     }
 
     override fun initRequestData() {

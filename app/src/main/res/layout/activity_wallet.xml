@@ -6,6 +6,8 @@
     </data>
     <LinearLayout
         android:orientation="vertical"
+        android:background="@drawable/wallet_background"
+        android:padding="@dimen/global_padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,6 +18,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_account_selection"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -25,25 +28,20 @@
                 <TextView
                     android:id="@+id/tv_account_name"
                     android:text="Account01"
-                    android:textSize="12dp"
-                    android:textColor="@color/white"
+                    android:textSize="10dp"
+                    android:textColor="@color/info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    />
-
-                <ImageView
-                    android:src="@android:drawable/arrow_down_float"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
                     />
 
             </LinearLayout>
 
             <ImageView
-                android:src="@android:drawable/ic_menu_manage"
+                android:src="@drawable/ic_settings"
                 android:layout_alignParentRight="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:padding="4dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 />
 
         </RelativeLayout>

@@ -1,7 +1,10 @@
 package org.sol4k
 
+import android.util.Log
 import org.sol4k.instruction.BaseInstruction
 import org.sol4k.instruction.Instruction
+import org.sol4k.transaction.Message
+import org.sol4k.transaction.TransactionHelper
 import java.nio.ByteBuffer
 import java.util.Base64
 
@@ -36,27 +39,34 @@ class Transaction(
             instructions.map { instruction ->
                 val keyIndices =
                     ByteArray(instruction.keys.size) {
-                        transactionAccountPublicKeys.indexOf(instruction.keys[it].publicKey).toByte()
+                        transactionAccountPublicKeys.indexOf(instruction.keys[it].publicKey)
+                            .toByte()
                     }
                 byteArrayOf(transactionAccountPublicKeys.indexOf(instruction.programId).toByte()) +
-                    Binary.encodeLength(instruction.keys.size) +
-                    keyIndices +
-                    Binary.encodeLength(instruction.data.size) +
-                    instruction.data
+                        Binary.encodeLength(instruction.keys.size) +
+                        keyIndices +
+                        Binary.encodeLength(instruction.data.size) +
+                        instruction.data
             }
         val instructionsLength = Binary.encodeLength(instructions.size)
         val bufferSize =
             HEADER_LENGTH +
-                RECENT_BLOCK_HASH_LENGTH +
-                accountAddressesLength.size +
-                (accountKeys.size * PUBLIC_KEY_LENGTH) +
-                instructionsLength.size +
-                instructionBytes.sumOf { it.size }
+                    RECENT_BLOCK_HASH_LENGTH +
+                    accountAddressesLength.size +
+                    (accountKeys.size * PUBLIC_KEY_LENGTH) +
+                    instructionsLength.size +
+                    instructionBytes.sumOf { it.size }
         val buffer = ByteBuffer.allocate(bufferSize)
         val numRequiredSignatures = accountKeys.count { it.signer }.toByte()
         val numReadonlySignedAccounts = accountKeys.count { it.signer && !it.writable }.toByte()
         val numReadonlyUnsignedAccounts = accountKeys.count { !it.signer && !it.writable }.toByte()
-        buffer.put(byteArrayOf(numRequiredSignatures, numReadonlySignedAccounts, numReadonlyUnsignedAccounts))
+        buffer.put(
+            byteArrayOf(
+                numRequiredSignatures,
+                numReadonlySignedAccounts,
+                numReadonlyUnsignedAccounts
+            )
+        )
         buffer.put(accountAddressesLength)
         accountKeys.forEach { accountMeta ->
             buffer.put(accountMeta.publicKey.bytes())
@@ -93,7 +103,12 @@ class Transaction(
                 .filter { acc -> acc.publicKey != this.feePayer }
                 .filter { acc -> acc.publicKey !in programIds }
                 .distinctBy { it.publicKey }
-                .sortedWith(compareBy({ it.signer }, { it.signer && !it.writable }, { !it.signer && !it.writable }))
+                .sortedWith(
+                    compareBy(
+                        { it.signer },
+                        { it.signer && !it.writable },
+                        { !it.signer && !it.writable })
+                )
                 .toList()
         val programIdKeys =
             programIds
@@ -158,7 +173,8 @@ class Transaction(
                 byteArray = instructionAccountDecodedLength.bytes
 
                 val accountIndices =
-                    byteArray.slice(0 until instructionAccountDecodedLength.length).toByteArray().toList().map(Byte::toInt)
+                    byteArray.slice(0 until instructionAccountDecodedLength.length).toByteArray()
+                        .toList().map(Byte::toInt)
                 byteArray = byteArray.drop(instructionAccountDecodedLength.length).toByteArray()
 
                 val dataDecodedLength = Binary.decodeLength(byteArray)
@@ -176,10 +192,10 @@ class Transaction(
                                 signer = accountIdx < numRequiredSignatures,
                                 writable =
                                 accountIdx < numRequiredSignatures - numReadonlySignedAccounts ||
-                                    (
-                                        accountIdx >= numRequiredSignatures &&
-                                            accountIdx < accountKeys.count() - numReadonlyUnsignedAccounts
-                                        ),
+                                        (
+                                                accountIdx >= numRequiredSignatures &&
+                                                        accountIdx < accountKeys.count() - numReadonlyUnsignedAccounts
+                                                ),
                             )
                         },
                     ),

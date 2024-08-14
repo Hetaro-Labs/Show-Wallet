@@ -8,9 +8,11 @@ import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.utils.ImageHelper
 import com.showtime.wallet.data.Ed25519KeyRepositoryNew
 import com.showtime.wallet.databinding.FragmentConfirmSwapBinding
+import com.showtime.wallet.net.QuickNodeUrl
 import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.clickNoRepeat
+import com.showtime.wallet.utils.visible
 import com.showtime.wallet.vm.SwapVModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -73,14 +75,16 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
 
     override fun initLiveDataObserve() {
         mViewModel.getSwapTransaction.observeForever {
+            val testTx = "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIED52oQcnEB1ydK0URH+Jf+cV387tI6ix7cZQ1EKK7y73qDVdqX3aXwhcyGNdGyzWOjb1OSuRVkQ/Y2BzIqLpVugAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABUpTWpkpIQZNJOhxYNo4fHw1td28kruB5B+oQEEFRI0FjqdprFIQv5Gs2y/RSpmX16gQ5U/pkxF8e/tyjcrEKQIDAJwCZDk2M2MwNWUzMzkzZmNhZWRjYjA1ODk2ZGVjY2E0M2ZhYWFmZXlKcGRHVnRJam9pVTJodmQxUnBiV1VpTENKeGRIa2lPakVzSW5WdWFYUmZjSEpwWTJVaU9qQXVNREF3TXl3aVkzVnljbVZ1WTNraU9pSlRUMHdpTENKd1lYbGxjbDkzWVd4c1pYUWlPaUl5TTNoWmIyTjFPREoyWW1VelVrUmxia0ZXUzJKdGRVdEJhSEpGTTI5RlJXNVJZMHRNWW1WMVdWcFFRU0lzSW1Kc2IyTnJhR0Z6YUNJNklrNW9RMnB0ZVdocllVMTZaazB5VmxneWEwSjBWM1ZUYVhWSGNYZHlWV2xVVUhWbVdHcFlOVWRVT0V3aWZRPT0CAgABDAIAAADgkwQAAAAAAA=="
+            val swapTx = "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAHDw+dqEHJxAdcnStFER/iX/nFd/O7SOose3GUNRCiu8u9C3UgzyHnGpR6VJ/vU2WjD5DjwsvxD8xvVd650NGXdFMPP/lHAYEuGWoSOE8V5JKqdJcnKouC7evvFOlsDweRhmZ/y1OFUjaxGSYPYSYxL38DI5jSwryQ6RMhtMx+2NckcTN9kd8r51/xwc6IwfXwKTzn7kVi9u4+BF+gf6rTEd13VyZ6Wnh32LYA+VVO8G66zAXGlsOCMGCxQ8dRN2u79qBJsQp2lhgkvNf2vxwe1z/ee1YB27kjbMe9pNI5TogC2I0IiUoKk/MSbO5YVZJbku39z+hXx5fKXsGiq0tyq4gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMGRm/lIRcy/+ytunLDm+e8jOW7xfcSayxDmzpAAAAABHnVW/IxwG7udMVuzmgVB/2xst6j9I5RArHNola8E48G3fbh12Whk9nL4UbO63msHLSF7V9bN5E6jPWFfv8AqYyXJY9OJInxuz0QKRSODYMLWhOZ2v8QhASOe9jb6fhZmoAL/0yHNoiWwg/BQHPr8ctao3X+gf5NvcgrpN+3Xni0P/on9df2SnTAmx8pWHneSwmrNt/J3VFLMhqns4zl6CkkdEVX5Afu+rs01ol+cisIqz57wyMevzZXRo+xw14nBQkABQLAXBUACQAJA2QAAAAAAAAADAYAAgAhCAsBAQpGCw0ABgMEAiUhCgoOCiAdIB4cAwUkJRsgDQsLIiAHGh8KIBAgEhMFASQjDyANCwsiIBQRCiAZIBcVAQQhIxYgDQsLIiAYCizBIJszQdacgQIDAAAAJmQAASZkAQImZAIDQA0DAAAAAABiJhUAAAAAAAEAAAsDAgAAAQkDHXGaq1IbQtL0hcAKGVfl/Jlulv4v+RpE78Jq9Ln/mT4GYFpbKixcBlBhSiteTMOvz+ujj58uZtkNbPgHM3DTp2g1sQQ3yRRKTaeQU/qaBTkwNDIxAMgtRSovtAzeEt+2SiOgoSbZUbuEwRtHtBM2BKmvfCPXBjc0OTE4MwA="
+
             log("swapTx: ${it.swapTransaction}")
             val data = it.swapTransaction.toByteArray()
 
             val handler = Handler()
             object : Thread() {
                 override fun run() {
-                    val connection = Connection(RpcUrl.MAINNNET)
-                    val blockhash = connection.getLatestBlockhash()
+                    val connection = Connection(QuickNodeUrl.MAINNNET)
 
                     val transaction = Transaction.from(it.swapTransaction)
 
@@ -94,19 +98,19 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
 //                    val transaction =
 //                        Transaction(blockhash, instruction, feePayer = myAccount.publicKey)
 
-                    transaction.sign(myAccount)
-                    try {
-                        val signature = connection.sendTransaction(transaction)
-                        log("signature: $signature")
+//                    try {
+//                    transaction.sign(myAccount)
+//                        val signature = connection.sendTransaction(transaction)
+//                        log("signature: $signature")
+//                        TransactionStatusActivity.start(
+//                            this@SwapConfirmActivity,
+//                            TransactionStatusActivity.TYPE_SWAP,
+//                            signature
+//                        )
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
 
-//                TransactionStatusActivity.start(
-//                    this@SwapConfirmActivity,
-//                    TransactionStatusActivity.TYPE_SWAP,
-//                    signature
-//                )
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
                 }
             }.start()
         }
@@ -232,6 +236,9 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
 
         swapButton.clickNoRepeat {
             log("LFG!")
+            swapButton.isEnabled = false
+            swapButtonLabel.setText(R.string.swaping)
+            swapProgress.visible()
             mViewModel.doSwap(myAccount.publicKey.toBase58(), quoteResp)
         }
     }

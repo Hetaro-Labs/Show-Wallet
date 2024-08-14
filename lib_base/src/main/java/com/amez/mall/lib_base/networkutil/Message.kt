@@ -2,6 +2,8 @@ package com.amez.mall.lib_base.networkutil
 
 /**
  * Describe:
+ * Created by:DK
+ * Created time:
  */
 class Message @JvmOverloads constructor(
     var code: Int = 0,

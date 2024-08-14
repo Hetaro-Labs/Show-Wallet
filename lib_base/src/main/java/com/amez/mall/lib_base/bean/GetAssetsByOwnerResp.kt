@@ -19,6 +19,7 @@ data class GetAssetsByOwnerResult(
 
 @Parcelize
 data class  GetAssetsByOwnerResultItem(
+    val id: String,
     val content:GetAssetsByOwnerResultItemContent
 ): Parcelable
 

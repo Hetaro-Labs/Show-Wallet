@@ -4,21 +4,26 @@
 
     </data>
     <ScrollView
-        android:background="#1C1C1E"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/stroke_gray"
+                >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="#2C2C2E"
                 android:elevation="4dp"
                 android:orientation="vertical"
                 android:padding="4dp">
@@ -133,7 +138,6 @@
             <LinearLayout
                 android:id="@+id/btn_select_token"
                 android:layout_marginTop="4dp"
-                android:background="#2C2C2E"
                 android:layout_width="match_parent"
                 android:padding="4dp"
                 android:gravity="center_vertical"
@@ -163,7 +167,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="#2C2C2E"
                 android:elevation="4dp"
                 android:orientation="vertical"
                 android:padding="4dp">
@@ -241,11 +244,12 @@
 
             </LinearLayout>
 
+        </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:background="#2C2C2E"
                 android:elevation="4dp"
                 android:padding="4dp">
 
@@ -270,7 +274,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:background="#2C2C2E"
                 android:elevation="4dp"
                 android:padding="4dp">
 
@@ -293,16 +296,11 @@
 
             <TextView
                 android:id="@+id/btn_review_swap"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Button"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:background="#8E8EFC"
-                android:gravity="center"
                 android:text="@string/review_swap"
-                android:textColor="#FFFFFF"
-                android:padding="5dp"
-                android:textSize="12dp" />
+                />
 
         </LinearLayout>
 

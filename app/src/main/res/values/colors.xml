@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="info">#00FF47</color>
+    <color name="error">#FF0000</color>
+    <color name="theme">#9945FF</color>
+    <color name="receive">#19FB9B</color>
+    <color name="send">#9945FF</color>
+    <color name="divider">#22FFFFFF</color>
 </resources>

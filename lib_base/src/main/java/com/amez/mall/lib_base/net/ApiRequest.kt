@@ -9,6 +9,7 @@ import com.amez.mall.lib_base.bean.TokenInfoReq
 import com.amez.mall.lib_base.bean.TokenInfoResp
 import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.bean.TransactionsResp
+import com.amez.mall.lib_base.utils.Logger
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.bouncycastle.util.test.FixedSecureRandom.BigInteger
@@ -88,19 +89,30 @@ object ApiRequest {
     }
 
     fun getPriceInUSD(
-        amount: java.math.BigInteger,
+        uiAmount: Double,
+        decimals: Int,
         mint: String,
-        index: Int,
-        callback: (Int, Double) -> Unit
+        callback: (Double) -> Unit
     ) {
-        getTokenPairUpdated(
-            mint,
-            "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-            amount
-        ) {
-            val uiAmount = it.outAmount!!.toDouble() / 10000000
-            callback(index, uiAmount)
+        //special cases: USDT/USDC
+        if (listOf(
+                "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+                "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+            ).contains(mint)
+        ){
+            callback(uiAmount)
+        }else{
+            val amount = java.math.BigInteger.valueOf((uiAmount * 10.0.pow(decimals)).toLong())
+            getTokenPairUpdated(
+                mint,
+                "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                amount
+            ) {
+                val uiAmount = it.outAmount!!.toDouble() / 1000000
+                callback(uiAmount)
+            }
         }
+
     }
 
     fun getTokenPairUpdated(
@@ -125,6 +137,7 @@ object ApiRequest {
             apiService.getTokenPairUpdated(parameter1, parameter2, parameter3, 1)
         call.enqueue(object : Callback<TokenPairUpdatedResp> {
             override fun onFailure(call: Call<TokenPairUpdatedResp>, t: Throwable) {
+                Logger.d("WalletHomeVModel", "get price failed: $t")
             }
 
             override fun onResponse(

@@ -29,12 +29,6 @@ class SwapVModel : BaseViewModel() {
     private val _getSwapTransaction = MutableLiveData<SwapResp>()
     val getSwapTransaction: MutableLiveData<SwapResp> = _getSwapTransaction
 
-    private val _getTokenAccountBalance = MutableLiveData<UpdateTokenAccountBalance>()
-    val getTokenAccountBalance: MutableLiveData<UpdateTokenAccountBalance> = _getTokenAccountBalance
-
-    private val _getTokenAccountBalanceErr = MutableLiveData<String>()
-    val getTokenAccountBalanceErr: MutableLiveData<String> = _getTokenAccountBalanceErr
-
     fun getTokenPairUpdated(parameter1: String, parameter2: String, parameter3: BigInteger) {
         ApiRequest.getTokenPairUpdated(parameter1, parameter2, parameter3) {
             _getTokenPairUpdated.postValue(it)
@@ -92,36 +86,9 @@ class SwapVModel : BaseViewModel() {
          **/
     }
 
-    fun getTokenAccountBalance(token:Token,type:String=""){
-        val coroutineExceptionHandler = CoroutineExceptionHandler {coroutineContext, throwable ->
-
-        }
-        GlobalScope.launch(coroutineExceptionHandler) {
-            try {
-                val response = async {
-                    val connection = Connection(RpcUrl.DEVNET)
-                    //connection.getTokenAccountBalance(PublicKey(token.tokenAccount))
-                    connection.getTokenAccountBalance(PublicKey("73d3sqQPLsiwKvdJt2XnnLEzNiEjfn2nreqLujM7zXiT")) //Test Key
-                }
-                val bean=response.await()
-                Log.d(TAG, "getTokenAccountBalance==${bean}")
-                _getTokenAccountBalance.postValue(UpdateTokenAccountBalance(bean.uiAmount,type))
-            }catch (e: RuntimeException){
-                _getTokenAccountBalanceErr.postValue(e.message)
-            }
-            catch (e: RpcException){
-                _getTokenAccountBalanceErr.postValue(e.message)
-            }
-        }
-    }
-
     enum class TokenTypeEnum(val value: String) {
         TOKEN1("token1"),
         TOKEN2("token2")
     }
 
-    data class UpdateTokenAccountBalance(
-        val amount:String,
-        val type:String
-    )
 }

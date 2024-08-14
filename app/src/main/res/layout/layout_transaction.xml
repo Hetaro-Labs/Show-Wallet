@@ -1,7 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#292929"
+    android:background="@drawable/stroke_gray"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
     android:padding="6dp">
 
     <!-- Left Icon with Overlapping Arrow -->
@@ -24,6 +26,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_gravity="bottom|end"
+            android:visibility="gone"
             android:src="@android:drawable/ic_dialog_info"
             android:scaleType="centerInside" />
     </FrameLayout>
@@ -32,10 +35,12 @@
     <LinearLayout
         android:id="@+id/textContainer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center_vertical"
         android:layout_toEndOf="@id/leftIconContainer"
         android:layout_alignTop="@id/leftIconContainer"
+        android:layout_alignBottom="@id/leftIconContainer"
         android:layout_marginStart="8dp">
 
         <!-- Top Text -->
@@ -45,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="Sent"
             android:textColor="#FFFFFF"
-            android:textSize="13sp" />
+            android:textSize="11sp" />
 
         <!-- Bottom Text -->
         <TextView
@@ -54,7 +59,7 @@
             android:layout_height="wrap_content"
             android:text="to EjAX...gnFX"
             android:textColor="#888888"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
     </LinearLayout>
 
     <!-- Right Text -->
@@ -62,7 +67,7 @@
         android:id="@+id/tv_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-54.92391 USDC"
+        android:text=""
         android:textColor="#FFFFFF"
         android:textSize="11sp"
         android:layout_alignParentEnd="true"

@@ -17,6 +17,12 @@ class CryptoUtils{
 
     companion object{
 
+        fun getDisplayAddress(address: String?): String{
+            if (address == null) return ""
+            else if(!isValidSolanaAddress(address)) return address
+            else return address.substring(0, 5) + "..." + address.substring(address.length-5, address.length)
+        }
+
         fun isValidSolanaAddress(address: String): Boolean {
             // Check if the address length is correct
             if (address.length != 44) {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- create the stroke for top, left, bottom and right with the dp you want -->
+    <item
+        >
+        <shape android:shape="rectangle" >
+            <!-- fill the inside in the color you want (could also be a gradient again if you want to, just change solid to gradient and enter angle, start, maybe center, and end color) -->
+            <solid android:color="#33FFFFFF" />
+
+            <corners
+                android:radius="12dp" />
+        </shape>
+    </item>
+</layer-list>

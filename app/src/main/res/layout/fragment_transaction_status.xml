@@ -12,37 +12,53 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/status_icon"
             android:src="@drawable/ic_solana"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             />
 
         <TextView
-            android:id="@+id/status_title"
+            android:id="@+id/status_succeed"
+            android:visibility="gone"
             android:textColor="@color/white"
-            android:layout_marginTop="4dp"
+            android:text="@string/transaction_succeed"
+            android:textSize="12dp"
             android:textStyle="bold"
-            android:text="loading..."
-            android:textSize="14dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
 
-        <TextView
-            android:id="@+id/status_body"
-            android:textColor="@color/white"
-            android:text="Swapping 1 SOL for 12221.12 LOS"
-            android:textSize="10dp"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/status_body"
+                android:textColor="@color/white"
+                android:text="Swapping 1 SOL for 12221.12 LOS"
+                android:textSize="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <ProgressBar
+                android:id="@+id/status_progress"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/status_view_on_solscan"
-            android:textColor="#673AB7"
-            android:layout_marginTop="6dp"
+            android:padding="6dp"
+            android:textColor="@color/theme"
             android:text="@string/view_on_solscan"
-            android:textSize="10dp"
+            android:textSize="11dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

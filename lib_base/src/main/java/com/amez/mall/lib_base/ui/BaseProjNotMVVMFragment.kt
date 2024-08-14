@@ -6,6 +6,8 @@ import com.amez.mall.lib_base.utils.Logger
 
 /**
  * Describe:Not a base class for MVVM pattern
+ * Created by:DK
+ * Created time:
  */
 abstract class BaseProjNotMVVMFragment<VB : ViewDataBinding> : BaseFrameNotMVVMFragment<VB>(){
     protected fun log(msg: String){

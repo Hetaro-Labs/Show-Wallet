@@ -14,25 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Title Text -->
-            <TextView
-                android:id="@+id/titleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/transaction_receive"
-                android:textColor="#FFFFFF"
-                android:textSize="12dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
             <!-- Icon with Overlapping Arrow -->
             <FrameLayout
                 android:id="@+id/iconContainer"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="6dp"
-                app:layout_constraintTop_toBottomOf="@id/titleText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -58,8 +45,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+0.6 SOL"
-                android:textColor="#00FF00"
-                android:textSize="24sp"
+                android:textColor="@color/receive"
+                android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@id/iconContainer"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="6dp"
                 app:layout_constraintTop_toBottomOf="@id/amountText">
 
                 <!-- Date Row -->
@@ -86,7 +73,7 @@
                         android:layout_weight="1"
                         android:text="@string/transaction_time"
                         android:textColor="#888888"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
 
                     <TextView
                         android:id="@+id/tv_time"
@@ -94,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:text="Apr 11, 2024 ，12:04 am"
                         android:textColor="#FFFFFF"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
                 </LinearLayout>
 
                 <!-- Status Row -->
@@ -110,7 +97,7 @@
                         android:layout_weight="1"
                         android:text="@string/transaction_status"
                         android:textColor="#888888"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
 
                     <TextView
                         android:id="@+id/tv_status"
@@ -118,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:text="Succeed"
                         android:textColor="#00FF00"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
                 </LinearLayout>
 
                 <!-- From Row -->
@@ -134,7 +121,7 @@
                         android:layout_weight="1"
                         android:text="@string/transaction_from"
                         android:textColor="#888888"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
 
                     <TextView
                         android:id="@+id/tv_from"
@@ -142,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:text="HeUR...CyW3"
                         android:textColor="#FFFFFF"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
                 </LinearLayout>
 
                 <!-- Network Row -->
@@ -158,14 +145,14 @@
                         android:layout_weight="1"
                         android:text="@string/transaction_network"
                         android:textColor="#888888"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Solana"
                         android:textColor="#FFFFFF"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
                 </LinearLayout>
 
                 <!-- View on Solscan Link -->
@@ -174,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/view_on_solscan"
                     android:textColor="#8A2BE2"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     android:layout_marginTop="8dp"
                     android:layout_gravity="center_horizontal"
                     android:textStyle="bold" />

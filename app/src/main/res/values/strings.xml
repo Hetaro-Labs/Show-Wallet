@@ -136,4 +136,12 @@
     <string name="loading">loading...</string>
     <string name="error">Error</string>
     <string name="token_not_found">Token not found</string>
+    <string name="swaping">Swapping...</string>
+    <string name="floor_price">Floor price</string>
+    <string name="unique_owners">Unique owners</string>
+    <string name="network">Network</string>
+    <string name="sending">Sending...</string>
+    <string name="sending_token_to">Sending %1$s to %2$s</string>
+    <string name="transaction_succeed">Transaction completed</string>
+    <string name="test">test</string>
 </resources>

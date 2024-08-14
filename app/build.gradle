@@ -20,13 +20,25 @@ android {
         versionCode 1
         versionName "1.0"
 
+        multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        //你自己的keystore信息
+        release {
+            storeFile file("showtime.keystore")
+            storePassword "showtime.keystore"
+            keyAlias "showtime.keystore"
+            keyPassword "showtime.keystore"
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -45,11 +57,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'])
-//    implementation libs.solanakt
-    implementation libs.sol4k
+//    implementation libs.sol4k
+
+    implementation("androidx.multidex:multidex:2.0.1")
 
     implementation project(':walletlib')
+    implementation project(':sol4k')
 
+//    implementation libs.solanakt
 //    implementation("com.github.komputing:kotlin-bip39:0.1")
 //    implementation("org.p2p.solanaj:solanaj-core:0.0.1") // Solana-specific library
 
@@ -79,4 +94,5 @@ dependencies {
     implementation libs.json
     implementation libs.gson
 
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
 }

@@ -4,6 +4,8 @@ import android.os.Build
 
 /**
  * Describe:
+ * Created by:DK
+ * Created time:
  */
 object DeviceUtils {
 

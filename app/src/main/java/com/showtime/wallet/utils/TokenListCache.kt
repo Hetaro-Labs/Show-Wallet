@@ -8,21 +8,21 @@ import com.showtime.wallet.net.bean.Token
 
 object TokenListCache {
 
-    fun saveList(list:List<Token>){
+    fun saveList(list: List<Token>) {
         val gson = Gson()
         val str: String = gson.toJson(list)
-        put("tokenList",str)
+        put("tokenList", str)
     }
 
-    fun getList():List<Token>{
+    fun getList(): List<Token> {
         val gson = Gson()
         val type = object : TypeToken<List<Token?>?>() {}.type
-        if(getString("tokenList").isNullOrEmpty()) return mutableListOf()
+        if (getString("tokenList").isNullOrEmpty()) return mutableListOf()
         val list: List<Token> = gson.fromJson(getString("tokenList"), type)
         return list
     }
 
-    fun clear(){
+    fun clear() {
         put("tokenList", "")
     }
 

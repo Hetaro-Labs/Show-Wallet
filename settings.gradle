@@ -21,7 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "showallet"
 include ':app'
-//include ':sol4k'
+include ':sol4k'
 include ':walletlib'
 include ':common'
 include ':lib_base'

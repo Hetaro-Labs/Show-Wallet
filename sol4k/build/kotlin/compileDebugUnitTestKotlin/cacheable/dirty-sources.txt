@@ -1,0 +1,3 @@
+/Users/ss/workspace/showallet-private/sol4k/src/test/kotlin/org/sol4k/PublicKeyTest.kt
+/Users/ss/workspace/showallet-private/sol4k/src/test/kotlin/org/sol4k/KeypairTest.kt
+/Users/ss/workspace/showallet-private/sol4k/src/test/kotlin/org/sol4k/TransactionTest.kt

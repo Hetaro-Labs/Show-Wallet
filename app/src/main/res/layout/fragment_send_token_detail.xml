@@ -8,47 +8,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="2dp"
-        android:background="#333333"
+        android:padding="@dimen/window_padding"
         tools:context=".MainActivity">
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="send SOL"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            />
 
         <ImageView
             android:id="@+id/iv_logo"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_solana"
             />
 
         <RelativeLayout
+            android:layout_marginTop="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
             >
 
             <EditText
                 android:id="@+id/receiver_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_dropdown_dark_frame"
-                android:textColorHint="#ABABAB"
-                android:textSize="12dp"
                 android:hint="Solana Address"
-                android:text=""
-                android:textColor="#FFFFFF"
-                android:paddingEnd="40dp"/>
-
+                style="@style/Input"
+                />
 
         </RelativeLayout>
 
@@ -57,39 +38,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/invalid_address"
-            android:visibility="gone"
-            android:layout_marginLeft="4dp"
             android:layout_marginTop="-4dp"
+            android:layout_marginLeft="4dp"
             android:textSize="10dp"
-            android:textColor="#FF0000"
+            android:textColor="@color/error"
             />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
-            android:padding="4dp"
             >
 
             <EditText
                 android:id="@+id/amount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="#ABABAB"
-                android:inputType="number"
-                android:textSize="12dp"
-                android:background="@android:drawable/editbox_dropdown_dark_frame"
+                style="@style/Input"
+                android:inputType="numberDecimal"
                 android:hint="send amount"
-                android:textColor="#FFFFFF"/>
+                />
 
             <TextView
                 android:id="@+id/max_button"
-                android:background="@color/design_default_color_primary"
-                android:padding="2dp"
+                android:textColor="@color/theme"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="max"
-                android:textColor="@color/white"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 />
@@ -108,28 +85,33 @@
             />
 
         <LinearLayout
+            android:layout_marginTop="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
 
-            <Button
+            <TextView
                 android:id="@+id/cancel_button"
+                style="@style/Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="cancel"
-                android:textColor="#FFFFFF"
-                android:layout_marginEnd="8dp"/>
+                android:text="@string/cancel"
+                android:layout_marginRight="4dp"
+                />
 
-            <Button
+            <TextView
                 android:id="@+id/next_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="next"
+                android:text="@string/next"
                 android:textColor="#FFFFFF"
-                android:layout_marginStart="8dp"/>
+                style="@style/Button"
+                android:layout_marginLeft="4dp"
+                />
         </LinearLayout>
+
     </LinearLayout>
 </layout>

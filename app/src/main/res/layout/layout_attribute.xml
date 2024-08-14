@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="4dp"
-    android:background="#2C2C2E"
+    android:padding="6dp"
+    android:background="@drawable/stroke_gray"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 

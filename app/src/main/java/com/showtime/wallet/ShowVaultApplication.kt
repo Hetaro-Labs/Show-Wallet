@@ -5,10 +5,11 @@
 package com.showtime.wallet
 
 import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.amez.mall.lib_base.utils.MmkvUtils
 import com.showtime.wallet.data.Ed25519KeyRepository
 
-class ShowVaultApplication : Application() {
+class ShowVaultApplication : MultiDexApplication() {
 
     companion object {
         private var instance: Application? = null

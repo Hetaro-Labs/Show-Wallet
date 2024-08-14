@@ -4,186 +4,183 @@
     <data>
 
     </data>
-    <ScrollView
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
 
-        <RelativeLayout
+
+        <ScrollView
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nft_content"
+            android:layout_above="@id/btn_send"
+            android:layout_marginBottom="4dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="#1C1C1E"
-            android:padding="6dp">
+            android:layout_height="match_parent"
+            >
 
-            <!-- Description Section -->
-            <TextView
-                android:id="@+id/nft_name"
-                android:layout_marginTop="4dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="${data.content.metadata.name}"
-                android:textColor="@color/white"
-                android:textSize="12dp" />
-
-            <ImageView
-                android:id="@+id/nft_image"
-                android:layout_below="@id/nft_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                />
+                android:orientation="vertical"
+                android:padding="6dp">
 
-            <!-- Description Section -->
-            <TextView
-                android:id="@+id/description_label"
-                android:layout_marginTop="4dp"
-                android:layout_below="@id/nft_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                android:textColor="#8E8E93"
-                android:textSize="12dp" />
-
-            <TextView
-                android:id="@+id/description_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/description_label"
-                android:layout_marginTop="4dp"
-                android:text="${data.content.metadata.description}"
-                android:textColor="#FFFFFF"
-                android:textSize="12dp" />
-
-            <TextView
-                android:id="@+id/description_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/description_text"
-                android:text="${data.content.links.external_url}"
-                android:textColor="#005CFF"
-                android:textSize="12dp" />
-
-            <!-- Info Section -->
-            <RelativeLayout
-                android:id="@+id/info_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/description_link"
-                android:layout_marginTop="16dp"
-                android:background="#2C2C2E"
-                android:padding="4dp">
-
+                <!-- Description Section -->
                 <TextView
-                    android:id="@+id/label_collect"
+                    android:id="@+id/nft_name"
+                    android:layout_marginTop="4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Collection"
+                    android:text="${data.content.metadata.name}"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:id="@+id/nft_image"
+                    android:layout_below="@id/nft_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    />
+
+                <!-- Description Section -->
+                <TextView
+                    android:id="@+id/description_label"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@id/nft_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
                     android:textColor="#8E8E93"
                     android:textSize="12dp" />
 
                 <TextView
-                    android:id="@+id/value_collect"
+                    android:id="@+id/description_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="WIF Drop"
+                    android:layout_below="@id/description_label"
+                    android:layout_marginTop="4dp"
+                    android:text="${data.content.metadata.description}"
                     android:textColor="#FFFFFF"
                     android:textSize="12dp" />
 
                 <TextView
-                    android:id="@+id/label_floor_price"
+                    android:id="@+id/description_link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/label_collect"
+                    android:layout_below="@id/description_text"
+                    android:text="${data.content.links.external_url}"
+                    android:textColor="#005CFF"
+                    android:textSize="12dp" />
+
+                <!-- Info Section -->
+                <LinearLayout
+                    android:id="@+id/info_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Floor Price"
+                    android:background="@drawable/info_background"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+
+
+                    <LinearLayout style="@style/Info.Group">
+
+                        <TextView
+                            style="@style/Info.Label"
+                            android:text="Collection"
+                            />
+
+                        <TextView
+                            android:id="@+id/value_collection"
+                            style="@style/Info.Value"
+                            android:text="WIF Drop"
+                            />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout style="@style/Info.Group">
+
+                        <TextView
+                            style="@style/Info.Label"
+                            android:text="@string/floor_price"
+                            />
+
+                        <TextView
+                            android:id="@+id/value_floor_price"
+                            style="@style/Info.Value"
+                            android:text="WIF Drop"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/Info.Group">
+
+                        <TextView
+                            style="@style/Info.Label"
+                            android:text="@string/unique_owners"
+                            />
+
+                        <TextView
+                            android:id="@+id/value_owners"
+                            style="@style/Info.Value"
+                            android:text="WIF Drop"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/Info.Group">
+
+                        <TextView
+                            style="@style/Info.Label"
+                            android:text="@string/network"
+                            />
+
+                        <TextView
+                            android:id="@+id/value_network"
+                            style="@style/Info.Value"
+                            android:text="WIF Drop"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Attributes Section -->
+                <TextView
+                    android:id="@+id/attributes_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/info_section"
+                    android:layout_marginTop="16dp"
+                    android:text="Attributes"
                     android:textColor="#8E8E93"
                     android:textSize="12dp" />
 
-                <TextView
-                    android:id="@+id/value_floor_price"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    tools:listitem="@layout/layout_attribute"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:id="@+id/rv_attributes"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/value_collect"
-                    android:layout_marginTop="8dp"
-                    android:text="0.00011 SOL"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12dp" />
+                    android:layout_below="@id/attributes_label"
+                    android:layout_marginTop="4dp"/>
 
-                <TextView
-                    android:id="@+id/label_owners"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/label_floor_price"
-                    android:layout_marginTop="8dp"
-                    android:text="Unique Owners"
-                    android:textColor="#8E8E93"
-                    android:textSize="12dp" />
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/value_owners"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/value_floor_price"
-                    android:layout_marginTop="8dp"
-                    android:text="269,526"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12dp" />
+        </ScrollView>
 
-                <TextView
-                    android:id="@+id/label_network"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/label_owners"
-                    android:layout_marginTop="8dp"
-                    android:text="Network"
-                    android:textColor="#8E8E93"
-                    android:textSize="12dp" />
+        <TextView
+            android:id="@+id/btn_send"
+            style="@style/Button"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:text="@string/send"
+            android:layout_alignParentBottom="true"
+            />
 
-                <TextView
-                    android:id="@+id/value_network"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/value_owners"
-                    android:layout_marginTop="8dp"
-                    android:text="Solana"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12dp" />
-            </RelativeLayout>
+    </RelativeLayout>
 
-            <!-- Attributes Section -->
-            <TextView
-                android:id="@+id/attributes_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/info_section"
-                android:layout_marginTop="16dp"
-                android:text="Attributes"
-                android:textColor="#8E8E93"
-                android:textSize="12dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                tools:listitem="@layout/layout_attribute"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:id="@+id/rv_attributes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/attributes_label"
-                android:layout_marginTop="4dp"/>
-
-            <Button
-                android:id="@+id/btn_send"
-                android:text="@string/send"
-                android:layout_below="@+id/rv_attributes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
-        </RelativeLayout>
-
-    </ScrollView>
 </layout>

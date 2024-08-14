@@ -16,6 +16,8 @@ import com.kongzue.dialog.v2.WaitDialog
 
 /**
  * Describe:Activity base class is not related to the project
+ * Created by:DK
+ * Created time:
  */
 abstract class BaseFrameActivity<VB : ViewDataBinding, VM : BaseViewModel> :
     AppCompatActivity(), FrameView<VB> {

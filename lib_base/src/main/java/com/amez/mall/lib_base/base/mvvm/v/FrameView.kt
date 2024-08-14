@@ -4,6 +4,8 @@ import androidx.databinding.ViewDataBinding
 
 /**
  * Describe:View layer base class abstraction
+ * Created by:DK
+ * Created time:
  */
 interface FrameView <VB : ViewDataBinding> {
     /**

@@ -10,12 +10,14 @@ import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
 import com.amez.mall.lib_base.bean.Hydration
 import com.amez.mall.lib_base.bean.TokenInfoReq
 import com.amez.mall.lib_base.net.ApiRequest
+import com.amez.mall.lib_base.utils.Logger
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.showtime.wallet.DefaultTokenListData
 import com.showtime.wallet.R
 import com.showtime.wallet.data.Ed25519KeyRepositoryNew
 import com.showtime.wallet.net.AppConnection
+import com.showtime.wallet.net.QuickNodeUrl
 import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.TokenListCache
@@ -84,43 +86,52 @@ class WalletHomeVModel : BaseViewModel() {
 
     @OptIn(DelicateCoroutinesApi::class)
     fun getBalance(tokenList: List<Token>) {
-        val tList = tokenList.filter { it.uiAmount > 0 }
-        var totalBalance = 0.0
-        tList.forEachIndexed { index, token ->
+        getPriceInUsd(tokenList.filter { it.uiAmount > 0 })
+    }
+
+    private fun getPriceInUsd(tList: List<Token>, i: Int = 0, totalBalance: Double = 0.0) {
+        if (i == tList.size) {
+            _getBlanceTotal.postValue("$${String.format("%.2f", totalBalance)}")
+        } else {
+            val token = tList[i]
+            log("getPriceInUSD[${token.tokenName}]=" + token.mint)
+
             ApiRequest.getPriceInUSD(
-                BigInteger.valueOf((token.uiAmount * 10.0.pow(token.decimals)).toLong()),
-                token.mint,
-                index
-            ) { result1, result2 ->
-                totalBalance += result2
-                if (result1 == tList.size - 1) {
-                    _getBlanceTotal.postValue("$" + totalBalance)
-                }
+                token.uiAmount,
+                token.decimals,
+                token.mint
+            ) { balance ->
+                log("getPriceInUSD[${token.tokenName}] -> " + token.uiAmount + ": " + balance)
+                getPriceInUsd(tList, i+1, totalBalance + balance)
             }
         }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
     fun getTokenAccountsByOwner(key: PublicKey) {
-        GlobalScope.launch(Dispatchers.IO) {
-            _getTokens.postValue(TokenListCache.getList())
+        log("getTokenAccountsByOwner")
 
+        GlobalScope.launch(Dispatchers.IO) {
+//            _getTokens.postValue(TokenListCache.getList())
+            log("get balanceOfSOl")
             val balanceOfSOlResponse = async {
-                val connection = AppConnection(RpcUrl.MAINNNET)
+                val connection = AppConnection(QuickNodeUrl.MAINNNET)
                 (connection.getBalance(key)
                     .toDouble() / 10.0.pow(DefaultTokenListData.SOL.decimals.toDouble())
                         )
             }
             val balanceOfSol = balanceOfSOlResponse.await()
 
+            log("balanceOfSOl -> $balanceOfSol")
             //1.request getTokenAccountsByOwner
             val response = async {
-                val connection = AppConnection(RpcUrl.MAINNNET)
+                val connection = AppConnection(QuickNodeUrl.MAINNNET)
                 connection.getTokenAccountsByOwner(key)
             }
 
             response.await()?.let { result ->
                 //2.assemble all mints
+                log("get all mints")
                 val mintsList = arrayListOf<String>()
                 //resultOne.value.forEach { mintsList.add(it.account.data.parsed.info.mint) }
                 //https://api.solana.fm/v0/tokens The interface limits the length of the mints input parameter set
@@ -128,6 +139,7 @@ class WalletHomeVModel : BaseViewModel() {
 
                 //3.request getTokens,Data after successful callback request
                 ApiRequest.getTokens(TokenInfoReq(Hydration(true), mintsList)) { data ->
+                    log("get tokens")
                     //4.assemble all tokens
                     val tokensList = mutableListOf<Token>()
                     data.result?.forEachIndexed { index, it ->

@@ -13,6 +13,8 @@ import com.amez.mall.lib_base.utils.EventBusUtils
 
 /**
  * Describe:Fragment base class that does not use MVVM
+ * Created by:DK
+ * Created time:
  */
 abstract class BaseFrameNotMVVMFragment<VB : ViewDataBinding> : Fragment(), FrameNotMVVMView<VB> {
 

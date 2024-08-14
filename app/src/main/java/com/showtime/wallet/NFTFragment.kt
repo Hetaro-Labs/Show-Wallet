@@ -1,10 +1,7 @@
 package com.showtime.wallet
 
-import android.os.Bundle
-import com.amez.mall.lib_base.ui.BaseProjFragment
 import com.showtime.wallet.adapter.NFTAdapter
 import com.showtime.wallet.databinding.FragmentNftListBinding
-import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.vm.NFTVModel
 
 class NFTFragment: BaseSecondaryFragment<FragmentNftListBinding,NFTVModel>(){

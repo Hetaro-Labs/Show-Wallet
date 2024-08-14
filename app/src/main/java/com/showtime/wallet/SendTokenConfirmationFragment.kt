@@ -6,9 +6,11 @@ import android.os.Bundle
 import com.amez.mall.lib_base.utils.MmkvUtils
 import com.showtime.wallet.data.Ed25519KeyRepositoryNew
 import com.showtime.wallet.databinding.FragmentSendConfirmationBinding
+import com.showtime.wallet.net.QuickNodeUrl
 import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.clickNoRepeat
+import com.showtime.wallet.utils.visible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,7 +25,8 @@ import org.sol4k.instruction.SplTransferInstruction
 import org.sol4k.instruction.TransferInstruction
 import kotlin.math.pow
 
-class SendTokenConfirmationFragment : BaseSecondaryNotMVVMFragment<FragmentSendConfirmationBinding>() {
+class SendTokenConfirmationFragment :
+    BaseSecondaryNotMVVMFragment<FragmentSendConfirmationBinding>() {
 
     companion object {
         private val KEY_AMOUNT = "amount"
@@ -72,25 +75,24 @@ class SendTokenConfirmationFragment : BaseSecondaryNotMVVMFragment<FragmentSendC
 
     override fun FragmentSendConfirmationBinding.initView() {
         tvAmount.text = uiAmount.toString() + " " + token.symbol
-        tvToAddress.text = receiver
         tvInfoToAddress.text = receiver
 
         confirmButton.clickNoRepeat {
-            if (token.mint.isEmpty()) {
+            confirmButton.isEnabled = false
+            confirmButtonLabel.setText(R.string.sending)
+            confirmButtonProgress.visible()
+
+            if (token.mint == DefaultTokenListData.SOL.mint) {
                 sendSolToken(
                     PublicKey(receiver),
                     (uiAmount * 10.0.pow(token.decimals.toDouble())).toLong()
                 )
             } else {
-                /**sendSPLToken(
+                sendSPLToken(
                     myAccount,
                     PublicKey(token.mint),
                     PublicKey(receiver),
                     (uiAmount * 10.0.pow(token.decimals.toDouble())).toLong()
-                )**/
-                TransactionStatusFragment.start(
-                    requireContext(),
-                    TransactionStatusFragment.TYPE_SEND_TOKEN, "3L59yhss8mutaGx1aJFVphaTZRsF87RAEWGXu9isi39UT6veFwryYZFZNs6PrDXCJyL7nbupcZ6Xnw2ryf6ZmvYM"
                 )
             }
         }
@@ -104,7 +106,7 @@ class SendTokenConfirmationFragment : BaseSecondaryNotMVVMFragment<FragmentSendC
                         "${receiver.toBase58()}, \n"
             )
 
-            val connection = Connection(RpcUrl.MAINNNET)
+            val connection = Connection(QuickNodeUrl.MAINNNET)
             val blockhash = connection.getLatestBlockhash()
             val instruction =
                 TransferInstruction(sender.publicKey, receiver, lamports = amount)
@@ -115,6 +117,14 @@ class SendTokenConfirmationFragment : BaseSecondaryNotMVVMFragment<FragmentSendC
             try {
                 val signature = connection.sendTransaction(transaction)
                 log("sending SPL: $signature")
+
+                TransactionStatusFragment.start(
+                    requireContext(),
+                    assembleMessage(),
+                    signature
+                )
+                requireActivity().finish()
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -129,7 +139,7 @@ class SendTokenConfirmationFragment : BaseSecondaryNotMVVMFragment<FragmentSendC
     ) {
         object : Thread() {
             override fun run() {
-                val connection = Connection(RpcUrl.MAINNNET)
+                val connection = Connection(QuickNodeUrl.MAINNNET)
                 val blockhash = connection.getLatestBlockhash()
 
                 val instructions = ArrayList<Instruction>()
@@ -168,7 +178,6 @@ class SendTokenConfirmationFragment : BaseSecondaryNotMVVMFragment<FragmentSendC
                     )
                 )
 
-
                 val transaction = Transaction(blockhash, instructions, feePayer = sender.publicKey)
                 transaction.sign(sender)
 
@@ -176,8 +185,10 @@ class SendTokenConfirmationFragment : BaseSecondaryNotMVVMFragment<FragmentSendC
                     val signature = connection.sendTransaction(transaction)
                     TransactionStatusFragment.start(
                         requireContext(),
-                        TransactionStatusFragment.TYPE_SEND_TOKEN, signature
+                        assembleMessage(),
+                        signature
                     )
+                    requireActivity().finish()
 
                     log("sending SPL: $signature")
                 } catch (e: Exception) {
@@ -186,6 +197,10 @@ class SendTokenConfirmationFragment : BaseSecondaryNotMVVMFragment<FragmentSendC
             }
         }.start()
 
+    }
+
+    private fun assembleMessage(): String{
+        return getString(R.string.sending_token_to, uiAmount.toString() + token.symbol, receiver)
     }
 
     override fun getContentViewLayoutID(): Int {

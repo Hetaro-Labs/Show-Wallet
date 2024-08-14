@@ -2,7 +2,6 @@ package com.showtime.wallet
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.amez.mall.lib_base.bean.Hydration
 import com.amez.mall.lib_base.bean.TokenInfoReq
 import com.amez.mall.lib_base.net.ApiRequest
@@ -12,6 +11,11 @@ import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.utils.notNull
 
+/**
+ * showallet://send?to=walletAddress
+ * showallet://send.spl?mint=mintAddress&to=walletAddress
+ * showallet://swap?mint=mintAddress&amount=amountInSol
+ */
 open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBinding>() {
 
     companion object {
@@ -24,26 +28,26 @@ open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBind
         val PARAM_AMOUNT = "amount"
     }
 
-    protected fun parcel(path: String) {
+    protected fun parcelData(data: Uri) {
         val key = ""
-        val uri = Uri.parse(path)
-        when (uri.host) {
+        when (data.host) {
             URI_SEND_SOL -> {
-                val to = uri.getQueryParameter(PARAM_TO_ADDRESS) ?: return
+                val to = data.getQueryParameter(PARAM_TO_ADDRESS) ?: return
 
                 SendTokenDetailFragment.start(this@BaseUriHandleActivity, key, DefaultTokenListData.SOL, to)
                 finish()
             }
 
             URI_SEND_TOKEN -> {
-                val mint = uri.getQueryParameter(PARAM_SPL_ADDRESS) ?: return
-                val to = uri.getQueryParameter(PARAM_TO_ADDRESS) ?: return
+                val mint = data.getQueryParameter(PARAM_SPL_ADDRESS) ?: return
+                val to = data.getQueryParameter(PARAM_TO_ADDRESS) ?: return
 
                 val token = TokenListCache.getList().find {
                     it.mint == mint
                 }
                 if (token != null) {
                     SendTokenDetailFragment.start(this@BaseUriHandleActivity, key, token, to)
+                    finish()
                 } else {
                     getToken(mint) {
                         it?.notNull({ _ ->
@@ -55,16 +59,16 @@ open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBind
                 }
             }
 
-
             URI_SWAP -> {
-                val mint = uri.getQueryParameter(PARAM_SPL_ADDRESS) ?: return
-                val amount = uri.getQueryParameter(PARAM_AMOUNT)?.toDouble() ?: return
+                val mint = data.getQueryParameter(PARAM_SPL_ADDRESS) ?: return
+                val amount = data.getQueryParameter(PARAM_AMOUNT)?.toDouble() ?: return
 
                 val token = TokenListCache.getList().find {
                     it.mint == mint
                 }
                 if (token != null) {
                     SwapFragment.start(this@BaseUriHandleActivity, key, DefaultTokenListData.SOL, token, amount)
+                    finish()
                 } else {
                     getToken(mint) {
                         it?.notNull({ _ ->

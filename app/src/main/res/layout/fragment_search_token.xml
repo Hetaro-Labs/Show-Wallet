@@ -7,7 +7,6 @@
     </data>
     <LinearLayout
         android:orientation="vertical"
-        android:background="#1C1C1E"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,23 +18,17 @@
 
             <EditText
                 android:id="@+id/token_search_input"
-                android:padding="2dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_dropdown_dark_frame"
-                android:textColorHint="#ABABAB"
-                android:textSize="12dp"
-                android:hint="token name/address"
-                android:textColor="#FFFFFF"
-                />
+                android:hint="Token Name / Address"
+                style="@style/Input" />
 
             <ImageView
                 android:id="@+id/iv_search"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
+                android:layout_marginRight="12dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_search_category_default"
+                android:src="@drawable/ic_search"
                 />
 
         </RelativeLayout>

@@ -48,6 +48,10 @@ class TerminalActivity : BaseFrameNotMVVMActivity<ActivityTerminalBinding>() {
         return R.layout.activity_terminal
     }
 
+    fun setTitle(title: String){
+        mBinding.tvTitle.text = title
+    }
+
     override fun ActivityTerminalBinding.initView() {
         btnBack.clickNoRepeat {
             finish()
@@ -60,6 +64,7 @@ class TerminalActivity : BaseFrameNotMVVMActivity<ActivityTerminalBinding>() {
             FragmentTypeEnum.SWAP_CONFIRMATION.value -> SwapConfirmFragment()
             FragmentTypeEnum.SEARCH.value -> SearchTokenFragment()
             FragmentTypeEnum.SEND_DETAIL.value -> SendTokenDetailFragment()
+            FragmentTypeEnum.SEND_CONFIRMATION.value -> SendTokenConfirmationFragment()
             FragmentTypeEnum.RECEIVE.value -> ReceiveFragment()
             FragmentTypeEnum.SWAP.value -> SwapFragment()
             FragmentTypeEnum.NFT.value -> NFTFragment()

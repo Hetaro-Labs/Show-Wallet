@@ -37,7 +37,8 @@ class TransactionDetailFragment : BaseSecondaryNotMVVMFragment<FragmentTransacti
     override fun FragmentTransactionDetailBinding.initView() {
         mBinding.let {
             closeButton.clickNoRepeat { requireActivity().finish() }
-            titleText.text = transactionsData.showTransactionType
+            (requireActivity() as TerminalActivity).setTitle(transactionsData.showTransactionType)
+
             if (transactionsData.showUrl.isNullOrEmpty())
                 mainIcon.setImageResource(R.drawable.ic_solana)
             else

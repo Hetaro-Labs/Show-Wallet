@@ -3,6 +3,7 @@ package com.showtime.wallet.vm
 import androidx.lifecycle.MutableLiveData
 import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
 import com.showtime.wallet.net.AppConnection
+import com.showtime.wallet.net.QuickNodeUrl
 import com.showtime.wallet.net.bean.TransactionStatusResp
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.GlobalScope
@@ -24,7 +25,7 @@ class TransactionVModel : BaseViewModel() {
         GlobalScope.launch(coroutineExceptionHandler) {
             try {
                 val response = async {
-                    val connection = AppConnection(RpcUrl.MAINNNET)
+                    val connection = AppConnection(QuickNodeUrl.MAINNNET)
                     connection.getTransaction(signature)
                 }
                 val bean=response.await()

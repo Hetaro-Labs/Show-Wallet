@@ -92,7 +92,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
                 if (it.isEmpty()) 0.0 else it.toDouble()
             }
 
-            if (token1!!.uiAmount > inAmount) {
+            if (token1!!.uiAmount >= inAmount) {
                 mBinding.amount1ErrorMessage.gone()
                 if (price == null) {
                     onTokenPairUpdated()

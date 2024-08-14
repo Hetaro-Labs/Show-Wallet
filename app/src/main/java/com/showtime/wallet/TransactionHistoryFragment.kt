@@ -11,18 +11,20 @@ class TransactionHistoryFragment() : BaseSecondaryFragment<FragmentTransactionHi
     override fun getContentViewLayoutID() = R.layout.fragment_transaction_history
 
     override fun FragmentTransactionHistoryBinding.initView(){
+        mBinding.swipeRefresh.setOnRefreshListener {
+            mViewModel.getTransactions(key) //test key
+        }
     }
 
     override fun initLiveDataObserve() {
         mViewModel.getTransactions.observeForever {
-            //val adapter = TransactionHistoryAdapter(requireActivity(), it ,key?:"")
+            mBinding.swipeRefresh.isRefreshing = false
             val adapter = TransactionHistoryAdapter(requireActivity(), it ,key) //test key
             mBinding.rvTransactions.adapter = adapter
         }
     }
 
     override fun initRequestData() {
-        //mViewModel.getTransactions(key?:"")
         mViewModel.getTransactions(key) //test key
     }
 }

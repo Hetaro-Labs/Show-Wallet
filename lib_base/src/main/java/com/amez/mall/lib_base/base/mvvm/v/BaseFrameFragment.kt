@@ -18,6 +18,8 @@ import com.kongzue.dialog.v2.WaitDialog
 
 /**
  * Describe:Fragment base class is project independent
+ * Created by:DK
+ * Created time:
  */
 abstract class BaseFrameFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment(), FrameView<VB> {
 

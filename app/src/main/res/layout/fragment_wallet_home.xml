@@ -5,121 +5,48 @@
     <data>
 
     </data>
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---"
-                android:textColor="@color/white"
-                android:layout_margin="6dp"
-                android:textSize="23dp"
-                android:textStyle="bold" />
-
-            <ScrollView
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:orientation="vertical">
 
-                <HorizontalScrollView
+                <TextView
+                    android:id="@+id/tv_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---"
+                    android:textColor="@color/white"
+                    android:layout_margin="6dp"
+                    android:textSize="23dp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_buttons_rv"
+                    android:layout_marginTop="4dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    >
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/rv_token_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/layout_token" />
+
+            </LinearLayout>
 
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/btn_receive"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:background="@color/design_default_color_primary"
-                            android:gravity="center"
-                            android:text="@string/wallet_receive"
-                            android:textColor="@color/white"
-                            android:textSize="12dp" />
-
-                        <TextView
-                            android:id="@+id/btn_send"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:background="@color/design_default_color_primary"
-                            android:gravity="center"
-                            android:text="@string/wallet_send"
-                            android:textColor="@color/white"
-                            android:textSize="12dp" />
-
-                        <TextView
-                            android:id="@+id/btn_swap"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:background="@color/design_default_color_primary"
-                            android:gravity="center"
-                            android:text="@string/wallet_swap"
-                            android:textColor="@color/white"
-                            android:textSize="12dp" />
-
-                        <TextView
-                            android:id="@+id/btn_nft"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:background="@color/design_default_color_primary"
-                            android:gravity="center"
-                            android:text="@string/wallet_nfts"
-                            android:textColor="@color/white"
-                            android:textSize="12dp" />
-
-                        <TextView
-                            android:id="@+id/btn_transactions"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:background="@color/design_default_color_primary"
-                            android:gravity="center"
-                            android:text="@string/wallet_transactions"
-                            android:textColor="@color/white"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
-
-                </HorizontalScrollView>
-
-            </ScrollView>
-
-            <androidx.recyclerview.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/rv_token_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/layout_token" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

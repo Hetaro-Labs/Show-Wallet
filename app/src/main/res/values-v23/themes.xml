@@ -5,5 +5,8 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="android:fontFamily">@font/sora</item>
+        <item name="fontFamily">@font/sora</item> <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
     </style>
+
 </resources>

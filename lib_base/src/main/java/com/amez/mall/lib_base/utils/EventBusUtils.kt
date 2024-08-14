@@ -4,6 +4,8 @@ import org.greenrobot.eventbus.EventBus
 
 /**
  * Describe:EventBus Tool class
+ * Created by:DK
+ * Created time:
  */
 object EventBusUtils {
 
