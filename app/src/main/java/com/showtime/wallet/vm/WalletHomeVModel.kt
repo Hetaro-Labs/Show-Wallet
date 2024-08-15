@@ -102,7 +102,7 @@ class WalletHomeVModel : BaseViewModel() {
                 token.mint
             ) { balance ->
                 log("getPriceInUSD[${token.tokenName}] -> " + token.uiAmount + ": " + balance)
-                getPriceInUsd(tList, i+1, totalBalance + balance)
+                getPriceInUsd(tList, i + 1, totalBalance + balance)
             }
         }
     }
@@ -135,14 +135,18 @@ class WalletHomeVModel : BaseViewModel() {
                 val mintsList = arrayListOf<String>()
                 //resultOne.value.forEach { mintsList.add(it.account.data.parsed.info.mint) }
                 //https://api.solana.fm/v0/tokens The interface limits the length of the mints input parameter set
-                result.value.forEachIndexed { index, it -> if (index < 50) mintsList.add(it.account.data.parsed.info.mint) }
+                result.value.forEach {
+                    log("mint: " + it.account.data.parsed.info.mint)
+
+                    if (mintsList.size < 50) mintsList.add(it.account.data.parsed.info.mint)
+                }
 
                 //3.request getTokens,Data after successful callback request
                 ApiRequest.getTokens(TokenInfoReq(Hydration(true), mintsList)) { data ->
-                    log("get tokens")
                     //4.assemble all tokens
                     val tokensList = mutableListOf<Token>()
-                    data.result?.forEachIndexed { index, it ->
+                    data.result?.forEach{
+                        log("get token: " + it.data.tokenName)
                         val item = result.value.find { candidate ->
                             candidate.account.data.parsed.info.mint == it.data.mint
                         }!!

@@ -14,6 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.bitcoinj.core.Base58
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair
+import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters
 
 class SplashActivity : BaseFrameNotMVVMActivity<ActivitySplashBinding>() {
 
@@ -24,17 +26,24 @@ class SplashActivity : BaseFrameNotMVVMActivity<ActivitySplashBinding>() {
 
     override fun ActivitySplashBinding.initView() {
         GlobalScope.launch(Dispatchers.IO) {
+            //test code
+            val privateKey =
+                "5meW8MJeTQYt9c1gZUCP3ks7uxQvziU2kXthrqfacpxaQ92DAocuFicbqsuj9gWvoQYHPHy5BeWSMhLnzWop53iU"
+            val decodedBytes = org.sol4k.Base58.decode(privateKey)
+            val privateKeyParams = Ed25519PrivateKeyParameters(decodedBytes, 0)
+            val keypair =
+                AsymmetricCipherKeyPair(privateKeyParams.generatePublicKey(), privateKeyParams)
+            val publicKey = CryptoUtils.convertKeypair(keypair).publicKey.toBase58()
+            Ed25519KeyRepositoryNew.insertOne(keypair)
+            MmkvUtils.put(AppConstants.SELECTED_PUBLIC_KEY, publicKey)
+            log("pubkey=" + publicKey)
+
             val accounts = Ed25519KeyRepositoryNew.getAll()
 
-            if(accounts.isNullOrEmpty()){
-                openActivity(WelcomeActivity::class.java,true)
-            } else{
-                val keypair = CryptoUtils.convertKeypair(accounts[0])
-                val base58PrivateKey = Base58.encode(keypair.secret)
-                Logger.d("Keypair", "public key: ${keypair.publicKey.toBase58()}", )
-                Logger.d("Keypair", "private key: $base58PrivateKey")
-
-                openActivity(WalletActivity::class.java,true)
+            if (accounts.isNullOrEmpty()) {
+                openActivity(WelcomeActivity::class.java, true)
+            } else {
+                openActivity(WalletActivity::class.java, true)
             }
         }
     }

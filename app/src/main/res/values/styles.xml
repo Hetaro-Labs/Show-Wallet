@@ -55,4 +55,14 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="solscan">
+        <item name="android:text">@string/view_on_solscan</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:textColor">@color/theme</item>
+        <item name="android:textSize">11dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

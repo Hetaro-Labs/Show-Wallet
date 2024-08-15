@@ -42,7 +42,10 @@ class NFTDetailFragment : BaseSecondaryFragment<FragmentNftDetailBinding, NFTVMo
 
     override fun FragmentNftDetailBinding.initView() {
         data.let {
-            mBinding.nftName.text = it.content.metadata.name
+            (requireActivity() as TerminalActivity).setTitle(
+                it.content.metadata.name
+            )
+
             ImageHelper.obtainImage(
                 requireContext(),
                 it.content.files[0].cdn_uri,

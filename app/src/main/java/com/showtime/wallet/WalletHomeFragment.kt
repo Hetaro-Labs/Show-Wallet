@@ -146,16 +146,13 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
                         selectedPublicKey
                     )
                 },
-                HomeButtonAdapter.HomeButton(R.drawable.ic_receive, R.string.test) {
-
-                },
             )
         )
 
         mBinding.swipeRefresh.setOnRefreshListener {
             mViewModel.getTokenAccountsByOwner(PublicKey(selectedPublicKey ?: ""))
         }
-
+        mBinding.swipeRefresh.isRefreshing = true
     }
 
     @SuppressLint("SetTextI18n")

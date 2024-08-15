@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/nft_name"
-        android:layout_alignBottom="@id/nft_name"
+        android:layout_alignBottom="@id/nft_image"
         android:background="#99000000"
         android:padding="2dp"
         android:text="name of nft"

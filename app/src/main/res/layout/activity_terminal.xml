@@ -44,6 +44,7 @@
 
         <FrameLayout
             android:id="@+id/fragment_placeholder"
+            android:padding="@dimen/window_padding"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

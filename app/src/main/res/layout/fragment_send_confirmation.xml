@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         tools:background="@drawable/wallet_background"
         android:orientation="vertical"
-        android:padding="6dp">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"

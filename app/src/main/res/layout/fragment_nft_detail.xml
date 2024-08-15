@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         >
 
-
         <ScrollView
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nft_content"
@@ -24,17 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="6dp">
-
-                <!-- Description Section -->
-                <TextView
-                    android:id="@+id/nft_name"
-                    android:layout_marginTop="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="${data.content.metadata.name}"
-                    android:textColor="@color/white"
-                    android:textSize="12dp" />
+                >
 
                 <ImageView
                     android:id="@+id/nft_image"
@@ -175,8 +164,6 @@
         <TextView
             android:id="@+id/btn_send"
             style="@style/Button"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
             android:text="@string/send"
             android:layout_alignParentBottom="true"
             />

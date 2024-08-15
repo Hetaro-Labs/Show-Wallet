@@ -7,8 +7,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#292929"
-        android:padding="6dp">
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -63,123 +62,79 @@
 
                 <!-- Date Row -->
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/Info.Group"
+                    >
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        style="@style/Info.Label"
                         android:text="@string/transaction_time"
-                        android:textColor="#888888"
-                        android:textSize="11dp" />
+                        />
 
                     <TextView
                         android:id="@+id/tv_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Info.Value"
                         android:text="Apr 11, 2024 ，12:04 am"
-                        android:textColor="#FFFFFF"
-                        android:textSize="11dp" />
+                        />
                 </LinearLayout>
 
                 <!-- Status Row -->
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
+                    style="@style/Info.Group"
+                    >
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        style="@style/Info.Label"
                         android:text="@string/transaction_status"
-                        android:textColor="#888888"
-                        android:textSize="11dp" />
+                        />
 
                     <TextView
                         android:id="@+id/tv_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Info.Value"
                         android:text="Succeed"
-                        android:textColor="#00FF00"
-                        android:textSize="11dp" />
+                        />
                 </LinearLayout>
 
                 <!-- From Row -->
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
+                    style="@style/Info.Group"
+                    >
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        style="@style/Info.Label"
                         android:text="@string/transaction_from"
-                        android:textColor="#888888"
-                        android:textSize="11dp" />
+                        />
 
                     <TextView
                         android:id="@+id/tv_from"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Info.Value"
                         android:text="HeUR...CyW3"
-                        android:textColor="#FFFFFF"
-                        android:textSize="11dp" />
+                        />
                 </LinearLayout>
 
                 <!-- Network Row -->
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
+                    style="@style/Info.Group"
+                    >
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        style="@style/Info.Label"
                         android:text="@string/transaction_network"
-                        android:textColor="#888888"
-                        android:textSize="11dp" />
+                        />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Info.Value"
                         android:text="Solana"
-                        android:textColor="#FFFFFF"
-                        android:textSize="11dp" />
+                        />
                 </LinearLayout>
 
                 <!-- View on Solscan Link -->
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/view_on_solscan"
-                    android:textColor="#8A2BE2"
-                    android:textSize="11dp"
-                    android:layout_marginTop="8dp"
+                    style="@style/solscan"
                     android:layout_gravity="center_horizontal"
-                    android:textStyle="bold" />
+                    />
 
             </LinearLayout>
 
-            <!-- Close Button -->
-            <Button
-                android:id="@+id/closeButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="关闭"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#444444"
-                app:layout_constraintTop_toBottomOf="@id/detailsContainer"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -36,7 +36,6 @@ class TransactionDetailFragment : BaseSecondaryNotMVVMFragment<FragmentTransacti
 
     override fun FragmentTransactionDetailBinding.initView() {
         mBinding.let {
-            closeButton.clickNoRepeat { requireActivity().finish() }
             (requireActivity() as TerminalActivity).setTitle(transactionsData.showTransactionType)
 
             if (transactionsData.showUrl.isNullOrEmpty())

@@ -55,13 +55,7 @@
 
         <TextView
             android:id="@+id/status_view_on_solscan"
-            android:padding="6dp"
-            android:textColor="@color/theme"
-            android:text="@string/view_on_solscan"
-            android:textSize="11dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            style="@style/solscan" />
 
     </LinearLayout>
 

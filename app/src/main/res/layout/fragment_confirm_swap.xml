@@ -3,45 +3,29 @@
     <data>
 
     </data>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#303030"
-            android:padding="6dp">
+            >
 
-            <!-- Close Button -->
-            <ImageButton
-                android:id="@id/closeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                />
+            <ScrollView
+                android:layout_above="@id/swap_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
-            <!-- Title -->
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="审查订单"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
 
             <!-- Payment Section -->
             <RelativeLayout
                 android:id="@+id/paymentSection"
-                android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/title"
-                android:background="#424242"
+                android:background="@drawable/info_background"
                 android:padding="4dp">
 
                 <ImageView
@@ -90,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/paymentSection"
                 android:layout_marginTop="8dp"
-                android:background="#424242"
+                android:background="@drawable/info_background"
                 android:padding="4dp"
                 >
 
@@ -141,7 +125,7 @@
                 android:layout_below="@id/exchangeSection"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
-                android:background="#424242"
+                android:background="@drawable/info_background"
                 android:padding="4dp"
                 >
 
@@ -271,16 +255,14 @@
                 </RelativeLayout>
             </LinearLayout>
 
+                </RelativeLayout>
+            </ScrollView>
+
             <!-- Swap Button -->
             <LinearLayout
                 android:id="@+id/swap_button"
-                android:layout_marginTop="4dp"
-                android:layout_below="@id/infoSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#9F82FF"
-                android:padding="4dp"
-                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                style="@style/Button"
                 >
 
                 <TextView
@@ -289,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/swap"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <ProgressBar
@@ -302,8 +284,6 @@
 
             </LinearLayout>
 
-
         </RelativeLayout>
 
-    </ScrollView>
 </layout>

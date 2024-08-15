@@ -27,6 +27,10 @@ object ApiRequest {
     private const val SOLAN_BASE_URL = "https://api.solana.fm/v0/"
 
 
+    /**
+     * {"hydration":{"accountHash":true},"tokenHashes":["57n1Z8g7XHKAj7eeHeZ3SaYYbeDEmTGUjYsv9Hk7TxMx","EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"]}
+     * {"status":"Success","message":"Retrieved tokens' info","result":[{"tokenHash":"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v","data":{"mint":"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v","tokenName":"USD Coin","symbol":"USDC","decimals":6,"description":"","logo":"https://s3.coinmarketcap.com/static-gravity/image/5a8229787b5e4c809b5914eef709b59a.png","tags":["stablecoin","saber-mkt-usd"],"verified":"true","network":["mainnet"],"metadataToken":""}}]}
+     */
     fun getTokens(req: TokenInfoReq, callback: (TokenInfoResp) -> Unit) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level

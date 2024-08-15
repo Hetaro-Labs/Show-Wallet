@@ -1,5 +1,0 @@
-org.sol4k.test.sol4k-androidTest-0 /Users/ss/workspace/showallet-private/sol4k/build/generated/res/resValues/androidTest/debug
-org.sol4k.test.sol4k-mergeDebugAndroidTestResources-1 /Users/ss/workspace/showallet-private/sol4k/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
-org.sol4k.test.sol4k-mergeDebugAndroidTestResources-2 /Users/ss/workspace/showallet-private/sol4k/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
-org.sol4k.test.sol4k-debugAndroidTest-3 /Users/ss/workspace/showallet-private/sol4k/build/intermediates/merged_res/debugAndroidTest/mergeDebugAndroidTestResources
-org.sol4k.test.sol4k-debug-4 /Users/ss/workspace/showallet-private/sol4k/build/intermediates/packaged_res/debug/packageDebugResources
