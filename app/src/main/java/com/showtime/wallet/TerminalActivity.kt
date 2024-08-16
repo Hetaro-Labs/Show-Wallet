@@ -53,7 +53,7 @@ class TerminalActivity : BaseFrameNotMVVMActivity<ActivityTerminalBinding>() {
     }
 
     override fun ActivityTerminalBinding.initView() {
-        btnBack.clickNoRepeat {
+        layoutTitleBar.clickNoRepeat {
             finish()
         }
 

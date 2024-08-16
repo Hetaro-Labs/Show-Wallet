@@ -7,17 +7,16 @@
     <LinearLayout
         android:background="@drawable/wallet_background"
         android:orientation="vertical"
-        android:padding="@dimen/global_padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/layout_account_selection"
+                android:id="@+id/layout_title_bar"
+                android:padding="6dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
                 >
 
                 <ImageView
@@ -44,7 +43,7 @@
 
         <FrameLayout
             android:id="@+id/fragment_placeholder"
-            android:padding="@dimen/window_padding"
+            android:padding="@dimen/global_padding"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

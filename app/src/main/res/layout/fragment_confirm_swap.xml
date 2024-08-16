@@ -43,7 +43,7 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/swap_spend"
                     android:textColor="#B0B0B0"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/paymentAmount"
@@ -64,7 +64,7 @@
                     android:layout_alignParentEnd="true"
                     android:text="$0.1578"
                     android:textColor="#B0B0B0"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </RelativeLayout>
 
             <!-- Exchange Section -->
@@ -93,7 +93,7 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/swap_receive"
                     android:textColor="#B0B0B0"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/exchangeAmount"
@@ -114,7 +114,7 @@
                     android:layout_alignParentEnd="true"
                     android:text="$0.15683"
                     android:textColor="#B0B0B0"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </RelativeLayout>
 
             <!-- Info Section -->
@@ -147,9 +147,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="1 SOL ≈ 156.84 USDC"
+                        android:text=""
                         android:textColor="#B0B0B0"
                         android:textSize="10sp" />
+
                 </RelativeLayout>
 
                 <!-- Info Row -->
@@ -170,7 +171,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="$0.00687"
+                        android:text="$0.005"
                         android:textColor="#B0B0B0"
                         android:textSize="10sp" />
                 </RelativeLayout>
@@ -189,10 +190,11 @@
                         android:textSize="10sp" />
 
                     <TextView
+                        android:id="@+id/provider_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="Meteora DLMM"
+                        android:text=""
                         android:textColor="#B0B0B0"
                         android:textSize="10sp" />
                 </RelativeLayout>

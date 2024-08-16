@@ -58,7 +58,6 @@ object ApiRequest {
     }
 
     fun getTransactions(publicKeyString: String, callback: (TransactionsResp) -> Unit) {
-
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
         val httpClient = OkHttpClient.Builder()
@@ -120,9 +119,9 @@ object ApiRequest {
     }
 
     fun getTokenPairUpdated(
-        parameter1: String,
-        parameter2: String,
-        parameter3: java.math.BigInteger,
+        mint1: String,
+        mint2: String,
+        amount1: java.math.BigInteger,
         callback: (TokenPairUpdatedResp) -> Unit
     ) {
         val logging = HttpLoggingInterceptor()
@@ -138,7 +137,7 @@ object ApiRequest {
 
         val apiService = retrofit.create(ApiService::class.java)
         val call: Call<TokenPairUpdatedResp> =
-            apiService.getTokenPairUpdated(parameter1, parameter2, parameter3, 1)
+            apiService.getTokenPairUpdated(mint1, mint2, amount1, 1)
         call.enqueue(object : Callback<TokenPairUpdatedResp> {
             override fun onFailure(call: Call<TokenPairUpdatedResp>, t: Throwable) {
                 Logger.d("WalletHomeVModel", "get price failed: $t")

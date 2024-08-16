@@ -2,6 +2,8 @@ package com.showtime.wallet.net.bean
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.math.BigInteger
+import kotlin.math.pow
 
 @Parcelize
 data class Token(
@@ -14,4 +16,6 @@ data class Token(
     val isNFT: Boolean,
     var tokenType:String,
     var tokenAccount:String
-) : Parcelable
+) : Parcelable{
+    fun getAmount(): BigInteger = BigInteger.valueOf((uiAmount * 10.0.pow(decimals)).toLong())
+}

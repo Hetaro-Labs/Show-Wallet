@@ -16,7 +16,7 @@ data class TokenPairUpdatedResp(
     val priceImpactPct:String?,
     val contextSlot:Int?,
     val timeTaken:Double?,
-    val routePlan:List<TokenPairUpdateRoutePlan>?
+    val routePlan:List<TokenPairUpdateRoutePlan>?,
 ): Parcelable {
     constructor() : this(null,null,null,null,null,null,null,
         null,null,null,null,null)

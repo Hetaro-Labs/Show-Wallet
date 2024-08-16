@@ -231,7 +231,6 @@
 
                         <EditText
                             android:id="@+id/coin_amount_2"
-                            android:enabled="false"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

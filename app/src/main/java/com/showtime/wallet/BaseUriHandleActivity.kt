@@ -52,6 +52,7 @@ open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBind
                     getToken(mint) {
                         it?.notNull({ _ ->
                             SendTokenDetailFragment.start(this@BaseUriHandleActivity, key, it, to)
+                            finish()
                         }, {
                             onTokenNotFound()
                         })
@@ -73,6 +74,7 @@ open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBind
                     getToken(mint) {
                         it?.notNull({ _ ->
                             SwapFragment.start(this@BaseUriHandleActivity, key, DefaultTokenListData.SOL, it!!, amount)
+                            finish()
                         }, {
                             onTokenNotFound()
                         })
