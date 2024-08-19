@@ -112,7 +112,6 @@ class WalletHomeVModel : BaseViewModel() {
         log("getTokenAccountsByOwner")
 
         GlobalScope.launch(Dispatchers.IO) {
-//            _getTokens.postValue(TokenListCache.getList())
             log("get balanceOfSOl")
             val balanceOfSOlResponse = async {
                 val connection = AppConnection(QuickNodeUrl.MAINNNET)

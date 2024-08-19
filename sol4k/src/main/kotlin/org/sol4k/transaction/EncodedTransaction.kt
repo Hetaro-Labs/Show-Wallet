@@ -34,10 +34,22 @@ class EncodedTransaction(val message: ByteArray, val signatures: MutableList<Byt
         }
     }
 
+//    sign(signers) {
+//        const messageData = this.message.serialize();
+//        const signerPubkeys = this.message.staticAccountKeys.slice(0, this.message.header.numRequiredSignatures);
+//        for (const signer of signers) {
+//            const signerIndex = signerPubkeys.findIndex(pubkey => pubkey.equals(signer.publicKey));
+//            assert(signerIndex >= 0, `Cannot sign with non signer key ${signer.publicKey.toBase58()}`);
+//            this.signatures[signerIndex] = sign(messageData, signer.secretKey);
+//        }
+//    }
+
     fun sign(keypair: Keypair) {
         val signature = keypair.sign(message)
-        signatures.add(signature)
+        signatures[0] = signature
+//        signatures.add(signature)
     }
+
 
     fun serialize(): ByteArray {
         val signaturesLength = Binary.encodeLength(signatures.size)
