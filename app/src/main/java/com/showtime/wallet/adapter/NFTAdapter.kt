@@ -19,7 +19,8 @@ import com.showtime.wallet.utils.clickNoRepeat
 class NFTAdapter(
     private var mContext: Context,
     private val assetsByOwnerResultItem: List<GetAssetsByOwnerResultItem>,
-    private val key: String
+    private val key: String,
+    private val to: String
 ) : RecyclerView.Adapter<NFTAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -34,12 +35,7 @@ class NFTAdapter(
         holder.nftTitle.text = bean.content.metadata.name
         ImageHelper.obtainImage(mContext, bean.content.files[0].cdn_uri, holder.nftImage)
         holder.itemView.clickNoRepeat {
-            TerminalActivity.start(
-                mContext,
-                TerminalActivity.Companion.FragmentTypeEnum.NFT_DETAIL,
-                key,
-                NFTDetailFragment.getBundle(bean)
-            )
+            NFTDetailFragment.start(mContext, bean, key, to)
         }
     }
 

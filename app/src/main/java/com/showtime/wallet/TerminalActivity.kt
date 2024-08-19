@@ -12,6 +12,7 @@ class TerminalActivity : BaseFrameNotMVVMActivity<ActivityTerminalBinding>() {
 
     companion object {
         enum class FragmentTypeEnum(val value: String) {
+            SCAN("SCAN QR CODE"),
             SEND_DETAIL("SEND"),
             SEND_CONFIRMATION("CONFIRMATION"),
             SWAP_CONFIRMATION("SWAP CONFIRM"),
@@ -72,6 +73,7 @@ class TerminalActivity : BaseFrameNotMVVMActivity<ActivityTerminalBinding>() {
             FragmentTypeEnum.TRANSACTION.value -> TransactionHistoryFragment()
             FragmentTypeEnum.TRANSACTION_DETAIL.value -> TransactionDetailFragment()
             FragmentTypeEnum.STATUS.value -> TransactionStatusFragment()
+            FragmentTypeEnum.SCAN.value -> ScanQRFragment()
             else -> throw IllegalArgumentException("Invalid fragment type")
         }
 

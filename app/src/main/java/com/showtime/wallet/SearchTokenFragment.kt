@@ -1,6 +1,7 @@
 package com.showtime.wallet
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import com.amez.mall.lib_base.ui.BaseProjActivity
 import com.showtime.wallet.adapter.TokenAccountsByOwnerAdapter
@@ -13,16 +14,31 @@ import com.showtime.wallet.vm.WalletHomeVModel
 
 class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, WalletHomeVModel>() {
 
+    companion object{
+        fun start(context: Context, selectedPublicKey: String, to: String = ""){
+            val bundle = Bundle()
+            bundle.putString("to", to)
+
+            TerminalActivity.start(
+                context,
+                TerminalActivity.Companion.FragmentTypeEnum.SEARCH,
+                selectedPublicKey,
+                bundle
+            )
+        }
+    }
+
     private lateinit var tokenList: List<Token>
-    private var fromSwap =
-        false //Is it coming from swapFragment? The adapter needs to handle click events
+    private var fromSwap = false //Is it coming from swapFragment? The adapter needs to handle click events
     private lateinit var tokenType: String
+    private var to: String = ""
 
     override fun getBundleExtras(extras: Bundle) {
         super.getBundleExtras(extras)
         tokenList = TokenListCache.getList()
         fromSwap = extras.getBoolean(AppConstants.FROM_SWAP_TAG)
         tokenType = extras.getString(AppConstants.FROM_SWAP_TOKENTYPE, "")
+        to = extras.getString("to", "")
     }
 
     override fun getContentViewLayoutID() = R.layout.fragment_search_token
@@ -54,7 +70,7 @@ class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, Wa
 
     private fun setAdapter(list: List<Token>) {
         val adapter =
-            TokenAccountsByOwnerAdapter(requireContext(), list, fromSwap, tokenType, key)
+            TokenAccountsByOwnerAdapter(requireContext(), list, fromSwap, tokenType, key, to)
         mBinding.rvTokenList.adapter = adapter
     }
 

@@ -2,7 +2,8 @@ package com.amez.mall.lib_base.utils
 
 import android.content.Context
 import android.widget.ImageView
-import com.bumptech.glide.Glide
+import com.aminography.redirectglide.GlideApp
+import com.aminography.redirectglide.RedirectGlideUrl
 
 object ImageHelper {
 
@@ -11,7 +12,9 @@ object ImageHelper {
             val id = url.replace("drawable://", "").toInt()
             iv.setImageResource(id)
         }else{
-            Glide.with(content).load(url).into(iv);
+            GlideApp.with(content)
+                .load(RedirectGlideUrl(url, 3))
+                .into(iv)
         }
     }
 }

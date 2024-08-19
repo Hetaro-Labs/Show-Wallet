@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amez.mall.lib_base.bean.TransactionsData
 import com.amez.mall.lib_base.utils.ImageHelper
+import com.amez.mall.lib_base.utils.Logger
 import com.showtime.wallet.DefaultTokenListData
 import com.showtime.wallet.R
 import com.showtime.wallet.TerminalActivity
@@ -19,6 +20,8 @@ import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.utils.clickNoRepeat
+import java.text.SimpleDateFormat
+import java.util.Date
 import kotlin.math.pow
 
 class TransactionHistoryAdapter(
@@ -27,14 +30,13 @@ class TransactionHistoryAdapter(
     private val key: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val mList: List<TransactionGroup>
+    //help me:
+    //group data by data.item.timestamp
+    private val sdf = SimpleDateFormat("yyyy-MM-dd")
 
-    init {
-        //help me:
-        //group data by data.item.timestamp
-        mList = data.groupBy { it.timestamp }
+    private val mList =
+        data.groupBy { sdf.format((it.timestamp!! + "000").toDouble()) }
             .map { TransactionGroup(it.key, it.value) }
-    }
 
     companion object {
         private const val TYPE_GROUP = 0
@@ -54,13 +56,14 @@ class TransactionHistoryAdapter(
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_GROUP) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_transaction_date, parent, false)
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.layout_transaction_date, parent, false)
             GroupViewHolder(view)
         } else {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_transaction, parent, false)
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.layout_transaction, parent, false)
             ChildViewHolder(view)
         }
     }
@@ -118,13 +121,13 @@ class TransactionHistoryAdapter(
 
 
         fun bind(bean: TransactionsData) {
-            if (bean.source == key){
+            if (bean.source == key) {
                 tvTransactionType.text = "sent"
                 tvAmount.setTextColor(mContext.getColor(R.color.send))
-            }else if (bean.destination == key){
+            } else if (bean.destination == key) {
                 tvTransactionType.text = "receive"
                 tvAmount.setTextColor(mContext.getColor(R.color.receive))
-            }else{
+            } else {
                 //TODO fix me
                 tvTransactionType.text = ""
                 tvAmount.setTextColor(mContext.getColor(R.color.white))
@@ -133,7 +136,8 @@ class TransactionHistoryAdapter(
             bean.showTransactionType = tvTransactionType.text.toString()
             if (bean.token.isNullOrEmpty()) {
                 iconToken.setImageResource(R.drawable.ic_solana)
-                tvAmount.text = "${bean.amount / (10.toDouble().pow(DefaultTokenListData.SOL.decimals))} SOL"
+                tvAmount.text =
+                    "${bean.amount / (10.toDouble().pow(DefaultTokenListData.SOL.decimals))} SOL"
                 bean.showUrl = ""
             } else {
                 val token = TokenListCache.getList().findLast { it.mint == bean.token }

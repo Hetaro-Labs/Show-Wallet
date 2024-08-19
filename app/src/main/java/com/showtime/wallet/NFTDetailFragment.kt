@@ -1,5 +1,6 @@
 package com.showtime.wallet
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import com.amez.mall.lib_base.bean.GetAssetsByOwnerResultItem
@@ -14,12 +15,20 @@ import com.showtime.wallet.vm.NFTVModel
 class NFTDetailFragment : BaseSecondaryFragment<FragmentNftDetailBinding, NFTVModel>() {
 
     private lateinit var data: GetAssetsByOwnerResultItem
+    private var to: String = ""
 
     companion object {
-        fun getBundle(data: GetAssetsByOwnerResultItem): Bundle {
+        fun start(context: Context, data: GetAssetsByOwnerResultItem, key: String, to: String) {
             val bundle = Bundle()
             bundle.putParcelable("data", data)
-            return bundle
+            bundle.putString("to", to)
+
+            TerminalActivity.start(
+                context,
+                TerminalActivity.Companion.FragmentTypeEnum.NFT_DETAIL,
+                key,
+                bundle
+            )
         }
     }
 
@@ -30,6 +39,8 @@ class NFTDetailFragment : BaseSecondaryFragment<FragmentNftDetailBinding, NFTVMo
             extras.getParcelable("data", GetAssetsByOwnerResultItem::class.java)!!
         else
             extras.getParcelable("data")!!
+
+        to = extras.getString("to", "")
     }
 
     override fun getContentViewLayoutID() = R.layout.fragment_nft_detail
@@ -76,7 +87,7 @@ class NFTDetailFragment : BaseSecondaryFragment<FragmentNftDetailBinding, NFTVMo
                 ""
             )
 
-            SendTokenDetailFragment.start(requireContext(), key, token)
+            SendTokenDetailFragment.start(requireContext(), key, token, to)
         }
     }
 }

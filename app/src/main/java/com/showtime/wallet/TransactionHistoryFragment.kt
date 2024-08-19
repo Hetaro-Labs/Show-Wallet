@@ -25,6 +25,7 @@ class TransactionHistoryFragment() : BaseSecondaryFragment<FragmentTransactionHi
     }
 
     override fun initRequestData() {
-        mViewModel.getTransactions(key) //test key
+        mBinding.swipeRefresh.isRefreshing = true
+        mViewModel.getTransactions(key)
     }
 }

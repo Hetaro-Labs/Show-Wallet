@@ -6,25 +6,12 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amez.mall.lib_base.bus.FlowEventBus
 import com.amez.mall.lib_base.ui.BaseProjFragment
-import com.amez.mall.lib_base.utils.MmkvUtils
 import com.showtime.wallet.adapter.HomeButtonAdapter
 import com.showtime.wallet.adapter.TokenAccountsByOwnerAdapter
-import com.showtime.wallet.data.Ed25519KeyRepositoryNew
 import com.showtime.wallet.databinding.FragmentWalletHomeBinding
-import com.showtime.wallet.net.QuickNodeUrl
-import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.EventConstants
 import com.showtime.wallet.vm.WalletHomeVModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.sol4k.Connection
-import org.sol4k.Keypair
 import org.sol4k.PublicKey
-import org.sol4k.Transaction
-import org.sol4k.transaction.EncodedTransaction
-import org.sol4k.transaction.VersionedTransaction
-import java.util.Base64
 
 class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHomeVModel>() {
 
@@ -117,12 +104,11 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
                         selectedPublicKey
                     )
                 },
+                HomeButtonAdapter.HomeButton(R.drawable.ic_receive, R.string.wallet_scan) {
+                    ScanQRFragment.start(requireContext(), selectedPublicKey)
+                },
                 HomeButtonAdapter.HomeButton(R.drawable.ic_send, R.string.wallet_send) {
-                    TerminalActivity.start(
-                        requireContext(),
-                        TerminalActivity.Companion.FragmentTypeEnum.SEARCH,
-                        selectedPublicKey
-                    )
+                    SearchTokenFragment.start(requireContext(), selectedPublicKey)
                 },
                 HomeButtonAdapter.HomeButton(R.drawable.ic_swap, R.string.wallet_swap) {
                     TerminalActivity.start(
@@ -132,12 +118,7 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
                     )
                 },
                 HomeButtonAdapter.HomeButton(R.drawable.ic_nft, R.string.wallet_nfts) {
-
-                    TerminalActivity.start(
-                        requireContext(),
-                        TerminalActivity.Companion.FragmentTypeEnum.NFT,
-                        selectedPublicKey
-                    )
+                    NFTFragment.start(requireContext(), selectedPublicKey)
                 },
                 HomeButtonAdapter.HomeButton(R.drawable.ic_nft, R.string.wallet_transactions) {
                     TerminalActivity.start(

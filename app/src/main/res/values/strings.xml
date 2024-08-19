@@ -144,4 +144,8 @@
     <string name="sending_token_to">Sending %1$s to %2$s</string>
     <string name="transaction_succeed">Transaction completed</string>
     <string name="test">test</string>
+    <string name="wallet_scan">Scan</string>
+    <string name="send_tokens">Send tokens</string>
+    <string name="send_nft">Send NFT</string>
+    <string name="add_to_address_book">Add to address book</string>
 </resources>

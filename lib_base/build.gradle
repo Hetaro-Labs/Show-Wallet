@@ -88,4 +88,5 @@ dependencies {
     implementation libs.glide
     implementation libs.mmkv
 
+    implementation 'com.aminography:redirectglide:2.1.0'
 }

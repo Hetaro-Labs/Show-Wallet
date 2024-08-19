@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+
+    </data>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+        android:id="@+id/qrdecoderview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/result_buttons"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:padding="6dp"
+        android:background="@drawable/background_dialog_bottom"
+        android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/btn_send"
+            android:layout_marginTop="4dp"
+            android:text="@string/send_tokens"
+            style="@style/Button"
+            />
+
+        <TextView
+            android:id="@+id/btn_send_nft"
+            android:layout_marginTop="4dp"
+            android:text="@string/send_nft"
+            style="@style/Button"
+            />
+
+        <TextView
+            android:id="@+id/btn_add_to_address_book"
+            android:layout_marginTop="4dp"
+            android:text="@string/add_to_address_book"
+            style="@style/Button"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
+</layout>

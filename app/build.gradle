@@ -95,4 +95,5 @@ dependencies {
     implementation libs.gson
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
+    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 }

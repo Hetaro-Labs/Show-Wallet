@@ -27,6 +27,7 @@ class TokenAccountsByOwnerAdapter(
     private val fromSwap: Boolean = false,
     private val tokenType: String = "",
     private val key: String = "",
+    private val to: String = "",
 ) : RecyclerView.Adapter<TokenAccountsByOwnerAdapter.TokenAccountsByOwnerViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -51,7 +52,7 @@ class TokenAccountsByOwnerAdapter(
                 FlowEventBus.with<Token>(EventConstants.EVENT_SEL_TOKEN).post(bean)
                 (mContext as Activity).finish()
             } else {
-                SendTokenDetailFragment.start(mContext, key, bean)
+                SendTokenDetailFragment.start(mContext, key, bean, to)
             }
         }
 
