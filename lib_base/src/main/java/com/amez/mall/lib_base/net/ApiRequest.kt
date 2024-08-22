@@ -102,17 +102,17 @@ object ApiRequest {
                 "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
                 "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
             ).contains(mint)
-        ){
+        ) {
             callback(uiAmount)
-        }else{
+        } else {
             val amount = java.math.BigInteger.valueOf((uiAmount * 10.0.pow(decimals)).toLong())
             getTokenPairUpdated(
                 mint,
                 "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
                 amount
             ) {
-                val uiAmount = it.outAmount!!.toDouble() / 1000000
-                callback(uiAmount)
+                val outUiAmount = it?.outAmount?.toDouble()?.let { it/ 1000000 } ?: 0.0
+                callback(outUiAmount)
             }
         }
 
@@ -122,7 +122,7 @@ object ApiRequest {
         mint1: String,
         mint2: String,
         amount1: java.math.BigInteger,
-        callback: (TokenPairUpdatedResp) -> Unit
+        callback: (TokenPairUpdatedResp?) -> Unit
     ) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
@@ -147,9 +147,10 @@ object ApiRequest {
                 call: Call<TokenPairUpdatedResp>,
                 response: Response<TokenPairUpdatedResp>
             ) {
-                if (response.isSuccessful) callback.invoke(
-                    response.body() ?: TokenPairUpdatedResp()
-                )
+                val body = response.body() ?: TokenPairUpdatedResp()
+                Logger.d("WalletHomeVModel", "get price response: $body")
+                if (response.isSuccessful) callback.invoke(body)
+                else callback.invoke(null)
             }
         })
     }

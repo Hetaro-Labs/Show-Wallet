@@ -43,7 +43,7 @@ data class GetAssetsByOwnerResultItemContentMetaData(
     val description:String,
     val name:String,
     val symbol:String,
-    val token_standard:String
+    val token_standard:String?
 ): Parcelable
 
 @Parcelize

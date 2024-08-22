@@ -84,7 +84,7 @@
                         <TextView
                             android:id="@+id/value_collection"
                             style="@style/Info.Value"
-                            android:text="WIF Drop"
+                            android:text="---"
                             />
 
                     </LinearLayout>
@@ -100,7 +100,7 @@
                         <TextView
                             android:id="@+id/value_floor_price"
                             style="@style/Info.Value"
-                            android:text="WIF Drop"
+                            android:text="---"
                             />
 
                     </LinearLayout>
@@ -115,12 +115,14 @@
                         <TextView
                             android:id="@+id/value_owners"
                             style="@style/Info.Value"
-                            android:text="WIF Drop"
+                            android:text="---"
                             />
 
                     </LinearLayout>
 
-                    <LinearLayout style="@style/Info.Group">
+                    <LinearLayout
+                        android:visibility="gone"
+                        style="@style/Info.Group">
 
                         <TextView
                             style="@style/Info.Label"
@@ -130,7 +132,7 @@
                         <TextView
                             android:id="@+id/value_network"
                             style="@style/Info.Value"
-                            android:text="WIF Drop"
+                            android:text="Solana"
                             />
 
                     </LinearLayout>

@@ -6,7 +6,6 @@
     </data>
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="center"
     android:orientation="vertical"
     android:layout_width="match_parent"

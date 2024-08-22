@@ -15,6 +15,7 @@ import com.showtime.wallet.utils.notNull
  * showallet://send?to=walletAddress
  * showallet://send.spl?mint=mintAddress&to=walletAddress
  * showallet://swap?mint=mintAddress&amount=amountInSol
+ * showallet://swap?mint=mintAddress&outAmount=amountInTargetToken, for instance: swap?mint=mintOfUSDC&outAmount=200 => swap SOL for 200 USDC
  */
 open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBinding>() {
 
