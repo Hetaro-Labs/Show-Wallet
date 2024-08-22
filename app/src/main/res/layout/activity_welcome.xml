@@ -40,5 +40,10 @@
             android:text="Create Wallet"
             style="@style/Button" />
 
+        <TextView
+            android:id="@+id/btn_import"
+            android:text="@string/import_private_key"
+            style="@style/Info.Button" />
+
     </LinearLayout>
 </layout>

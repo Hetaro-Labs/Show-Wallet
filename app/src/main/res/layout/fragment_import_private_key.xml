@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+    </data>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/private_key_input"
+        android:hint="@string/private_key"
+        style="@style/Input"
+        />
+
+    <TextView
+        android:id="@+id/btn_import"
+        android:layout_marginTop="10dp"
+        android:text="@string/import_"
+        style="@style/Button"
+        />
+
+</LinearLayout>
+
+</layout>

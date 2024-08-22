@@ -17,6 +17,10 @@ class WelcomeActivity : BaseProjNotMVVMActivity<ActivityWelcomeBinding>() {
             btnCreateWallet.clickNoRepeat {
                 openActivity(CreateWalletActivity::class.java,true)
             }
+
+            btnImport.clickNoRepeat {
+                ImportPrivateKeyFragment.start(this@WelcomeActivity)
+            }
         }
     }
 

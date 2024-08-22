@@ -57,7 +57,7 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
                         selectedPublicKey
                     )
                 },
-                HomeButtonAdapter.HomeButton(R.drawable.ic_receive, R.string.wallet_scan) {
+                HomeButtonAdapter.HomeButton(R.drawable.ic_scan, R.string.wallet_scan) {
                     ScanQRFragment.start(requireContext(), selectedPublicKey)
                 },
                 HomeButtonAdapter.HomeButton(R.drawable.ic_send, R.string.wallet_send) {
@@ -73,7 +73,7 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
                 HomeButtonAdapter.HomeButton(R.drawable.ic_nft, R.string.wallet_nfts) {
                     NFTFragment.start(requireContext(), selectedPublicKey)
                 },
-                HomeButtonAdapter.HomeButton(R.drawable.ic_nft, R.string.wallet_transactions) {
+                HomeButtonAdapter.HomeButton(R.drawable.ic_history, R.string.wallet_transactions) {
                     TerminalActivity.start(
                         requireContext(),
                         TerminalActivity.Companion.FragmentTypeEnum.TRANSACTION,

@@ -19,6 +19,7 @@ class TerminalActivity : BaseFrameNotMVVMActivity<ActivityTerminalBinding>() {
             SEARCH("SEARCH"),
             RECEIVE("RECEIVE"),
             SWAP("SWAP"),
+            IMPORT_KEY("IMPORT"),
             NFT("NFT"),
             NFT_DETAIL("NFT DETAIL"),
             TRANSACTION("HISTORY"),
@@ -74,6 +75,7 @@ class TerminalActivity : BaseFrameNotMVVMActivity<ActivityTerminalBinding>() {
             FragmentTypeEnum.TRANSACTION_DETAIL.value -> TransactionDetailFragment()
             FragmentTypeEnum.STATUS.value -> TransactionStatusFragment()
             FragmentTypeEnum.SCAN.value -> ScanQRFragment()
+            FragmentTypeEnum.IMPORT_KEY.value -> ImportPrivateKeyFragment()
             else -> throw IllegalArgumentException("Invalid fragment type")
         }
 

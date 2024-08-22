@@ -108,8 +108,10 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             selectToken(SwapVModel.TokenTypeEnum.TOKEN2)
         }
         btnSwitchTokens.setOnClickListener {
+            val oldToken1 = token1?.copy()
+
             onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN1, token2)
-            onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN2, token1)
+            onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN2, oldToken1)
         }
 
         coinAmount2.addTextChangeListener {

@@ -14,8 +14,14 @@ data class Token(
     val logo: String,
     var uiAmount: Double,
     val isNFT: Boolean,
-    var tokenType:String,
-    var tokenAccount:String
-) : Parcelable{
+    var tokenType: String,
+    var tokenAccount: String
+) : Parcelable {
     fun getAmount(): BigInteger = BigInteger.valueOf((uiAmount * 10.0.pow(decimals)).toLong())
+
+    fun copy(): Token {
+        return Token(
+            mint, tokenName, symbol, decimals, logo, uiAmount, isNFT, tokenType, tokenAccount
+        )
+    }
 }

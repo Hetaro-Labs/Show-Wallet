@@ -92,7 +92,7 @@
 
             <TextView
                 android:id="@+id/cancel_button"
-                style="@style/Button"
+                style="@style/Button.Negative"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

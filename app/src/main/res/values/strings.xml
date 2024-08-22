@@ -148,4 +148,7 @@
     <string name="send_tokens">Send tokens</string>
     <string name="send_nft">Send NFT</string>
     <string name="add_to_address_book">Add to address book</string>
+    <string name="private_key">Private key</string>
+    <string name="import_">Import</string>
+    <string name="import_private_key">Import private key</string>
 </resources>
