@@ -30,11 +30,16 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
     private var onInputValueChanged = false
 
     companion object {
-        fun start(context: Context, key: String, token1: Token, token2: Token, inAmount: Double) {
+        fun start(context: Context, key: String, token1: Token, token2: Token, inAmount: Double?, outAmount: Double?) {
             val bundle = Bundle()
             bundle.putParcelable("token1", token1)
             bundle.putParcelable("token2", token2)
-            bundle.putDouble("inAmount", inAmount)
+            inAmount?.let {
+                bundle.putDouble("inAmount", it)
+            }
+            outAmount?.let {
+                bundle.putDouble("outAmount", it)
+            }
             TerminalActivity.start(context, TerminalActivity.Companion.FragmentTypeEnum.SWAP, key, bundle)
         }
     }

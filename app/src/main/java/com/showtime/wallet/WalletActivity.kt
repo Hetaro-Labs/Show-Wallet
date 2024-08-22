@@ -7,6 +7,7 @@ import com.amez.mall.lib_base.ui.BaseProjActivity
 import com.amez.mall.lib_base.utils.MmkvUtils
 import com.showtime.wallet.databinding.ActivityWalletBinding
 import com.showtime.wallet.utils.AppConstants
+import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.clickNoRepeat
 import com.showtime.wallet.vm.WalletHomeVModel
 
@@ -28,11 +29,10 @@ class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>
     }
 
     override fun ActivityWalletBinding.initView() {
-
         initWalletHomeFragment()
         layoutAccountSelection.clickNoRepeat {
             mViewModel.showAccountPopWindow(this@WalletActivity, layoutAccountSelection) {
-                tvAccountName.text = it.substring(0, 6)
+                tvAccountName.text = CryptoUtils.getDisplayAddress(it)
                 updateSelectedAccount(it)
             }
         }
@@ -44,7 +44,7 @@ class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>
 
         key?.let {
             selectedPublicKey = it
-            if (it.length > 5) mBinding.tvAccountName.text = it.substring(0, 6)
+            mBinding.tvAccountName.text = CryptoUtils.getDisplayAddress(it)
             updateSelectedAccount(it)
         }
     }

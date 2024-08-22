@@ -26,6 +26,7 @@ open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBind
         val PARAM_TO_ADDRESS = "to"
         val PARAM_SPL_ADDRESS = "mint"
         val PARAM_AMOUNT = "amount"
+        val PARAM_OUT_AMOUNT = "outAmount"
     }
 
     protected fun parcelData(data: Uri) {
@@ -62,18 +63,19 @@ open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBind
 
             URI_SWAP -> {
                 val mint = data.getQueryParameter(PARAM_SPL_ADDRESS) ?: return
-                val amount = data.getQueryParameter(PARAM_AMOUNT)?.toDouble() ?: return
+                val amount = data.getQueryParameter(PARAM_AMOUNT)?.toDouble()
+                val outAmount = data.getQueryParameter(PARAM_OUT_AMOUNT)?.toDouble()
 
                 val token = TokenListCache.getList().find {
                     it.mint == mint
                 }
                 if (token != null) {
-                    SwapFragment.start(this@BaseUriHandleActivity, key, DefaultTokenListData.SOL, token, amount)
+                    SwapFragment.start(this@BaseUriHandleActivity, key, DefaultTokenListData.SOL, token, amount, outAmount)
                     finish()
                 } else {
                     getToken(mint) {
                         it?.notNull({ _ ->
-                            SwapFragment.start(this@BaseUriHandleActivity, key, DefaultTokenListData.SOL, it!!, amount)
+                            SwapFragment.start(this@BaseUriHandleActivity, key, DefaultTokenListData.SOL, it, amount, outAmount)
                             finish()
                         }, {
                             onTokenNotFound()
