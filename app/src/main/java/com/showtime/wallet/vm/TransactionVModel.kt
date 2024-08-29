@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.sol4k.exception.RpcException
 
-class TransactionVModel : BaseViewModel() {
+class TransactionVModel : BaseWalletVModel() {
 
     private val _getTransaction = MutableLiveData<TransactionStatusResp?>()
     val getTransaction: MutableLiveData<TransactionStatusResp?> = _getTransaction

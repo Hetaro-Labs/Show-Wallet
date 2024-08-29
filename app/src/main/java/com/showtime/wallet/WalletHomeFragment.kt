@@ -88,7 +88,7 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
 
         val adapter = TokenAccountsByOwnerAdapter(
             requireActivity(),
-            TokenListCache.getList(),
+            TokenListCache.getList().toMutableList(),
             false,
             "",
             selectedPublicKey
@@ -98,17 +98,29 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
 
     @SuppressLint("SetTextI18n")
     override fun initLiveDataObserve() {
-        mViewModel.getBlanceLiveData.observeForever { mBinding.tvBalance.text = "$${it} USD" }
+        mViewModel.getBlanceLiveData.observe(viewLifecycleOwner){ mBinding.tvBalance.text = "$${it} USD" }
 
-        mViewModel.getTokens.observeForever {
+        mViewModel.getTokens.observe(viewLifecycleOwner){
             mBinding.swipeRefresh.isRefreshing = false
 
             val adapter =
-                TokenAccountsByOwnerAdapter(requireActivity(), it, false, "", selectedPublicKey)
+                TokenAccountsByOwnerAdapter(requireActivity(), it.toMutableList(), false, "", selectedPublicKey)
             mBinding.rvTokenList.adapter = adapter
 
-            mViewModel.getBalance(it)
+            mViewModel.getTokenPrices(it)
         }
+
+        mViewModel.getTokensPrice.observe(viewLifecycleOwner){
+            //issue: invoked only once? why?
+            log("getTokensPrice: ${it.symbol} -> ${it.amountInUsd}")
+            val adapter = mBinding.rvTokenList.adapter as TokenAccountsByOwnerAdapter
+            val index = adapter.mList.indexOf(it)
+            if (index >= 0){
+                adapter.mList[index] = it
+                adapter.notifyItemChanged(index)
+            }
+        }
+
         mViewModel.getBlanceTotal.observeForever {
             mBinding.tvBalance.text = it
         }

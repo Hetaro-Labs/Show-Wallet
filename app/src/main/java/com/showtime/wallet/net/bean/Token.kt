@@ -26,4 +26,17 @@ data class Token(
             mint, tokenName, symbol, decimals, logo, uiAmount, isNFT, tokenType, tokenAccount, amountInUsd
         )
     }
+
+    override fun hashCode(): Int {
+        return mint.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is Token && other.mint == mint
+    }
+
+    override fun toString(): String {
+        return "$tokenName, $mint, $uiAmount, $amountInUsd"
+    }
+
 }

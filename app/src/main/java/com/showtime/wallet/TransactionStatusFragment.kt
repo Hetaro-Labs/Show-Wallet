@@ -52,7 +52,7 @@ class TransactionStatusFragment :
     override fun getContentViewLayoutID() = R.layout.fragment_transaction_status
 
     override fun initLiveDataObserve() {
-        mViewModel.getTransaction.observeForever {
+        mViewModel.getTransaction.observe(viewLifecycleOwner){
             if (null == it) {
                 //retry in 4s
                 Handler().postDelayed({

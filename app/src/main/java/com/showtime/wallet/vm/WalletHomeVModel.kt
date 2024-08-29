@@ -38,6 +38,9 @@ class WalletHomeVModel : BaseWalletVModel() {
     private val _getTokens = MutableLiveData<List<Token>>()
     val getTokens: MutableLiveData<List<Token>> = _getTokens
 
+    private val _getTokenPrice = MutableLiveData<Token>()
+    val getTokensPrice: MutableLiveData<Token> = _getTokenPrice
+
     private val _getTokensBySearch = MutableLiveData<List<Token>>()
     val getTokensBySearch: MutableLiveData<List<Token>> = _getTokensBySearch
 
@@ -79,12 +82,15 @@ class WalletHomeVModel : BaseWalletVModel() {
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    fun getBalance(tokenList: List<Token>) {
-        getPriceInUsd(tokenList.filter { it.uiAmount > 0 })
+//    fun getBalance(tokenList: List<Token>) {
+//        getPriceInUsd(tokenList.filter { it.uiAmount > 0 })
+//    }
+
+    fun getTokenPrices(tokenList: List<Token>) {
+        getTokenPriceInUsd(tokenList.filter { it.uiAmount > 0 })
     }
 
-    private fun getPriceInUsd(tList: List<Token>, i: Int = 0, totalBalance: Double = 0.0) {
+    private fun getTokenPriceInUsd(tList: List<Token>, i: Int = 0, totalBalance: Double = 0.0) {
         if (i == tList.size) {
             _getBlanceTotal.postValue("$${String.format("%.2f", totalBalance)}")
         } else {
@@ -96,11 +102,32 @@ class WalletHomeVModel : BaseWalletVModel() {
                 token.decimals,
                 token.mint
             ) { balance ->
-                log("getPriceInUSD[${token.tokenName}] -> " + token.uiAmount + ": " + balance)
-                getPriceInUsd(tList, i + 1, totalBalance + balance)
+                //called 3 times
+                log("getPriceInUSD[${token.tokenName}]->" + token+ ": " + balance)
+                token.amountInUsd = balance
+                _getTokenPrice.postValue(token)
+
+                getTokenPriceInUsd(tList, i + 1, totalBalance + balance)
             }
         }
     }
+
+//    private fun getPriceInUsd(tList: List<Token>, i: Int = 0, totalBalance: Double = 0.0) {
+//        if (i == tList.size) {
+//            _getBlanceTotal.postValue("$${String.format("%.2f", totalBalance)}")
+//        } else {
+//            val token = tList[i]
+//            log("getPriceInUSD[${token.tokenName}]=" + token.mint)
+//            ApiRequest.getPriceInUSD(
+//                token.uiAmount,
+//                token.decimals,
+//                token.mint
+//            ) { balance ->
+//                log("getPriceInUSD[${token.tokenName}] -> " + token.uiAmount + ": " + balance)
+//                getPriceInUsd(tList, i + 1, totalBalance + balance)
+//            }
+//        }
+//    }
 
     fun getTokenAccountsByOwner(key: PublicKey) {
         log("getTokenAccountsByOwner")

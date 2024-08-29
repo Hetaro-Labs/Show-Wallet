@@ -23,7 +23,7 @@ import com.showtime.wallet.utils.clickNoRepeat
 
 class TokenAccountsByOwnerAdapter(
     private var mContext: Context,
-    private val mList: List<Token>,
+    val mList: MutableList<Token>,
     private val fromSwap: Boolean = false,
     private val tokenType: String = "",
     private val key: String = "",
@@ -46,6 +46,7 @@ class TokenAccountsByOwnerAdapter(
         ImageHelper.obtainImage(mContext, bean.logo, holder.ivTokenIcon)
         holder.tokenName.text = bean.symbol
         holder.tokenAmount.text = bean.uiAmount.toString()
+        holder.tokenPrice.text = "$${String.format("%.2f", bean.amountInUsd)}"
         holder.itemView.clickNoRepeat {
             if (fromSwap) {
                 bean.tokenType = tokenType
@@ -67,5 +68,6 @@ class TokenAccountsByOwnerAdapter(
         val ivTokenIcon: ImageView = itemView.findViewById(R.id.token_icon)
         val tokenName: TextView = itemView.findViewById(R.id.token_name)
         val tokenAmount: TextView = itemView.findViewById(R.id.token_amount)
+        val tokenPrice: TextView = itemView.findViewById(R.id.token_price)
     }
 }

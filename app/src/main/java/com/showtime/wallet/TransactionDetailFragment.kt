@@ -52,7 +52,6 @@ class TransactionDetailFragment : BaseSecondaryNotMVVMFragment<FragmentTransacti
             )
             tvStatus.text = transactionsData.status
             tvFrom.text = transactionsData.source
-            //TODO NetWork、view_on_solscan I don't know which field to take (logic)
         }
     }
 }

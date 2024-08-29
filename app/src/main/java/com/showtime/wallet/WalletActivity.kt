@@ -17,10 +17,10 @@ class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>
     private var selectedPublicKey: String = ""
     private var fragmentTag = 0
 
+    override fun getContentViewLayoutID() = R.layout.activity_wallet
+
     override fun getBundleExtras(extras: Bundle?) {
     }
-
-    override fun getContentViewLayoutID() = R.layout.activity_wallet
 
     override fun initLiveDataObserve() {
     }
@@ -52,12 +52,12 @@ class WalletActivity : BaseProjActivity<ActivityWalletBinding, WalletHomeVModel>
     private fun updateSelectedAccount(publicKey: String) {
         val mFragmentTransaction =
             supportFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0)
-        mFragmentTransaction?.addToBackStack(null)
-        mFragmentTransaction?.replace(
+        mFragmentTransaction.addToBackStack(null)
+        mFragmentTransaction.replace(
             R.id.fragment_placeholder,
             WalletHomeFragment.getInstance(publicKey)
         )
-            ?.commit()
+            .commit()
         fragmentTag = 0
     }
 

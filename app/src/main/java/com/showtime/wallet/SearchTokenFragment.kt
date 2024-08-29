@@ -70,7 +70,7 @@ class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, Wa
 
     private fun setAdapter(list: List<Token>) {
         val adapter =
-            TokenAccountsByOwnerAdapter(requireContext(), list, fromSwap, tokenType, key, to)
+            TokenAccountsByOwnerAdapter(requireContext(), list.toMutableList(), fromSwap, tokenType, key, to)
         mBinding.rvTokenList.adapter = adapter
     }
 
