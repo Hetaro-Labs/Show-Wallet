@@ -27,13 +27,13 @@ class DefaultTokenListData {
         )
 
         val JSON = "[\n" +
-                "    {\n" +
-                "        \"mint\": \"So11111111111111111111111111111111111111112\",\n" +
-                "        \"symbol\": \"SOL\",\n" +
-                "        \"icon\": \"https://assets.coingecko.com/coins/images/4128/large/Solana.jpg\",\n" +
-                "        \"token_id\": \"solana\",\n" +
-                "        \"decimals\": 9\n" +
-                "    },\n" +
+//                "    {\n" +
+//                "        \"mint\": \"So11111111111111111111111111111111111111112\",\n" +
+//                "        \"symbol\": \"SOL\",\n" +
+//                "        \"icon\": \"https://assets.coingecko.com/coins/images/4128/large/Solana.jpg\",\n" +
+//                "        \"token_id\": \"solana\",\n" +
+//                "        \"decimals\": 9\n" +
+//                "    },\n" +
                 "    {\n" +
                 "        \"mint\": \"Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB\",\n" +
                 "        \"symbol\": \"USDT\",\n" +

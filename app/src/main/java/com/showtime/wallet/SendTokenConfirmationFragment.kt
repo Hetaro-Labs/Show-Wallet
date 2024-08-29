@@ -120,6 +120,7 @@ class SendTokenConfirmationFragment :
 
                 TransactionStatusFragment.start(
                     requireContext(),
+                    TransactionStatusFragment.TYPE_SEND_TOKEN,
                     assembleMessage(),
                     signature
                 )
@@ -185,6 +186,7 @@ class SendTokenConfirmationFragment :
                     val signature = connection.sendTransaction(transaction)
                     TransactionStatusFragment.start(
                         requireContext(),
+                        TransactionStatusFragment.TYPE_SEND_TOKEN,
                         assembleMessage(),
                         signature
                     )

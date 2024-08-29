@@ -43,12 +43,12 @@ class AppConnection @JvmOverloads constructor(
         params.put(signature)
         val jsonObjectEnc = JSONObject()
         jsonObjectEnc.put("encoding", "json")
+        jsonObjectEnc.put("maxSupportedTransactionVersion", 0)
         jsonObjectEnc.put("commitment", "finalized")
         params.put(jsonObjectEnc)
         val result: TransactionStatusResp? = rpcCall("getTransaction", params)
         return result
     }
-
 
     fun getAccountInfo(metadataPDA: String): AccountInfo? {
         val params = JSONArray()

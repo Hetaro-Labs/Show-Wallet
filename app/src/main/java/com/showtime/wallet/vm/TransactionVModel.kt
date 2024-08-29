@@ -18,8 +18,8 @@ class TransactionVModel : BaseViewModel() {
     private val _getTransaction = MutableLiveData<TransactionStatusResp?>()
     val getTransaction: MutableLiveData<TransactionStatusResp?> = _getTransaction
 
-    fun getTransaction(signature: String){
-        val coroutineExceptionHandler = CoroutineExceptionHandler {coroutineContext, throwable ->
+    fun getTransaction(signature: String) {
+        val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
 
         }
         GlobalScope.launch(coroutineExceptionHandler) {
@@ -28,12 +28,11 @@ class TransactionVModel : BaseViewModel() {
                     val connection = AppConnection(QuickNodeUrl.MAINNNET)
                     connection.getTransaction(signature)
                 }
-                val bean=response.await()
+                val bean = response.await()
                 _getTransaction.postValue(bean)
-            }catch (e: RuntimeException){
+            } catch (e: RuntimeException) {
                 defUI.toastEvent.postValue(e.message)
-            }
-            catch (e: RpcException){
+            } catch (e: RpcException) {
                 defUI.toastEvent.postValue(e.message)
             }
         }

@@ -15,9 +15,10 @@
                 android:layout_height="match_parent"
                 >
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     >
 
             <!-- Payment Section -->
@@ -119,7 +120,6 @@
 
             <!-- Info Section -->
             <LinearLayout
-                android:id="@+id/infoSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/exchangeSection"
@@ -213,6 +213,7 @@
                         android:textSize="10sp" />
 
                     <TextView
+                        android:id="@+id/price_impact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -235,6 +236,7 @@
                         android:textSize="10sp" />
 
                     <TextView
+                        android:id="@+id/slippage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -257,7 +259,17 @@
                 </RelativeLayout>
             </LinearLayout>
 
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/error_message"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/error"
+                        android:text="error: "
+                        android:textSize="10dp"
+                        />
+
+                </LinearLayout>
             </ScrollView>
 
             <!-- Swap Button -->

@@ -19,7 +19,7 @@
             />
 
         <TextView
-            android:id="@+id/status_succeed"
+            android:id="@+id/status_title"
             android:visibility="gone"
             android:textColor="@color/white"
             android:text="@string/transaction_succeed"

@@ -42,7 +42,6 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
     override fun FragmentWalletHomeBinding.initView() {
         selectedPublicKey = arguments?.getString("publicKey") ?: ""
         Log.e(TAG, "selectedPublicKey:${selectedPublicKey}")
-
         mViewModel.getTokenAccountsByOwner(PublicKey(selectedPublicKey ?: ""))
 
         mBinding.homeButtonsRv.layoutManager =
@@ -81,13 +80,8 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
                     )
                 },
                 HomeButtonAdapter.HomeButton(R.drawable.ic_status_success, R.string.test) {
-                    GlobalScope.launch(Dispatchers.IO) {
-                        SwapTest.runTest(
-                            Ed25519KeyRepositoryNew.getByPublicKey(
-                                selectedPublicKey
-                            )
-                        )
-                    }
+                    val tx = "iTdfPbv9eckM9udR3wBnbib2v1jGhaM6TMjdkEfdhe21fmQEqc3nAgy2hF9JEb3ichU5rNn3UkH6YAVL8MnKvYq"
+                    TransactionStatusFragment.start(requireContext(), TransactionStatusFragment.TYPE_SWAP, tx, tx)
                 },
             )
         )

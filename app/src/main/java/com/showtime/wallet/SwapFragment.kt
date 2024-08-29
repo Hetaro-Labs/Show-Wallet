@@ -278,6 +278,8 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
                 token2!!
             )
         )
+
+        requireActivity().finish()
     }
 
 }

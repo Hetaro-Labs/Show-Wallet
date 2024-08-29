@@ -36,16 +36,10 @@ class WalletHomeVModel : BaseViewModel() {
 
     private var listPopupWindow: ListPopupWindow? = null
 
-    // Private variable LiveData
     private val _getBlanceLiveData = MutableLiveData<String>()
-
-    // Externally exposed and immutable LiveData
     val getBlanceLiveData: LiveData<String> = _getBlanceLiveData
 
-    // Private variable LiveData
     private val _getTokens = MutableLiveData<List<Token>>()
-
-    // Externally exposed and immutable LiveData
     val getTokens: MutableLiveData<List<Token>> = _getTokens
 
     private val _getTokensBySearch = MutableLiveData<List<Token>>()
@@ -113,6 +107,8 @@ class WalletHomeVModel : BaseViewModel() {
 
         GlobalScope.launch(Dispatchers.IO) {
             log("get balanceOfSOl")
+            val tokensList = mutableListOf<Token>()
+
             val balanceOfSOlResponse = async {
                 val connection = AppConnection(QuickNodeUrl.MAINNNET)
                 (connection.getBalance(key)
@@ -120,6 +116,10 @@ class WalletHomeVModel : BaseViewModel() {
                         )
             }
             val balanceOfSol = balanceOfSOlResponse.await()
+
+            val solana = DefaultTokenListData.SOL
+            solana.uiAmount = balanceOfSol
+            tokensList.add(solana)
 
             log("balanceOfSOl -> $balanceOfSol")
             //1.request getTokenAccountsByOwner
@@ -143,7 +143,6 @@ class WalletHomeVModel : BaseViewModel() {
                 //3.request getTokens,Data after successful callback request
                 ApiRequest.getTokens(TokenInfoReq(Hydration(true), mintsList)) { data ->
                     //4.assemble all tokens
-                    val tokensList = mutableListOf<Token>()
                     data.result?.forEach{
                         log("get token: " + it.data.tokenName)
                         val item = result.value.find { candidate ->
@@ -193,13 +192,6 @@ class WalletHomeVModel : BaseViewModel() {
                                     tokenAccount = ""
                                 )
                             )
-                    }
-
-                    //update balance of sol
-                    for (token in tokensList) {
-                        if (token.mint == DefaultTokenListData.SOL.mint) {
-                            token.uiAmount = balanceOfSol
-                        }
                     }
 
                     //6.post data to fill adapter

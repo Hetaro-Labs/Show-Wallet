@@ -28,9 +28,9 @@ class TransactionStatusFragment :
         val KEY_MESSAGE = "message"
         val KEY_TRANSACTION = "transaction"
 
-        fun start(context: Context, message: String, txHash: String) {
+        fun start(context: Context, type: Int, message: String, txHash: String) {
             val bundle = Bundle()
-            bundle.putInt(KEY_TYPE, TYPE_SEND_TOKEN)
+            bundle.putInt(KEY_TYPE, type)
             bundle.putString(KEY_TX_HASH, txHash)
             bundle.putString(KEY_MESSAGE, message)
 
@@ -54,19 +54,32 @@ class TransactionStatusFragment :
     override fun initLiveDataObserve() {
         mViewModel.getTransaction.observeForever {
             if (null == it) {
-                //retry in 2s
+                //retry in 4s
                 Handler().postDelayed({
                     mViewModel.getTransaction(keyTxHash)
-                }, 2000L)
+                }, 4000L)
             } else {
                 if (it.meta.err == null) {
                     FlowEventBus.with<Boolean>(EventConstants.EVENT_REFRESH_BALANCE).post(true)
                     mBinding.statusIcon.setImageResource(R.drawable.ic_status_success)
                     mBinding.statusProgress.gone()
-                    mBinding.statusBody.gone()
-                    mBinding.statusSucceed.visible()
+                    mBinding.statusBody.text =
+                        when (keyType) {
+                            TYPE_SWAP -> {
+                                getString(R.string.swapped) + message
+                            }
+                            TYPE_SEND_TOKEN -> {
+                                getString(R.string.sent) + message
+                            }
+                            else -> {
+                                message
+                            }
+                        }
                 } else {
                     //failed
+                    mBinding.statusIcon.setImageResource(R.drawable.ic_error)
+                    mBinding.statusProgress.gone()
+                    mBinding.statusBody.text = getString(R.string.transaction_failed)
                 }
             }
         }
@@ -77,7 +90,20 @@ class TransactionStatusFragment :
     }
 
     override fun FragmentTransactionStatusBinding.initView() {
-        mBinding.statusBody.text = message
+        mBinding.statusBody.text =
+            when (keyType) {
+                TYPE_SWAP -> {
+                    getString(R.string.swaping) + message
+                }
+
+                TYPE_SEND_TOKEN -> {
+                    getString(R.string.sending) + message
+                }
+
+                else -> {
+                    message
+                }
+            }
     }
 
 }
