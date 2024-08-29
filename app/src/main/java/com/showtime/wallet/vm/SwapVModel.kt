@@ -2,24 +2,21 @@ package com.showtime.wallet.vm
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
+import androidx.lifecycle.viewModelScope
 import com.amez.mall.lib_base.bean.SwapReq
 import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.net.ApiRequest
-import com.showtime.wallet.net.bean.Token
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import com.showtime.wallet.net.QuickNodeUrl
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import org.sol4k.Connection
-import org.sol4k.PublicKey
-import org.sol4k.RpcUrl
 import org.sol4k.exception.RpcException
-import java.lang.RuntimeException
+import org.sol4k.transaction.EncodedTransaction
 import java.math.BigInteger
+import java.util.Base64
 
-class SwapVModel : BaseViewModel() {
+class SwapVModel : BaseWalletVModel() {
 
     private val TAG = SwapVModel::class.simpleName
 
@@ -35,55 +32,45 @@ class SwapVModel : BaseViewModel() {
         }
     }
 
-    fun doSwap(publicKey: String, quoteResponse: TokenPairUpdatedResp) {
-        val req = SwapReq(publicKey, quoteResponse)
+    fun signTransactionAndSubmit(swapTransaction: String) {
+        val transaction = EncodedTransaction.deserialize(swapTransaction)
+        log("transaction: $transaction")
+        transaction.sign(myAccount)
+
+        val serialize = transaction.serialize()
+
+        val encodedTransaction = Base64.getEncoder().encodeToString(serialize)
+        log("encodedTransaction: $encodedTransaction")
+
+        viewModelScope.launch {
+            val connection = Connection(QuickNodeUrl.MAINNNET)
+
+            try {
+                val signature = connection.sendTransaction(transaction)
+                _getTransactionHash.postValue(signature)
+            } catch (e: RpcException) {
+                log(e.rawResponse)
+
+                val json = JSONObject(e.rawResponse)
+                val logs = json.getJSONObject("error").getJSONObject("data").getJSONArray("logs")
+                val sb = StringBuilder()
+
+                for (i in 0 until logs.length()){
+                    sb.append(logs.getString(i)).append("\n")
+                }
+
+                _getTransactionError.postValue(e.message + "\n" + sb.toString())
+            }
+
+        }
+    }
+
+    fun doSwap(quoteResponse: TokenPairUpdatedResp) {
+        val req = SwapReq(myAccount.publicKey.toBase58(), quoteResponse)
         ApiRequest.swap(req) {
             Log.d(TAG, "swapTransaction==${it.swapTransaction}")
             _getSwapTransaction.postValue(it)
         }
-
-        //TODO get data from SwapFragment
-        // get serialized transactions for the swap
-        /**const { swapTransaction } = await(
-        await fetch ('https://quote-api.jup.ag/v6/swap', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-        // quoteResponse from /quote api
-        quoteResponse,
-        // user public key to be used for the swap
-        userPublicKey: wallet.publicKey.toString(),
-        // auto wrap and unwrap SOL. default is true
-        wrapAndUnwrapSol: true,
-        })
-        })
-        ).json();
-
-        // deserialize the transaction
-        const swapTransactionBuf = Buffer . from (swapTransaction, 'base64');
-
-        val sender = myAccount
-        val connection = Connection(RpcUrl.MAINNNET)
-        val blockhash = connection.getLatestBlockhash()
-        val instruction =
-        BaseInstruction(
-        swapTransactionBuf, listOf(
-        AccountMeta(myAccount.publicKey, writable = true, signer = true)
-        ),
-        SYSTEM_PROGRAM
-        )
-        val transaction =
-        Transaction(blockhash, instruction, feePayer = sender.publicKey)
-        transaction.sign(sender)
-        try {
-        val signature = connection.sendTransaction(transaction)
-        //start TransactionStatusActivity and pass signature
-        } catch (e: Exception) {
-        }
-
-         **/
     }
 
     enum class TokenTypeEnum(val value: String) {

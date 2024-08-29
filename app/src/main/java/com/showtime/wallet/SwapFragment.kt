@@ -63,8 +63,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
                 }
             }
 
-        mViewModel.getTokenPairUpdated.observeForever {
-//            respData = it
+        mViewModel.getTokenPairUpdated.observe(viewLifecycleOwner){
             price = (it.outAmount?.toDouble()!! / 10.0.pow(token2!!.decimals)) /
                     (it.inAmount?.toDouble()!! / 10.0.pow(token1!!.decimals))
 

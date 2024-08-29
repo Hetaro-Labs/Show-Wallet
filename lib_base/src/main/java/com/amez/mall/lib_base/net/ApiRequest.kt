@@ -26,11 +26,34 @@ object ApiRequest {
 
     private const val SOLAN_BASE_URL = "https://api.solana.fm/v0/"
 
+    fun getTokens(req: TokenInfoReq): Response<TokenInfoResp> {
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(logging)  //Adding interceptors to OkHttp
 
-    /**
-     * {"hydration":{"accountHash":true},"tokenHashes":["57n1Z8g7XHKAj7eeHeZ3SaYYbeDEmTGUjYsv9Hk7TxMx","EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"]}
-     * {"status":"Success","message":"Retrieved tokens' info","result":[{"tokenHash":"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v","data":{"mint":"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v","tokenName":"USD Coin","symbol":"USDC","decimals":6,"description":"","logo":"https://s3.coinmarketcap.com/static-gravity/image/5a8229787b5e4c809b5914eef709b59a.png","tags":["stablecoin","saber-mkt-usd"],"verified":"true","network":["mainnet"],"metadataToken":""}}]}
-     */
+        val retrofit = Retrofit.Builder()
+            .baseUrl(SOLAN_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient.build())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+        val call: Call<TokenInfoResp> = apiService.getTokens(req)
+        return call.execute()
+
+//        call.enqueue(object : Callback<TokenInfoResp> {
+//            override fun onFailure(call: Call<TokenInfoResp>, t: Throwable) {
+//            }
+//
+//            override fun onResponse(call: Call<TokenInfoResp>, response: Response<TokenInfoResp>) {
+//                if (response.isSuccessful || response.code() == 400) callback.invoke(
+//                    response.body() ?: TokenInfoResp(null, null, null)
+//                )
+//            }
+//        })
+    }
+
     fun getTokens(req: TokenInfoReq, callback: (TokenInfoResp) -> Unit) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level

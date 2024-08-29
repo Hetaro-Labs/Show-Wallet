@@ -60,7 +60,6 @@ class AppConnection @JvmOverloads constructor(
         return result
     }
 
-
     fun getTokenAccountsByOwner(walletAddress: PublicKey): TokenAccountsByOwnerBean? {
         val params = JSONArray()
         params.put(walletAddress.toBase58())

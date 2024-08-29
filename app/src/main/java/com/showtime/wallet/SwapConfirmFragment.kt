@@ -19,16 +19,6 @@ import com.showtime.wallet.utils.gone
 import com.showtime.wallet.utils.visible
 import com.showtime.wallet.vm.SwapVModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.json.JSONObject
-import org.sol4k.Connection
-import org.sol4k.Keypair
-import org.sol4k.RpcUrl
-import org.sol4k.Transaction
-import org.sol4k.exception.RpcException
-import org.sol4k.transaction.EncodedTransaction
-import org.sol4k.transaction.VersionedTransaction
 import java.util.Base64
 import kotlin.math.pow
 import kotlin.math.sign
@@ -37,7 +27,6 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
 
     private lateinit var token1: Token
     private lateinit var token2: Token
-    private lateinit var myAccount: Keypair
     private var resp: TokenPairUpdatedResp? = null
 
     companion object {
@@ -62,14 +51,6 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
         else
             extras.getParcelable("token2")!!
 
-        GlobalScope.launch(Dispatchers.IO) {
-            Ed25519KeyRepositoryNew.getByPublicKey(
-                extras.getString(AppConstants.SELECTED_PUBLIC_KEY, "")
-            )?.let {
-                myAccount = it
-            }
-        }
-
         log("token==${token1}")
         log("token2==${token2}")
     }
@@ -77,7 +58,25 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
     override fun getContentViewLayoutID() = R.layout.fragment_confirm_swap
 
     override fun initLiveDataObserve() {
-        mViewModel.getTokenPairUpdated.observeForever {
+        mViewModel.getTransactionHash.observe(viewLifecycleOwner) {
+            val msg =
+                token1.uiAmount.toString() + " " + token1.symbol + " for " + token2.uiAmount + " " + token2.symbol
+            TransactionStatusFragment.start(
+                requireContext(),
+                TransactionStatusFragment.TYPE_SWAP,
+                msg,
+                it
+            )
+            requireActivity().finish()
+        }
+
+        mViewModel.getTransactionError.observe(viewLifecycleOwner) {
+            mBinding.errorMessage.visible()
+            mBinding.errorMessage.text = it
+            reEnableSwapButton()
+        }
+
+        mViewModel.getTokenPairUpdated.observe(viewLifecycleOwner) {
             mBinding.swapButton.isEnabled = true
             resp = it
 
@@ -97,53 +96,8 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
             mBinding.providerName.text = providerName
         }
 
-        mViewModel.getSwapTransaction.observeForever {
-            val transaction = EncodedTransaction.deserialize(it.swapTransaction)
-            log("transaction: $transaction")
-            transaction.sign(myAccount)
-
-            val serialize = transaction.serialize()
-
-            val encodedTransaction = Base64.getEncoder().encodeToString(serialize)
-            log("encodedTransaction: $encodedTransaction")
-
-            val handler = Handler()
-
-            GlobalScope.launch(Dispatchers.IO) {
-                val connection = Connection(QuickNodeUrl.MAINNNET)
-
-                try {
-                    val signature = connection.sendTransaction(transaction)
-
-                    val msg = token1.uiAmount.toString() + " " + token1.symbol + " for " + token2.uiAmount+ " " + token2.symbol
-                    TransactionStatusFragment.start(
-                        requireContext(),
-                        TransactionStatusFragment.TYPE_SWAP,
-                        msg,
-                        signature
-                    )
-
-                    requireActivity().finish()
-                } catch (e: RpcException) {
-                    log(e.rawResponse)
-
-                    val json = JSONObject(e.rawResponse)
-                    val logs = json.getJSONObject("error").getJSONObject("data").getJSONArray("logs")
-                    val sb = StringBuilder()
-
-                    for (i in 0 until logs.length()){
-                        sb.append(logs.getString(i)).append("\n")
-                    }
-
-                    handler.post {
-                        mBinding.errorMessage.visible()
-                        mBinding.errorMessage.text = e.message + "\n" + sb.toString()
-                        reEnableSwapButton()
-                    }
-                }
-
-            }
-
+        mViewModel.getSwapTransaction.observe(viewLifecycleOwner){
+            mViewModel.signTransactionAndSubmit(it.swapTransaction)
         }
     }
 
@@ -173,7 +127,7 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
             swapButtonLabel.setText(R.string.swaping)
             swapProgress.visible()
 
-            mViewModel.doSwap(myAccount.publicKey.toBase58(), resp!!)
+            mViewModel.doSwap(resp!!)
         }
     }
 

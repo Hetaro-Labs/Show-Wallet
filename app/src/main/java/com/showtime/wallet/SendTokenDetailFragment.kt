@@ -83,7 +83,7 @@ class SendTokenDetailFragment :
     }
 
     override fun initLiveDataObserve() {
-        mViewModel.getTokenAccountBalance.observeForever {
+        mViewModel.getTokenAccountBalance.observe(viewLifecycleOwner){
             mBinding.amountErrorMessage.gone()
             // update token balance and put in cache
             mBinding.amount.setText(it.amount)
@@ -93,7 +93,7 @@ class SendTokenDetailFragment :
             TokenListCache.saveList(newTokenList)
         }
 
-        mViewModel.getEnterAmountErr.observeForever { enterAmountErr ->
+        mViewModel.getEnterAmountErr.observe(viewLifecycleOwner){ enterAmountErr ->
             updateButtonState(enterAmountErr, mViewModel.getAddressErr.value ?: true)
             if (enterAmountErr) {
                 mBinding.amountErrorMessage.visible()
@@ -102,7 +102,7 @@ class SendTokenDetailFragment :
             }
         }
 
-        mViewModel.getAddressErr.observeForever { addressErr ->
+        mViewModel.getAddressErr.observe(viewLifecycleOwner){ addressErr ->
             updateButtonState(mViewModel.getEnterAmountErr.value ?: true, addressErr)
             if (addressErr) {
                 mBinding.addressErrorMessage.visible()

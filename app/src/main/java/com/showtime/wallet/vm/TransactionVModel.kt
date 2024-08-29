@@ -1,17 +1,15 @@
 package com.showtime.wallet.vm
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
 import com.showtime.wallet.net.AppConnection
 import com.showtime.wallet.net.QuickNodeUrl
 import com.showtime.wallet.net.bean.TransactionStatusResp
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sol4k.RpcUrl
+import kotlinx.coroutines.withContext
 import org.sol4k.exception.RpcException
-import java.lang.RuntimeException
 
 class TransactionVModel : BaseViewModel() {
 
@@ -19,16 +17,13 @@ class TransactionVModel : BaseViewModel() {
     val getTransaction: MutableLiveData<TransactionStatusResp?> = _getTransaction
 
     fun getTransaction(signature: String) {
-        val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
-
-        }
-        GlobalScope.launch(coroutineExceptionHandler) {
+        viewModelScope.launch {
             try {
-                val response = async {
-                    val connection = AppConnection(QuickNodeUrl.MAINNNET)
+                val connection = AppConnection(QuickNodeUrl.MAINNNET)
+                val bean = withContext(Dispatchers.IO) {
                     connection.getTransaction(signature)
                 }
-                val bean = response.await()
+
                 _getTransaction.postValue(bean)
             } catch (e: RuntimeException) {
                 defUI.toastEvent.postValue(e.message)

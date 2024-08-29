@@ -8,15 +8,10 @@ import com.amez.mall.lib_base.bus.FlowEventBus
 import com.amez.mall.lib_base.ui.BaseProjFragment
 import com.showtime.wallet.adapter.HomeButtonAdapter
 import com.showtime.wallet.adapter.TokenAccountsByOwnerAdapter
-import com.showtime.wallet.data.Ed25519KeyRepositoryNew
 import com.showtime.wallet.databinding.FragmentWalletHomeBinding
 import com.showtime.wallet.utils.EventConstants
-import com.showtime.wallet.utils.SwapTest
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.vm.WalletHomeVModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.sol4k.PublicKey
 
 class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHomeVModel>() {

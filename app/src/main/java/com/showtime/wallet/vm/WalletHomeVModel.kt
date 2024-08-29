@@ -6,11 +6,10 @@ import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
+import androidx.lifecycle.viewModelScope
 import com.amez.mall.lib_base.bean.Hydration
 import com.amez.mall.lib_base.bean.TokenInfoReq
 import com.amez.mall.lib_base.net.ApiRequest
-import com.amez.mall.lib_base.utils.Logger
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.showtime.wallet.DefaultTokenListData
@@ -23,16 +22,13 @@ import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.TokenListCache
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.sol4k.PublicKey
-import org.sol4k.RpcUrl
-import java.math.BigInteger
 import kotlin.math.pow
 
 
-class WalletHomeVModel : BaseViewModel() {
+class WalletHomeVModel : BaseWalletVModel() {
 
     private var listPopupWindow: ListPopupWindow? = null
 
@@ -49,15 +45,20 @@ class WalletHomeVModel : BaseViewModel() {
     val getBlanceTotal: LiveData<String> = _getBlanceTotal
 
     //Display Switch User PopWindows
+    @OptIn(DelicateCoroutinesApi::class)
     fun showAccountPopWindow(act: Activity, view: View, callback: (String) -> Unit) {
         if (null == listPopupWindow) {
             listPopupWindow = ListPopupWindow(act)
             val list = mutableListOf<String>()
-            GlobalScope.launch(Dispatchers.IO) {
-                Ed25519KeyRepositoryNew.getAll()?.forEach {
-                    list.add(CryptoUtils.keypairToPublicKey(it))
+
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    Ed25519KeyRepositoryNew.getAll()?.forEach {
+                        list.add(CryptoUtils.keypairToPublicKey(it))
+                    }
                 }
             }
+
             listPopupWindow?.setAdapter(
                 ArrayAdapter(
                     act,
@@ -101,21 +102,19 @@ class WalletHomeVModel : BaseViewModel() {
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun getTokenAccountsByOwner(key: PublicKey) {
         log("getTokenAccountsByOwner")
 
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             log("get balanceOfSOl")
             val tokensList = mutableListOf<Token>()
 
-            val balanceOfSOlResponse = async {
-                val connection = AppConnection(QuickNodeUrl.MAINNNET)
-                (connection.getBalance(key)
+            val connection = AppConnection(QuickNodeUrl.MAINNNET)
+
+            val balanceOfSol = withContext(Dispatchers.IO) {
+                connection.getBalance(key)
                     .toDouble() / 10.0.pow(DefaultTokenListData.SOL.decimals.toDouble())
-                        )
             }
-            val balanceOfSol = balanceOfSOlResponse.await()
 
             val solana = DefaultTokenListData.SOL
             solana.uiAmount = balanceOfSol
@@ -123,12 +122,9 @@ class WalletHomeVModel : BaseViewModel() {
 
             log("balanceOfSOl -> $balanceOfSol")
             //1.request getTokenAccountsByOwner
-            val response = async {
-                val connection = AppConnection(QuickNodeUrl.MAINNNET)
+            withContext(Dispatchers.IO) {
                 connection.getTokenAccountsByOwner(key)
-            }
-
-            response.await()?.let { result ->
+            }?.let { result ->
                 //2.assemble all mints
                 log("get all mints")
                 val mintsList = arrayListOf<String>()
@@ -140,65 +136,71 @@ class WalletHomeVModel : BaseViewModel() {
                     if (mintsList.size < 50) mintsList.add(it.account.data.parsed.info.mint)
                 }
 
-                //3.request getTokens,Data after successful callback request
-                ApiRequest.getTokens(TokenInfoReq(Hydration(true), mintsList)) { data ->
-                    //4.assemble all tokens
-                    data.result?.forEach{
-                        log("get token: " + it.data.tokenName)
-                        val item = result.value.find { candidate ->
-                            candidate.account.data.parsed.info.mint == it.data.mint
-                        }!!
+                withContext(Dispatchers.IO) {
+                    //3.request getTokens,Data after successful callback request
+                    val response = ApiRequest.getTokens(TokenInfoReq(Hydration(true), mintsList))
+                    if (response.isSuccessful || response.code() == 400) {
+                        val data = response.body()
 
-                        val amount = item.account.data.parsed.info.tokenAmount
-                        val tokenAccount = item.pubkey
+                        //4.assemble all tokens
+                        data?.result?.forEach {
+                            log("get token: " + it.data.tokenName)
+                            val item = result.value.find { candidate ->
+                                candidate.account.data.parsed.info.mint == it.data.mint
+                            }!!
 
-                        tokensList.add(
-                            Token(
-                                mint = it.data.mint,
-                                tokenName = it.data.tokenName,
-                                symbol = it.data.symbol,
-                                decimals = it.data.decimals,
-                                logo = it.data.logo,
-                                uiAmount = item.account.data.parsed.info.tokenAmount.uiAmount,
-                                isNFT = (amount.decimals == 0 && amount.uiAmount == 1.0),
-                                tokenType = "",
-                                tokenAccount = tokenAccount
-                            )
-                        )
-                    }
+                            val amount = item.account.data.parsed.info.tokenAmount
+                            val tokenAccount = item.pubkey
 
-                    for (token in tokensList) {
-                        log("token: " + token.symbol + "->" + token.mint)
-                    }
-
-                    //5.if tokenList has the data, do not add,else add DefaultTokenListData
-                    val gson = Gson()
-                    val type =
-                        object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
-                    val defaultTokenList: List<DefaultTokenListData.DefaultToken> =
-                        gson.fromJson(DefaultTokenListData.JSON, type)
-                    defaultTokenList.forEach { defaultToken ->
-                        if (tokensList.find { it.mint == defaultToken.mint } == null)
                             tokensList.add(
                                 Token(
-                                    mint = defaultToken.mint,
-                                    symbol = defaultToken.symbol,
-                                    logo = defaultToken.icon,
-                                    tokenName = defaultToken.token_id,
-                                    decimals = defaultToken.decimals,
-                                    uiAmount = 0.0,
-                                    isNFT = false,
+                                    mint = it.data.mint,
+                                    tokenName = it.data.tokenName,
+                                    symbol = it.data.symbol,
+                                    decimals = it.data.decimals,
+                                    logo = it.data.logo,
+                                    uiAmount = item.account.data.parsed.info.tokenAmount.uiAmount,
+                                    isNFT = (amount.decimals == 0 && amount.uiAmount == 1.0),
                                     tokenType = "",
-                                    tokenAccount = ""
+                                    tokenAccount = tokenAccount
                                 )
                             )
-                    }
+                        }
 
-                    //6.post data to fill adapter
-                    //cache tokenList
-                    TokenListCache.saveList(tokensList)
-                    _getTokens.postValue(tokensList.filter { !it.isNFT })
+                        for (token in tokensList) {
+                            log("token: " + token.symbol + "->" + token.mint)
+                        }
+
+                        //5.if tokenList has the data, do not add,else add DefaultTokenListData
+                        val gson = Gson()
+                        val type =
+                            object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
+                        val defaultTokenList: List<DefaultTokenListData.DefaultToken> =
+                            gson.fromJson(DefaultTokenListData.JSON, type)
+                        defaultTokenList.forEach { defaultToken ->
+                            if (tokensList.find { it.mint == defaultToken.mint } == null)
+                                tokensList.add(
+                                    Token(
+                                        mint = defaultToken.mint,
+                                        symbol = defaultToken.symbol,
+                                        logo = defaultToken.icon,
+                                        tokenName = defaultToken.token_id,
+                                        decimals = defaultToken.decimals,
+                                        uiAmount = 0.0,
+                                        isNFT = false,
+                                        tokenType = "",
+                                        tokenAccount = ""
+                                    )
+                                )
+                        }
+
+                        //6.post data to fill adapter
+                        //cache tokenList
+                        TokenListCache.saveList(tokensList)
+                        _getTokens.postValue(tokensList.filter { !it.isNFT })
+                    }
                 }
+
             }
         }
     }

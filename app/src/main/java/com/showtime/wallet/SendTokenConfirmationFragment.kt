@@ -11,9 +11,7 @@ import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.clickNoRepeat
 import com.showtime.wallet.utils.visible
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.showtime.wallet.vm.SendTokenVModel
 import org.sol4k.Connection
 import org.sol4k.Keypair
 import org.sol4k.PublicKey
@@ -26,7 +24,7 @@ import org.sol4k.instruction.TransferInstruction
 import kotlin.math.pow
 
 class SendTokenConfirmationFragment :
-    BaseSecondaryNotMVVMFragment<FragmentSendConfirmationBinding>() {
+    BaseSecondaryFragment<FragmentSendConfirmationBinding, SendTokenVModel>() {
 
     companion object {
         private val KEY_AMOUNT = "amount"
@@ -49,7 +47,6 @@ class SendTokenConfirmationFragment :
         }
     }
 
-    private lateinit var myAccount: Keypair
     private lateinit var token: Token
     private lateinit var receiver: String
     private var uiAmount: Double = 0.0
@@ -63,14 +60,6 @@ class SendTokenConfirmationFragment :
         else
             extras.getParcelable(KEY_TOKEN)!!
         uiAmount = extras.getDouble(KEY_AMOUNT)
-
-        GlobalScope.launch(Dispatchers.IO) {
-            Ed25519KeyRepositoryNew.getByPublicKey(
-                MmkvUtils.getString(AppConstants.SELECTED_PUBLIC_KEY) ?: ""
-            )?.let {
-                myAccount = it
-            }
-        }
     }
 
     override fun FragmentSendConfirmationBinding.initView() {
@@ -83,13 +72,12 @@ class SendTokenConfirmationFragment :
             confirmButtonProgress.visible()
 
             if (token.mint == DefaultTokenListData.SOL.mint) {
-                sendSolToken(
+                mViewModel.sendSolToken(
                     PublicKey(receiver),
                     (uiAmount * 10.0.pow(token.decimals.toDouble())).toLong()
                 )
             } else {
-                sendSPLToken(
-                    myAccount,
+                mViewModel.sendSPLToken(
                     PublicKey(token.mint),
                     PublicKey(receiver),
                     (uiAmount * 10.0.pow(token.decimals.toDouble())).toLong()
@@ -98,115 +86,29 @@ class SendTokenConfirmationFragment :
         }
     }
 
-    private fun sendSolToken(receiver: PublicKey, amount: Long) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val sender = myAccount
-            log(
-                "send SOL: ${sender.publicKey.toBase58()}, \n" +
-                        "${receiver.toBase58()}, \n"
-            )
-
-            val connection = Connection(QuickNodeUrl.MAINNNET)
-            val blockhash = connection.getLatestBlockhash()
-            val instruction =
-                TransferInstruction(sender.publicKey, receiver, lamports = amount)
-            val transaction =
-                Transaction(blockhash, instruction, feePayer = sender.publicKey)
-            transaction.sign(sender)
-
-            try {
-                val signature = connection.sendTransaction(transaction)
-                log("sending SPL: $signature")
-
-                TransactionStatusFragment.start(
-                    requireContext(),
-                    TransactionStatusFragment.TYPE_SEND_TOKEN,
-                    assembleMessage(),
-                    signature
-                )
-                requireActivity().finish()
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun sendSPLToken(
-        sender: Keypair,
-        tokenMintAddress: PublicKey,
-        receiverAddress: PublicKey,
-        amount: Long
-    ) {
-        object : Thread() {
-            override fun run() {
-                val connection = Connection(QuickNodeUrl.MAINNNET)
-                val blockhash = connection.getLatestBlockhash()
-
-                val instructions = ArrayList<Instruction>()
-
-                val fromAssociatedTokenAddress =
-                    PublicKey.findProgramDerivedAddress(sender.publicKey, tokenMintAddress)
-                val toAssociatedTokenAddress =
-                    PublicKey.findProgramDerivedAddress(receiverAddress, tokenMintAddress)
-
-                val destination = connection.getAccountInfo(toAssociatedTokenAddress.publicKey)
-                if (destination == null) {
-                    instructions.add(
-                        CreateAssociatedTokenAccountInstruction(
-                            sender.publicKey,
-                            toAssociatedTokenAddress.publicKey,
-                            receiverAddress,
-                            tokenMintAddress
-                        )
-                    )
-                }
-
-                log(
-                    "send SPL: ${sender.publicKey.toBase58()}, \n" +
-                            "${fromAssociatedTokenAddress.publicKey.toBase58()}, \n" +
-                            "${toAssociatedTokenAddress.publicKey.toBase58()}, \n" +
-                            "${receiverAddress.toBase58()}, \n" +
-                            "${tokenMintAddress.toBase58()}, \n"
-                )
-
-                instructions.add(
-                    SplTransferInstruction(
-                        fromAssociatedTokenAddress.publicKey,
-                        toAssociatedTokenAddress.publicKey,
-                        sender.publicKey,
-                        amount
-                    )
-                )
-
-                val transaction = Transaction(blockhash, instructions, feePayer = sender.publicKey)
-                transaction.sign(sender)
-
-                try {
-                    val signature = connection.sendTransaction(transaction)
-                    TransactionStatusFragment.start(
-                        requireContext(),
-                        TransactionStatusFragment.TYPE_SEND_TOKEN,
-                        assembleMessage(),
-                        signature
-                    )
-                    requireActivity().finish()
-
-                    log("sending SPL: $signature")
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }.start()
-
-    }
-
     private fun assembleMessage(): String{
         return getString(R.string.sending_token_to, uiAmount.toString() + token.symbol, receiver)
     }
 
     override fun getContentViewLayoutID(): Int {
         return R.layout.fragment_send_confirmation
+    }
+
+    override fun initLiveDataObserve() {
+        mViewModel.getTransactionHash.observe(viewLifecycleOwner){
+            log("sending SPL: $it")
+
+            TransactionStatusFragment.start(
+                requireContext(),
+                TransactionStatusFragment.TYPE_SEND_TOKEN,
+                assembleMessage(),
+                it
+            )
+            requireActivity().finish()
+        }
+    }
+
+    override fun initRequestData() {
     }
 
 }

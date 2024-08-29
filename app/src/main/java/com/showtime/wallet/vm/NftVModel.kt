@@ -6,7 +6,7 @@ import com.amez.mall.lib_base.base.mvvm.vm.BaseViewModel
 import com.amez.mall.lib_base.bean.GetAssetsByOwnerResp
 import com.amez.mall.lib_base.net.ApiRequest
 
-class NFTVModel :BaseViewModel() {
+class NFTVModel :BaseWalletVModel() {
 
     private val TAG = NFTVModel::class.simpleName
     private val _getAssetsByOwner = MutableLiveData<GetAssetsByOwnerResp>()

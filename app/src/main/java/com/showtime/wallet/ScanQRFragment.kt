@@ -10,10 +10,9 @@ import com.showtime.wallet.databinding.FragmentScanQrBinding
 import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.clickNoRepeat
 import com.showtime.wallet.utils.visible
-import com.showtime.wallet.vm.ScanQRVModel
 
 
-class ScanQRFragment : BaseSecondaryFragment<FragmentScanQrBinding, ScanQRVModel>() {
+class ScanQRFragment : BaseSecondaryNotMVVMFragment<FragmentScanQrBinding>() {
 
     companion object {
         fun start(context: Context, key: String) {
@@ -37,13 +36,6 @@ class ScanQRFragment : BaseSecondaryFragment<FragmentScanQrBinding, ScanQRVModel
     override fun onPause() {
         super.onPause()
         mBinding.qrdecoderview.stopCamera()
-    }
-
-    override fun initLiveDataObserve() {
-    }
-
-    override fun initRequestData() {
-
     }
 
     // Handle the result of the permission request

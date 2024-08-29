@@ -172,8 +172,7 @@ class Connection @JvmOverloads constructor(
         )
     }
 
-
-    fun sendTransaction(encodedTransaction: String): String {
+    private fun sendTransaction(encodedTransaction: String): String {
         return rpcCall(
             "sendTransaction",
             listOf(
@@ -182,7 +181,6 @@ class Connection @JvmOverloads constructor(
             )
         )
     }
-
 
     fun sendTransaction(transaction: Transaction): String {
         val encodedTransaction = Base64.getEncoder().encodeToString(transaction.serialize())

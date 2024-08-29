@@ -93,6 +93,7 @@ dependencies {
     implementation libs.zxing
     implementation libs.json
     implementation libs.gson
+    implementation libs.retrofit
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
