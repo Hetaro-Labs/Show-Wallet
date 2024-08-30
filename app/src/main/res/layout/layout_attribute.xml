@@ -14,7 +14,7 @@
         android:textStyle="bold"
         android:text="AMOUNT"
         android:textColor="#EEEEEE"
-        android:textSize="10dp" />
+        android:textSize="@dimen/text_size_medium" />
 
     <TextView
         android:id="@+id/attribute_value"
@@ -23,6 +23,6 @@
         android:background="#2C2C2E"
         android:text="200000"
         android:textColor="#FFFFFF"
-        android:textSize="10dp" />
+        android:textSize="@dimen/text_size_medium" />
 
 </LinearLayout>

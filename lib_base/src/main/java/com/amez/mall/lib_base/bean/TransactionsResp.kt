@@ -31,4 +31,8 @@ data class TransactionsData(
     var showTransactionType:String?,
     var showAmount:String?,
     var showUrl:String?,
-) : Parcelable
+) : Parcelable{
+    override fun toString(): String {
+        return "[$instructionIndex]action=$action, source=$source, destination=$destination, token=$token, amount=$amount"
+    }
+}

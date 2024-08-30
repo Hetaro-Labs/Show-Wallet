@@ -53,7 +53,7 @@ class SendTokenVModel : BaseWalletVModel() {
     fun getTokenAccountBalance(token: Token, type: String = "") {
         viewModelScope.launch {
             try {
-                val connection = Connection(RpcUrl.DEVNET)
+                val connection = Connection(QuickNodeUrl.MAINNNET)
                 val bean = withContext(Dispatchers.IO) {
                     connection.getTokenAccountBalance(PublicKey(token.tokenAccount))
                 }

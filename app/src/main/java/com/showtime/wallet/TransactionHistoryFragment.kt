@@ -4,7 +4,9 @@ import android.os.Bundle
 import com.amez.mall.lib_base.ui.BaseProjFragment
 import com.showtime.wallet.adapter.TransactionHistoryAdapter
 import com.showtime.wallet.databinding.FragmentTransactionHistoryBinding
+import com.showtime.wallet.net.bean.ConvertedTransaction
 import com.showtime.wallet.vm.HistoryVModel
+import okhttp3.internal.format
 
 class TransactionHistoryFragment() :
     BaseSecondaryFragment<FragmentTransactionHistoryBinding, HistoryVModel>() {
@@ -19,8 +21,16 @@ class TransactionHistoryFragment() :
 
     override fun initLiveDataObserve() {
         mViewModel.getTransactions.observeForever {
+            for(item in it){
+                log("===========transaction===========")
+                for (d in item.data!!){
+                    log("[${d.action}] ${d.token} from=${d.source}, to=${d.destination}, amt=${d.amount}")
+                }
+            }
+            val data = it.map { result -> ConvertedTransaction.from(key, result) }
+
             mBinding.swipeRefresh.isRefreshing = false
-            val adapter = TransactionHistoryAdapter(requireActivity(), it, key) //test key
+            val adapter = TransactionHistoryAdapter(requireActivity(), data, key) //test key
             mBinding.rvTransactions.adapter = adapter
         }
     }
@@ -29,4 +39,5 @@ class TransactionHistoryFragment() :
         mBinding.swipeRefresh.isRefreshing = true
         mViewModel.getTransactions()
     }
+
 }

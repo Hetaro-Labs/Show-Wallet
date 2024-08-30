@@ -152,6 +152,10 @@
     <string name="import_">Import</string>
     <string name="import_private_key">Import private key</string>
     <string name="transaction_failed">Transaction failed</string>
+    <string name="swapped_successfully">Successfully swap</string>
     <string name="swapped">Successfully swap</string>
-    <string name="sent">Successfully sent</string>
+    <string name="sent_successfully">Successfully sent</string>
+    <string name="sent">sent</string>
+    <string name="received">received</string>
+    <string name="unknown_transaction">Unknwon transaction</string>
 </resources>

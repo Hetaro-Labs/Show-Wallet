@@ -93,6 +93,7 @@ class WalletHomeVModel : BaseWalletVModel() {
     private fun getTokenPriceInUsd(tList: List<Token>, i: Int = 0, totalBalance: Double = 0.0) {
         if (i == tList.size) {
             _getBlanceTotal.postValue("$${String.format("%.2f", totalBalance)}")
+            TokenListCache.saveList(tList)
         } else {
             val token = tList[i]
             log("getPriceInUSD[${token.tokenName}]=" + token.mint)
@@ -222,7 +223,6 @@ class WalletHomeVModel : BaseWalletVModel() {
                         }
 
                         //6.post data to fill adapter
-                        //cache tokenList
                         TokenListCache.saveList(tokensList)
                         _getTokens.postValue(tokensList.filter { !it.isNFT })
                     }

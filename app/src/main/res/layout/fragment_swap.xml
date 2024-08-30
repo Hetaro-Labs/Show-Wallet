@@ -60,7 +60,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Solana"
                                 android:textColor="#FFFFFF"
-                                android:textSize="10sp"
+                                android:textSize="@dimen/text_size_medium"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -69,7 +69,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Balance：0.00391 SOL"
                                 android:textColor="#9A9A9A"
-                                android:textSize="8sp" />
+                                android:textSize="@dimen/text_size_small" />
                         </LinearLayout>
 
                         <ImageView
@@ -92,7 +92,7 @@
                             android:inputType="numberDecimal"
                             android:layout_gravity="center_vertical"
                             android:textColor="#FFFFFF"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_size_xl" />
 
                         <TextView
                             android:id="@+id/max_button_1"
@@ -105,7 +105,7 @@
                             android:layout_marginStart="8dp"
                             android:text="@string/max"
                             android:textColor="#8E8EFC"
-                            android:textSize="10sp" />
+                            android:textSize="@dimen/text_size_large" />
 
                     </RelativeLayout>
 
@@ -147,14 +147,14 @@
 
                 <ImageView
                     android:src="@android:drawable/ic_menu_add"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/swap_add_button_size"
+                    android:layout_height="@dimen/swap_add_button_size"
                     />
 
                 <TextView
                     android:text="@string/select_token"
                     android:textColor="@color/white"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/text_size_xl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
@@ -258,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/provider"
                     android:textColor="#9A9A9A"
-                    android:textSize="10sp" />
+                    android:textSize="@dimen/text_size_medium" />
 
                 <TextView
                     android:id="@+id/provider_name"
@@ -266,7 +266,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp" />
+                    android:textSize="@dimen/text_size_medium" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -282,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/best_price"
                     android:textColor="#9A9A9A"
-                    android:textSize="10sp" />
+                    android:textSize="@dimen/text_size_medium" />
 
                 <TextView
                     android:id="@+id/lowest_price_value"
@@ -290,7 +290,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp" />
+                    android:textSize="@dimen/text_size_medium" />
             </RelativeLayout>
 
             <TextView

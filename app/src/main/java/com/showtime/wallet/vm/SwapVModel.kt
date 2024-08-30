@@ -28,7 +28,9 @@ class SwapVModel : BaseWalletVModel() {
 
     fun getTokenPairUpdated(mint1: String, mint2: String, amount1: BigInteger) {
         ApiRequest.getTokenPairUpdated(mint1, mint2, amount1) {
-            _getTokenPairUpdated.postValue(it)
+            it?.let {
+                _getTokenPairUpdated.postValue(it)
+            }
         }
     }
 

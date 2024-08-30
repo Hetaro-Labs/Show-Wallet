@@ -14,8 +14,8 @@
         <ImageView
             android:id="@+id/status_icon"
             android:src="@drawable/ic_solana"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/status_icon_size"
+            android:layout_height="@dimen/status_icon_size"
             />
 
         <TextView
@@ -23,7 +23,7 @@
             android:visibility="gone"
             android:textColor="@color/white"
             android:text="@string/transaction_succeed"
-            android:textSize="12dp"
+            android:textSize="@dimen/text_size_xl"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,15 +40,15 @@
                 android:id="@+id/status_body"
                 android:textColor="@color/white"
                 android:text="Swapping 1 SOL for 12221.12 LOS"
-                android:textSize="10dp"
+                android:textSize="@dimen/text_size_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
 
             <ProgressBar
                 android:id="@+id/status_progress"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="@dimen/progress_bar_size"
+                android:layout_height="@dimen/progress_bar_size"
                 />
 
         </LinearLayout>

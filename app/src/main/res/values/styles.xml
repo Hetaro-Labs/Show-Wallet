@@ -3,7 +3,7 @@
 
     <style name="Button">
         <item name="android:background">@drawable/background_button_primary</item>
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">@dimen/text_size_xl</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:gravity">center</item>
@@ -25,7 +25,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/edittext_background</item>
         <item name="android:textColorHint">#808080</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>
         <item name="android:imeOptions">actionSearch</item>
@@ -36,7 +36,7 @@
     <style name="Info.Button">
         <item name="android:padding">6dp</item>
         <item name="android:textColor">@color/info</item>
-        <item name="android:textSize">11dp</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -46,14 +46,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textColor">#aaa</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
     <style name="Info.Value">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#fff</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
     <style name="Info.Group">
@@ -67,7 +67,7 @@
         <item name="android:text">@string/view_on_solscan</item>
         <item name="android:padding">6dp</item>
         <item name="android:textColor">@color/theme</item>
-        <item name="android:textSize">11dp</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

@@ -18,8 +18,11 @@ open class BaseWalletVModel: BaseViewModel(){
     val getTransactionError: MutableLiveData<String> = _getTransactionError
 
     protected lateinit var myAccount: Keypair
+    protected lateinit var key: String
 
     fun initAccount(publicKey: String) {
+        this.key = publicKey
+
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 Ed25519KeyRepositoryNew.getByPublicKey(publicKey)

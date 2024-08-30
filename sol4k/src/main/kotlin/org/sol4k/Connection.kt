@@ -225,6 +225,7 @@ class Connection @JvmOverloads constructor(
             }
         }
         connection.disconnect()
+
         try {
             val (result) = jsonParser.decodeFromString<RpcResponse<T>>(responseBody)
             return result

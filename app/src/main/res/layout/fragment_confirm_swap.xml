@@ -31,8 +31,8 @@
 
                 <ImageView
                     android:id="@+id/paymentIcon"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/token_icon_size"
+                    android:layout_height="@dimen/token_icon_size"
                     android:layout_alignParentStart="true"
                     android:src="@drawable/ic_solana" />
 
@@ -44,7 +44,7 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/swap_spend"
                     android:textColor="#B0B0B0"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_medium" />
 
                 <TextView
                     android:id="@+id/paymentAmount"
@@ -55,7 +55,7 @@
                     android:layout_marginStart="8dp"
                     android:text="0.001 SOL"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/text_size_large"
                     android:textStyle="bold" />
 
                 <TextView
@@ -65,7 +65,7 @@
                     android:layout_alignParentEnd="true"
                     android:text="$0.1578"
                     android:textColor="#B0B0B0"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_large" />
             </RelativeLayout>
 
             <!-- Exchange Section -->
@@ -81,8 +81,8 @@
 
                 <ImageView
                     android:id="@+id/exchangeIcon"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/token_icon_size"
+                    android:layout_height="@dimen/token_icon_size"
                     android:layout_alignParentStart="true"
                     android:src="@drawable/ic_solana" />
 
@@ -94,7 +94,7 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/swap_receive"
                     android:textColor="#B0B0B0"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_medium" />
 
                 <TextView
                     android:id="@+id/exchangeAmount"
@@ -105,7 +105,7 @@
                     android:layout_marginStart="8dp"
                     android:text="0.15684 USDC"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/text_size_large"
                     android:textStyle="bold" />
 
                 <TextView
@@ -115,7 +115,7 @@
                     android:layout_alignParentEnd="true"
                     android:text="$0.15683"
                     android:textColor="#B0B0B0"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_large" />
             </RelativeLayout>
 
             <!-- Info Section -->
@@ -140,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/best_price"
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:id="@+id/lowest_price_value"
@@ -149,7 +149,7 @@
                         android:layout_alignParentEnd="true"
                         android:text=""
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </RelativeLayout>
 
@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/swap_fee"
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
                         android:layout_alignParentEnd="true"
                         android:text="$0.005"
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
                 </RelativeLayout>
 
                 <!-- Info Row -->
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/provider"
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:id="@+id/provider_name"
@@ -196,7 +196,7 @@
                         android:layout_alignParentEnd="true"
                         android:text=""
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
                 </RelativeLayout>
 
                 <!-- Info Row -->
@@ -210,7 +210,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/price_impact"
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:id="@+id/price_impact"
@@ -219,7 +219,7 @@
                         android:layout_alignParentEnd="true"
                         android:text="0%"
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
                 </RelativeLayout>
 
                 <!-- Info Row -->
@@ -233,7 +233,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/slippage"
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:id="@+id/slippage"
@@ -242,7 +242,7 @@
                         android:layout_alignParentEnd="true"
                         android:text="0.50%"
                         android:textColor="#B0B0B0"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/text_size_medium" />
                 </RelativeLayout>
 
                 <!-- Info Row -->

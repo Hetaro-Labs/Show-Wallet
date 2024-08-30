@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description"
                     android:textColor="#8E8E93"
-                    android:textSize="12dp" />
+                    android:textSize="@dimen/text_size_large" />
 
                 <TextView
                     android:id="@+id/description_text"
@@ -52,7 +52,7 @@
                     android:layout_marginTop="4dp"
                     android:text="${data.content.metadata.description}"
                     android:textColor="#FFFFFF"
-                    android:textSize="12dp" />
+                    android:textSize="@dimen/text_size_large" />
 
                 <TextView
                     android:id="@+id/description_link"
@@ -61,7 +61,7 @@
                     android:layout_below="@id/description_text"
                     android:text="${data.content.links.external_url}"
                     android:textColor="#005CFF"
-                    android:textSize="12dp" />
+                    android:textSize="@dimen/text_size_large" />
 
                 <!-- Info Section -->
                 <LinearLayout
@@ -148,7 +148,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Attributes"
                     android:textColor="#8E8E93"
-                    android:textSize="12dp" />
+                    android:textSize="@dimen/text_size_large" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     tools:listitem="@layout/layout_attribute"

@@ -16,17 +16,20 @@ import com.showtime.wallet.DefaultTokenListData
 import com.showtime.wallet.R
 import com.showtime.wallet.TerminalActivity
 import com.showtime.wallet.TransactionDetailFragment
+import com.showtime.wallet.net.bean.ConvertedTransaction
 import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.utils.clickNoRepeat
+import com.showtime.wallet.utils.gone
+import com.showtime.wallet.utils.visible
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.pow
 
 class TransactionHistoryAdapter(
     private var mContext: Context,
-    val data: List<TransactionsData>,
+    val data: List<ConvertedTransaction>,
     private val key: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -35,7 +38,7 @@ class TransactionHistoryAdapter(
     private val sdf = SimpleDateFormat("yyyy-MM-dd")
 
     private val mList =
-        data.groupBy { sdf.format((it.timestamp!! + "000").toDouble()) }
+        data.groupBy { sdf.format((it.timestamp + "000").toDouble()) }
             .map { TransactionGroup(it.key, it.value) }
 
     companion object {
@@ -112,62 +115,66 @@ class TransactionHistoryAdapter(
     }
 
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         val iconToken: ImageView = itemView.findViewById(R.id.icon_token)
+        val transferIconGroup: View = itemView.findViewById(R.id.transfer_icon_group)
+        val swapIconGroup: View = itemView.findViewById(R.id.swap_icon_group)
+        val swapIconFrom : ImageView = itemView.findViewById(R.id.icon_swap_from)
+        val swapIconTo : ImageView = itemView.findViewById(R.id.icon_swap_to)
+
         val iconTransactionType: ImageView = itemView.findViewById(R.id.icon_transaction_type)
         val tvTransactionType: TextView = itemView.findViewById(R.id.tv_transaction_type)
         val tvAddress: TextView = itemView.findViewById(R.id.tv_address)
-        val tvAmount: TextView = itemView.findViewById(R.id.tv_amount)
+        val tvInAmount: TextView = itemView.findViewById(R.id.tv_in_amount)
+        val tvOutAmount: TextView = itemView.findViewById(R.id.tv_out_amount)
 
 
-        fun bind(bean: TransactionsData) {
-            if (bean.source == key) {
-                tvTransactionType.text = "sent"
-                tvAmount.setTextColor(mContext.getColor(R.color.send))
-            } else if (bean.destination == key) {
-                tvTransactionType.text = "receive"
-                tvAmount.setTextColor(mContext.getColor(R.color.receive))
-            } else {
-                //TODO fix me
-                tvTransactionType.text = ""
-                tvAmount.setTextColor(mContext.getColor(R.color.white))
+        fun bind(bean: ConvertedTransaction) {
+            if (bean.type == ConvertedTransaction.TYPE_SEND) {
+                transferIconGroup.visible()
+                swapIconGroup.gone()
+
+                tvTransactionType.text = mContext.getString(R.string.sent)
+//                ImageHelper.obtainImage(mContext, bean.icon1!!, iconToken)
+            } else if (bean.type == ConvertedTransaction.TYPE_RECEIVE) {
+                transferIconGroup.visible()
+                swapIconGroup.gone()
+
+                tvTransactionType.text = mContext.getString(R.string.received)
+
+//                ImageHelper.obtainImage(mContext, bean.icon2!!, iconToken)
+            } else if (bean.type == ConvertedTransaction.TYPE_SWAP) {
+                transferIconGroup.gone()
+                swapIconGroup.visible()
+
+                tvTransactionType.text = mContext.getString(R.string.swap)
+
+                ImageHelper.obtainImage(mContext, bean.icon1!!, swapIconFrom)
+                ImageHelper.obtainImage(mContext, bean.icon2!!, swapIconTo)
+            } else if (bean.type == ConvertedTransaction.TYPE_DK) {
+                iconToken.setImageResource(R.drawable.ic_error)
+                transferIconGroup.visible()
+                swapIconGroup.gone()
+
+                tvTransactionType.text = mContext.getString(R.string.unknown_transaction)
             }
 
-            bean.showTransactionType = tvTransactionType.text.toString()
-            if (bean.token.isNullOrEmpty()) {
-                iconToken.setImageResource(R.drawable.ic_solana)
-                tvAmount.text =
-                    "${bean.amount / (10.toDouble().pow(DefaultTokenListData.SOL.decimals))} SOL"
-                bean.showUrl = ""
-            } else {
-                val token = TokenListCache.getList().findLast { it.mint == bean.token }
+            bean.inAmount?.let { tvInAmount.text = it }?:run { tvInAmount.text = "" }
+            bean.outAmount?.let { tvOutAmount.text = it }?:run { tvOutAmount.text = "" }
+            tvAddress.text = CryptoUtils.getDisplayAddress(bean.handler)
 
-                token?.let {
-                    ImageHelper.obtainImage(mContext, it.logo, iconToken)
-                    tvAmount.text = "${bean.amount / (10.toDouble().pow(it.decimals))} ${it.symbol}"
-                    bean.showUrl = it.logo
-                } ?: run {
-                    iconToken.setImageResource(R.drawable.ic_nft)
-//                ImageHelper.obtainImage(mContext, it.logo, holder.iconToken)
-                    tvAmount.text = "" + bean.amount + " nil"
-                }
-            }
-
-            bean.showAmount = tvAmount.text.toString()
-            tvAddress.text = CryptoUtils.getDisplayAddress(bean.source)
             itemView.clickNoRepeat {
-                TerminalActivity.start(
-                    mContext, TerminalActivity.Companion.FragmentTypeEnum.TRANSACTION_DETAIL,
-                    key,
-                    TransactionDetailFragment.getBundle(bean)
-                )
-                val intent = Intent(mContext, TransactionDetailFragment::class.java)
-                intent.putExtra(AppConstants.KEY, bean)
-                mContext.startActivity(intent)
+//                TerminalActivity.start(
+//                    mContext, TerminalActivity.Companion.FragmentTypeEnum.TRANSACTION_DETAIL,
+//                    key,
+//                    TransactionDetailFragment.getBundle(bean)
+//                )
+//                val intent = Intent(mContext, TransactionDetailFragment::class.java)
+//                intent.putExtra(AppConstants.KEY, bean)
+//                mContext.startActivity(intent)
             }
 
         }
     }
 
-    data class TransactionGroup(val date: String, val items: List<TransactionsData>)
+    data class TransactionGroup(val date: String, val items: List<ConvertedTransaction>)
 }

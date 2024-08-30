@@ -9,26 +9,74 @@
     <!-- Left Icon with Overlapping Arrow -->
     <FrameLayout
         android:id="@+id/leftIconContainer"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/send_token_icon_size"
+        android:layout_height="@dimen/send_token_icon_size"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true">
 
-        <ImageView
-            android:id="@+id/icon_token"
+        <FrameLayout
+            android:id="@+id/transfer_icon_group"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="centerInside" />
+            >
 
-        <ImageView
-            android:id="@+id/icon_transaction_type"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_gravity="bottom|end"
-            android:visibility="gone"
-            android:src="@android:drawable/ic_dialog_info"
-            android:scaleType="centerInside" />
+            <ImageView
+                android:id="@+id/icon_token"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerInside" />
+
+            <ImageView
+                android:id="@+id/icon_transaction_type"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                android:layout_gravity="bottom|end"
+                android:src="@android:drawable/ic_dialog_info"
+                android:scaleType="centerInside" />
+
+
+        </FrameLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/swap_icon_group"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/swap_icon_size"
+            android:layout_height="@dimen/swap_icon_size"
+            app:cardCornerRadius="@dimen/swap_icon_size"
+            >
+            <ImageView
+                android:id="@+id/icon_swap_from"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerInside" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="@dimen/swap_icon_size2"
+            android:layout_height="@dimen/swap_icon_size2"
+            app:cardCornerRadius="@dimen/swap_icon_size2"
+            >
+            <ImageView
+                android:id="@+id/icon_swap_to"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerInside" />
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
     </FrameLayout>
 
     <!-- Text Container -->
@@ -50,7 +98,7 @@
             android:layout_height="wrap_content"
             android:text="Sent"
             android:textColor="#FFFFFF"
-            android:textSize="11sp" />
+            android:textSize="@dimen/text_size_large" />
 
         <!-- Bottom Text -->
         <TextView
@@ -59,17 +107,36 @@
             android:layout_height="wrap_content"
             android:text="to EjAX...gnFX"
             android:textColor="#888888"
-            android:textSize="10sp" />
+            android:textSize="@dimen/text_size_medium" />
     </LinearLayout>
 
-    <!-- Right Text -->
-    <TextView
-        android:id="@+id/tv_amount"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="11sp"
+        android:orientation="vertical"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        >
+
+        <TextView
+            android:id="@+id/tv_out_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-0.001 SOL"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_large"
+            />
+
+        <TextView
+            android:id="@+id/tv_in_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+0.001 SOL"
+            android:textColor="@color/receive"
+            android:textSize="@dimen/text_size_large"
+            />
+
+    </LinearLayout>
+
+
 </RelativeLayout>

@@ -28,7 +28,7 @@
                 <TextView
                     android:id="@+id/tv_account_name"
                     android:text="Account01"
-                    android:textSize="10dp"
+                    android:textSize="@dimen/text_size_medium"
                     android:textColor="@color/info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -39,9 +39,9 @@
             <ImageView
                 android:src="@drawable/ic_settings"
                 android:layout_alignParentRight="true"
-                android:padding="4dp"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:padding="@dimen/setting_icon_padding"
+                android:layout_width="@dimen/setting_icon_size"
+                android:layout_height="@dimen/setting_icon_size"
                 />
 
         </RelativeLayout>

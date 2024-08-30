@@ -55,12 +55,13 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
                         token1 = it
                         onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN1, token1)
                     }
-
                     SwapVModel.TokenTypeEnum.TOKEN2.value -> {
                         token2 = it
                         onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN2, token2)
                     }
                 }
+
+                onTokenPairUpdated()
             }
 
         mViewModel.getTokenPairUpdated.observe(viewLifecycleOwner){
@@ -116,6 +117,15 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
 
             onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN1, token2)
             onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN2, oldToken1)
+
+            //update amount
+            val amount1 = coinAmount1.text
+            val amount2 = coinAmount2.text
+
+            coinAmount1.text = amount2
+            coinAmount2.text = amount1
+
+            onTokenPairUpdated()
         }
 
         coinAmount2.addTextChangeListener {
@@ -173,6 +183,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
 
     private fun postHandleArguments(){
         val extras = requireArguments()
+
         if (extras.containsKey("token1")) {
             onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN1, extras.getParcelable("token1"))
         } else {
@@ -184,6 +195,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
 
         if (extras.containsKey("token2")) {
             onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN2, extras.getParcelable("token2"))
+            onTokenPairUpdated()
         }
 
         if (extras.containsKey("inAmount")) {
@@ -229,8 +241,6 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             mBinding.coinBalance1.text = token?.uiAmount.toString()
             ImageHelper.obtainImage(requireActivity(), token?.logo ?: "", mBinding.coinIcon1)
         }
-
-        onTokenPairUpdated()
     }
 
     private fun updateInAmount(outAmount: Double) {
