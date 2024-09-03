@@ -1,62 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:padding="6dp"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
-        <ImageView
-            android:id="@+id/token_icon"
-            android:src="@drawable/ic_solana"
+        <androidx.cardview.widget.CardView
             android:layout_marginRight="8dp"
+            app:cardCornerRadius="@dimen/token_icon_size"
             android:layout_width="@dimen/token_icon_size"
             android:layout_height="@dimen/token_icon_size"
-            />
+            >
 
-        <TextView
-            android:id="@+id/token_name"
-            android:layout_toRightOf="@+id/token_icon"
-            android:textSize="@dimen/text_size_large"
-            android:text="Solana"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/token_icon"
+                android:src="@drawable/ic_solana"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            />
+            >
 
-        <TextView
-            android:id="@+id/token_amount"
-            android:layout_below="@+id/token_name"
-            android:layout_toRightOf="@+id/token_icon"
-            android:textSize="@dimen/text_size_medium"
-            android:text="12.128 SOL"
-            android:textColor="#88FFFFFF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            <TextView
+                android:id="@+id/token_name"
+                android:layout_toRightOf="@+id/token_icon"
+                android:textSize="@dimen/text_size_large"
+                android:text="Solana"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
 
+            <TextView
+                android:id="@+id/token_amount"
+                android:textSize="@dimen/text_size_medium"
+                android:text="12.128 SOL"
+                android:textColor="@color/text_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
 
         <TextView
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/token_price"
             tools:comment="TODO fetch price"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center"
             android:textSize="@dimen/text_size_medium"
-            android:text=""
-            android:textColor="#AAAAAA"
+            android:textColor="@color/text_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_marginLeft="8dp"

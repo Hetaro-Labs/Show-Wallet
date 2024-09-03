@@ -11,6 +11,8 @@ import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.AppConstants
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.utils.clickNoRepeat
+import com.showtime.wallet.utils.gone
+import com.showtime.wallet.utils.visible
 import com.showtime.wallet.vm.WalletHomeVModel
 
 class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, WalletHomeVModel>() {
@@ -60,6 +62,9 @@ class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, Wa
 
         tokenSearchInput.setOnKeyListener { view, i, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_UP && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
+                setAdapter(ArrayList())
+                mBinding.viewLoading.visible()
+
                 val serachTxt = tokenSearchInput.text.toString()
                 if (serachTxt.isNotEmpty()) {
                     val searchConditionList =
@@ -78,6 +83,8 @@ class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, Wa
     }
 
     private fun setAdapter(list: List<Token>) {
+        mBinding.viewLoading.gone()
+
         val adapter =
             TokenAccountsByOwnerAdapter(
                 requireContext(),

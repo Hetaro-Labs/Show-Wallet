@@ -31,6 +31,30 @@
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/view_loading"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/window_padding"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="@string/loading"
+                />
+
+            <ProgressBar
+                android:layout_width="@dimen/loading_bar"
+                android:layout_height="@dimen/loading_bar"
+                />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/rv_token_list"
             tools:listitem="@layout/layout_token"
