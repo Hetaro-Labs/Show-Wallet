@@ -130,7 +130,8 @@
                 >
 
                 <!-- Info Row -->
-                <RelativeLayout
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
@@ -139,45 +140,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/best_price"
-                        android:textColor="#B0B0B0"
+                        android:textColor="@color/text_info"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:id="@+id/lowest_price_value"
-                        android:layout_width="wrap_content"
+                        android:gravity="right"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text=""
-                        android:textColor="#B0B0B0"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_size_medium" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
                 <!-- Info Row -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/swap_fee"
-                        android:textColor="#B0B0B0"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="$0.005"
-                        android:textColor="#B0B0B0"
-                        android:textSize="@dimen/text_size_medium" />
-                </RelativeLayout>
-
-                <!-- Info Row -->
-                <RelativeLayout
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
@@ -186,18 +165,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/provider"
-                        android:textColor="#B0B0B0"
+                        android:textColor="@color/text_info"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:id="@+id/provider_name"
-                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:gravity="right"
                         android:text=""
-                        android:textColor="#B0B0B0"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_size_medium" />
-                </RelativeLayout>
+                </LinearLayout>
 
                 <!-- Info Row -->
                 <RelativeLayout
@@ -209,7 +189,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/price_impact"
-                        android:textColor="#B0B0B0"
+                        android:textColor="@color/text_info"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
@@ -218,7 +198,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="0%"
-                        android:textColor="#B0B0B0"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_size_medium" />
                 </RelativeLayout>
 
@@ -232,7 +212,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/slippage"
-                        android:textColor="#B0B0B0"
+                        android:textColor="@color/text_info"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
@@ -241,12 +221,38 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="0.50%"
-                        android:textColor="#B0B0B0"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_medium" />
+                </RelativeLayout>
+
+
+
+                <!-- Info Row -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/swap_fee"
+                        android:textColor="@color/text_info"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="$0.005"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_size_medium" />
                 </RelativeLayout>
 
                 <!-- Info Row -->
                 <RelativeLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -254,9 +260,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/swap_fee_includes"
-                        android:textColor="#B0B0B0"
-                        android:textSize="8sp" />
+                        android:textColor="@color/text_info"
+                        android:textSize="@dimen/text_size_small" />
                 </RelativeLayout>
+
             </LinearLayout>
 
                     <TextView
@@ -285,7 +292,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/swap"
                     android:textColor="#FFFFFF"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_large"
                     android:textStyle="bold" />
 
                 <ProgressBar

@@ -5,7 +5,7 @@ import com.amez.mall.lib_base.bean.GetAssetsByOwnerResp
 import com.amez.mall.lib_base.bean.SwapReq
 import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenInfoReq
-import com.amez.mall.lib_base.bean.TokenInfoResp
+import com.amez.mall.lib_base.bean.TokenInfoResult
 import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.bean.TransactionsResp
 import retrofit2.Call
@@ -19,7 +19,7 @@ import java.math.BigInteger
 interface ApiService {
 
     @POST("tokens")
-    fun getTokens(@Body reqBean: TokenInfoReq): Call<TokenInfoResp>
+    fun getTokens(@Body reqBean: TokenInfoReq): Call<HashMap<String, TokenInfoResult>>
 
     @GET("accounts/{publicKeyString}/transfers?utcFrom=0&utcTo=12698883199&page=1")
     fun getTransactions(@Path("publicKeyString") publicKeyString: String?): Call<TransactionsResp>

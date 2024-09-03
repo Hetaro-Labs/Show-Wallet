@@ -81,7 +81,8 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
             resp = it
 
             mBinding.slippage.text = it.slippageBps?.toString() + "%"
-            mBinding.priceImpact.text = it.priceImpactPct
+
+            mBinding.priceImpact.text = String.format("%.2f", (it.priceImpactPct!!.toDouble() * 100.0)) + "%"
 
             val uiAmount = resp!!.outAmount!!.toLong() / 10.0.pow(token2.decimals)
             mBinding.exchangeAmount.text = "${uiAmount} ${token2.symbol}"

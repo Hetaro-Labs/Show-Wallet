@@ -6,7 +6,7 @@ import com.amez.mall.lib_base.bean.GetAssetsByOwnerResp
 import com.amez.mall.lib_base.bean.SwapReq
 import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenInfoReq
-import com.amez.mall.lib_base.bean.TokenInfoResp
+import com.amez.mall.lib_base.bean.TokenInfoResult
 import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.bean.TransactionsResp
 import com.amez.mall.lib_base.utils.Logger
@@ -23,9 +23,9 @@ object ApiRequest {
 
     private val TAG = ApiRequest::class.simpleName
 
-    private const val SOLAN_BASE_URL = "https://api.solana.fm/v0/"
+    private const val SOLAN_BASE_URL = "https://api.solana.fm/v1/"
 
-    fun getTokens(req: TokenInfoReq): Response<TokenInfoResp> {
+    fun getTokens(req: TokenInfoReq): Response<HashMap<String, TokenInfoResult>> {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
         val httpClient = OkHttpClient.Builder()
@@ -38,22 +38,11 @@ object ApiRequest {
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
-        val call: Call<TokenInfoResp> = apiService.getTokens(req)
+        val call: Call<HashMap<String, TokenInfoResult>> = apiService.getTokens(req)
         return call.execute()
-
-//        call.enqueue(object : Callback<TokenInfoResp> {
-//            override fun onFailure(call: Call<TokenInfoResp>, t: Throwable) {
-//            }
-//
-//            override fun onResponse(call: Call<TokenInfoResp>, response: Response<TokenInfoResp>) {
-//                if (response.isSuccessful || response.code() == 400) callback.invoke(
-//                    response.body() ?: TokenInfoResp(null, null, null)
-//                )
-//            }
-//        })
     }
 
-    fun getTokens(req: TokenInfoReq, callback: (TokenInfoResp) -> Unit) {
+    fun getTokens(req: TokenInfoReq, callback: (HashMap<String, TokenInfoResult>) -> Unit) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
         val httpClient = OkHttpClient.Builder()
@@ -66,14 +55,14 @@ object ApiRequest {
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
-        val call: Call<TokenInfoResp> = apiService.getTokens(req)
-        call.enqueue(object : Callback<TokenInfoResp> {
-            override fun onFailure(call: Call<TokenInfoResp>, t: Throwable) {
+        val call: Call<HashMap<String, TokenInfoResult>> = apiService.getTokens(req)
+        call.enqueue(object : Callback<HashMap<String, TokenInfoResult>> {
+            override fun onFailure(call: Call<HashMap<String, TokenInfoResult>>, t: Throwable) {
             }
 
-            override fun onResponse(call: Call<TokenInfoResp>, response: Response<TokenInfoResp>) {
+            override fun onResponse(call: Call<HashMap<String, TokenInfoResult>>, response: Response<HashMap<String, TokenInfoResult>>) {
                 if (response.isSuccessful || response.code() == 400) callback.invoke(
-                    response.body() ?: TokenInfoResp(null, null, null)
+                    response.body() ?: HashMap()
                 )
             }
         })

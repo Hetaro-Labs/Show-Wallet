@@ -66,10 +66,10 @@ class TransactionStatusFragment :
                     mBinding.statusBody.text =
                         when (keyType) {
                             TYPE_SWAP -> {
-                                getString(R.string.swapped) + message
+                                getString(R.string.swapped) + " " + message
                             }
                             TYPE_SEND_TOKEN -> {
-                                getString(R.string.sent) + message
+                                getString(R.string.sent) + " " + message
                             }
                             else -> {
                                 message
@@ -93,11 +93,11 @@ class TransactionStatusFragment :
         mBinding.statusBody.text =
             when (keyType) {
                 TYPE_SWAP -> {
-                    getString(R.string.swaping) + message
+                    getString(R.string.swaping) + " " + message
                 }
 
                 TYPE_SEND_TOKEN -> {
-                    getString(R.string.sending) + message
+                    getString(R.string.sending) + " " + message
                 }
 
                 else -> {

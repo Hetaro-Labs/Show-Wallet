@@ -93,7 +93,7 @@ class WalletHomeVModel : BaseWalletVModel() {
     private fun getTokenPriceInUsd(tList: List<Token>, i: Int = 0, totalBalance: Double = 0.0) {
         if (i == tList.size) {
             _getBlanceTotal.postValue("$${String.format("%.2f", totalBalance)}")
-            TokenListCache.saveList(tList)
+//            TokenListCache.saveList(tList)
         } else {
             val token = tList[i]
             log("getPriceInUSD[${token.tokenName}]=" + token.mint)
@@ -175,10 +175,10 @@ class WalletHomeVModel : BaseWalletVModel() {
                         val data = response.body()
 
                         //4.assemble all tokens
-                        data?.result?.forEach {
-                            log("get token: " + it.data.tokenName)
+                        data?.values?.forEach {
+                            log("get token: " + it.tokenList.name)
                             val item = result.value.find { candidate ->
-                                candidate.account.data.parsed.info.mint == it.data.mint
+                                candidate.account.data.parsed.info.mint == it.mint
                             }!!
 
                             val amount = item.account.data.parsed.info.tokenAmount
@@ -186,11 +186,11 @@ class WalletHomeVModel : BaseWalletVModel() {
 
                             tokensList.add(
                                 Token(
-                                    mint = it.data.mint,
-                                    tokenName = it.data.tokenName,
-                                    symbol = it.data.symbol,
-                                    decimals = it.data.decimals,
-                                    logo = it.data.logo,
+                                    mint = it.mint,
+                                    tokenName = it.tokenList.name,
+                                    symbol = it.tokenList.symbol,
+                                    decimals = it.decimals,
+                                    logo = it.tokenList.image,
                                     uiAmount = item.account.data.parsed.info.tokenAmount.uiAmount,
                                     isNFT = (amount.decimals == 0 && amount.uiAmount == 1.0),
                                     tokenType = "",
@@ -244,16 +244,17 @@ class WalletHomeVModel : BaseWalletVModel() {
     fun getTokensBySearch(address: String) {
         val mintsList = arrayListOf<String>()
         mintsList.add(address)
+
         ApiRequest.getTokens(TokenInfoReq(Hydration(true), mintsList)) { data ->
             val tokensList = mutableListOf<Token>()
-            data.result?.forEach {
+            data.values.forEach {
                 tokensList.add(
                     Token(
-                        mint = it.data.mint,
-                        tokenName = it.data.tokenName,
-                        symbol = it.data.symbol,
-                        decimals = it.data.decimals,
-                        logo = it.data.logo,
+                        mint = it.mint,
+                        tokenName = it.tokenList.name,
+                        symbol = it.tokenList.symbol,
+                        decimals = it.decimals,
+                        logo = it.tokenList.image,
                         uiAmount = 0.0,
                         isNFT = false,
                         tokenType = "",

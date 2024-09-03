@@ -8,7 +8,9 @@ import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.net.ApiRequest
 import com.showtime.wallet.net.QuickNodeUrl
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.sol4k.Connection
 import org.sol4k.exception.RpcException
@@ -48,7 +50,10 @@ class SwapVModel : BaseWalletVModel() {
             val connection = Connection(QuickNodeUrl.MAINNNET)
 
             try {
-                val signature = connection.sendTransaction(transaction)
+                val signature = withContext(Dispatchers.IO){
+                    connection.sendTransaction(transaction)
+                }
+
                 _getTransactionHash.postValue(signature)
             } catch (e: RpcException) {
                 log(e.rawResponse)

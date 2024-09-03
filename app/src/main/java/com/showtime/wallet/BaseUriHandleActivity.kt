@@ -93,15 +93,15 @@ open class BaseUriHandleActivity : BaseProjNotMVVMActivity<ActivityHandleUriBind
 
     private fun getToken(mint: String, callback: (Token?) -> Unit) {
         ApiRequest.getTokens(TokenInfoReq(Hydration(true), listOf(mint))) { data ->
-            if (data.result?.isNotEmpty() == true) {
-                val it = data.result!![0]
+            if (data.values.isNotEmpty() == true) {
+                val it = data.values.iterator().next()
                 callback(
                     Token(
-                        mint = it.data.mint,
-                        tokenName = it.data.tokenName,
-                        symbol = it.data.symbol,
-                        decimals = it.data.decimals,
-                        logo = it.data.logo,
+                        mint = it.mint,
+                        tokenName = it.tokenList.name,
+                        symbol = it.tokenList.symbol,
+                        decimals = it.decimals,
+                        logo = it.tokenList.image,
                         uiAmount = 0.0,
                         isNFT = false,
                         tokenType = "",

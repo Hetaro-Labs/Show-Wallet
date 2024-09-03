@@ -21,7 +21,6 @@
                 style="@style/Input" />
 
             <ImageView
-                android:id="@+id/iv_search"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginRight="12dp"

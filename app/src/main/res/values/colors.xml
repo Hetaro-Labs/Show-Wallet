@@ -8,4 +8,5 @@
     <color name="receive">#19FB9B</color>
     <color name="send">#9945FF</color>
     <color name="divider">#22FFFFFF</color>
+    <color name="text_info">#9A9A9A</color>
 </resources>

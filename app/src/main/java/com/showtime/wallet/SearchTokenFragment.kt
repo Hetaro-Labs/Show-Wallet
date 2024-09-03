@@ -3,6 +3,7 @@ package com.showtime.wallet
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import com.amez.mall.lib_base.ui.BaseProjActivity
 import com.showtime.wallet.adapter.TokenAccountsByOwnerAdapter
 import com.showtime.wallet.databinding.FragmentSearchTokenBinding
@@ -14,8 +15,8 @@ import com.showtime.wallet.vm.WalletHomeVModel
 
 class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, WalletHomeVModel>() {
 
-    companion object{
-        fun start(context: Context, selectedPublicKey: String, to: String = ""){
+    companion object {
+        fun start(context: Context, selectedPublicKey: String, to: String = "") {
             val bundle = Bundle()
             bundle.putString("to", to)
 
@@ -29,7 +30,8 @@ class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, Wa
     }
 
     private lateinit var tokenList: List<Token>
-    private var fromSwap = false //Is it coming from swapFragment? The adapter needs to handle click events
+    private var fromSwap =
+        false //Is it coming from swapFragment? The adapter needs to handle click events
     private lateinit var tokenType: String
     private var to: String = ""
 
@@ -55,22 +57,36 @@ class SearchTokenFragment : BaseSecondaryFragment<FragmentSearchTokenBinding, Wa
     @SuppressLint("NotifyDataSetChanged")
     override fun FragmentSearchTokenBinding.initView() {
         setAdapter(tokenList)
-        ivSearch.clickNoRepeat {
-            val serachTxt = tokenSearchInput.text.toString()
-            if (serachTxt.isEmpty()) return@clickNoRepeat
-            val searchConditionList =
-                tokenList.filter { it.symbol.contains(serachTxt) } //Currently, we use symbol fuzzy search
-            if (searchConditionList.isEmpty()) {
-                mViewModel.getTokensBySearch(serachTxt)
-            } else {
-                setAdapter(searchConditionList as ArrayList<Token>)
+
+        tokenSearchInput.setOnKeyListener { view, i, keyEvent ->
+            if (keyEvent.action == KeyEvent.ACTION_UP && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
+                val serachTxt = tokenSearchInput.text.toString()
+                if (serachTxt.isNotEmpty()) {
+                    val searchConditionList =
+                        tokenList.filter { it.tokenName.contains(serachTxt) } //Currently, we use symbol fuzzy search
+                    if (searchConditionList.isEmpty()) {
+                        mViewModel.getTokensBySearch(serachTxt)
+                    } else {
+                        setAdapter(searchConditionList as ArrayList<Token>)
+                    }
+                }
             }
+
+            true
         }
+
     }
 
     private fun setAdapter(list: List<Token>) {
         val adapter =
-            TokenAccountsByOwnerAdapter(requireContext(), list.toMutableList(), fromSwap, tokenType, key, to)
+            TokenAccountsByOwnerAdapter(
+                requireContext(),
+                list.toMutableList(),
+                fromSwap,
+                tokenType,
+                key,
+                to
+            )
         mBinding.rvTokenList.adapter = adapter
     }
 

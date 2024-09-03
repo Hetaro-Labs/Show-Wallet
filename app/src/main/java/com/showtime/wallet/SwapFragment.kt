@@ -21,7 +21,7 @@ import kotlin.math.pow
 
 class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
 
-//    private var respData: TokenPairUpdatedResp? = null
+    //    private var respData: TokenPairUpdatedResp? = null
     private var price: Double? = null
     private var token1: Token? = null
     private var token2: Token? = null
@@ -30,7 +30,14 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
     private var onInputValueChanged = false
 
     companion object {
-        fun start(context: Context, key: String, token1: Token, token2: Token, inAmount: Double?, outAmount: Double?) {
+        fun start(
+            context: Context,
+            key: String,
+            token1: Token,
+            token2: Token,
+            inAmount: Double?,
+            outAmount: Double?
+        ) {
             val bundle = Bundle()
             bundle.putParcelable("token1", token1)
             bundle.putParcelable("token2", token2)
@@ -40,7 +47,12 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             outAmount?.let {
                 bundle.putDouble("outAmount", it)
             }
-            TerminalActivity.start(context, TerminalActivity.Companion.FragmentTypeEnum.SWAP, key, bundle)
+            TerminalActivity.start(
+                context,
+                TerminalActivity.Companion.FragmentTypeEnum.SWAP,
+                key,
+                bundle
+            )
         }
     }
 
@@ -55,6 +67,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
                         token1 = it
                         onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN1, token1)
                     }
+
                     SwapVModel.TokenTypeEnum.TOKEN2.value -> {
                         token2 = it
                         onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN2, token2)
@@ -64,7 +77,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
                 onTokenPairUpdated()
             }
 
-        mViewModel.getTokenPairUpdated.observe(viewLifecycleOwner){
+        mViewModel.getTokenPairUpdated.observe(viewLifecycleOwner) {
             price = (it.outAmount?.toDouble()!! / 10.0.pow(token2!!.decimals)) /
                     (it.inAmount?.toDouble()!! / 10.0.pow(token1!!.decimals))
 
@@ -73,14 +86,20 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             for (plan in it.routePlan ?: arrayListOf())
                 providerName = providerName + plan.swapInfo?.label + "+"
             mBinding.providerName.text = providerName
-            mBinding.btnReviewSwap.isEnabled = true
 
-            if (inputInAmount){
-                val inAmount = mBinding.coinAmount1.text.toString().let {
-                    if (it.isEmpty()) 0.0 else it.toDouble()
-                }
+            mBinding.layoutLlmInfo.visible()
+
+            val inAmount = mBinding.coinAmount1.text.toString().let {
+                if (it.isEmpty()) 0.0 else it.toDouble()
+            }
+
+            if (inAmount > 0) {
+                mBinding.btnReviewSwap.isEnabled = true
+            }
+
+            if (inputInAmount) {
                 updateOutAmount(inAmount)
-            }else{
+            } else {
                 val outAmount = mBinding.coinAmount2.text.toString().let {
                     if (it.isEmpty()) 0.0 else it.toDouble()
                 }
@@ -92,12 +111,12 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
     override fun initRequestData() {
     }
 
-    private fun insufficientBalance(){
+    private fun insufficientBalance() {
         mBinding.btnReviewSwap.isEnabled = false
         mBinding.amount1ErrorMessage.visible()
     }
 
-    private fun sufficientBalance(){
+    private fun sufficientBalance() {
         mBinding.btnReviewSwap.isEnabled = true
         mBinding.amount1ErrorMessage.gone()
     }
@@ -129,7 +148,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
         }
 
         coinAmount2.addTextChangeListener {
-            if (onInputValueChanged){
+            if (onInputValueChanged) {
                 onInputValueChanged = false
                 return@addTextChangeListener
             }
@@ -147,7 +166,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
         }
 
         coinAmount1.addTextChangeListener {
-            if (onInputValueChanged){
+            if (onInputValueChanged) {
                 onInputValueChanged = false
                 return@addTextChangeListener
             }
@@ -157,16 +176,20 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             }
 
             inputInAmount = true
-            if (token1!!.uiAmount >= inAmount) {
-                sufficientBalance()
 
-                if (price == null) {
-                    onTokenPairUpdated()
+            if (inAmount <= 0.0){
+                mBinding.btnReviewSwap.isEnabled = false
+            }else{
+                if (token1!!.uiAmount >= inAmount) {
+                    sufficientBalance()
+                    if (price == null) {
+                        onTokenPairUpdated()
+                    } else {
+                        updateOutAmount(inAmount)
+                    }
                 } else {
-                    updateOutAmount(inAmount)
+                    insufficientBalance()
                 }
-            } else {
-                insufficientBalance()
             }
         }
 
@@ -181,7 +204,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
         postHandleArguments()
     }
 
-    private fun postHandleArguments(){
+    private fun postHandleArguments() {
         val extras = requireArguments()
 
         if (extras.containsKey("token1")) {
