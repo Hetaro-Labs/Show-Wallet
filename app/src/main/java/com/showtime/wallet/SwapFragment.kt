@@ -254,13 +254,13 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             mBinding.btnSwitchTokens.visible()
             mBinding.token2Layout.visible()
             mBinding.btnSelectToken.gone()
-            mBinding.coinName2.text = token?.tokenName
-            mBinding.coinBalance2.text = token?.uiAmount.toString()
+            mBinding.coinName2.text = token?.symbol
+//            mBinding.coinBalance2.text = token?.uiAmount.toString()
             ImageHelper.obtainImage(requireActivity(), token?.logo ?: "", mBinding.coinIcon2)
         } else {
             token1 = token
 
-            mBinding.coinName1.text = token?.tokenName
+            mBinding.coinName1.text = token?.symbol
             mBinding.coinBalance1.text = token?.uiAmount.toString()
             ImageHelper.obtainImage(requireActivity(), token?.logo ?: "", mBinding.coinIcon1)
         }

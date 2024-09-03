@@ -123,7 +123,7 @@
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-0.001 SOL"
+            android:text="-0.1 SOL"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/text_size_large"
             />

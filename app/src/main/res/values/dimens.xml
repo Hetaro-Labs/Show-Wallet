@@ -44,4 +44,6 @@
     <dimen name="swap_icon_size2">60dp</dimen>
     <dimen name="setting_icon_padding">8dp</dimen>
     <dimen name="loading_bar">30dp</dimen>
+
+    <dimen name="swap_token_icon_size">40dp</dimen>
 </resources>
