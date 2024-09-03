@@ -146,7 +146,7 @@ class TransactionHistoryAdapter(
                 transferIconGroup.gone()
                 swapIconGroup.visible()
 
-                tvTransactionType.text = mContext.getString(R.string.swap)
+                tvTransactionType.text = "" //mContext.getString(R.string.swap)
 
                 ImageHelper.obtainImage(mContext, bean.icon1!!, swapIconFrom)
                 ImageHelper.obtainImage(mContext, bean.icon2!!, swapIconTo)

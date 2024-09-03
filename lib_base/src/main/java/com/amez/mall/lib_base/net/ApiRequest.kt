@@ -23,7 +23,7 @@ object ApiRequest {
 
     private val TAG = ApiRequest::class.simpleName
 
-    private const val SOLAN_BASE_URL = "https://api.solana.fm/v1/"
+    private const val SOLAN_BASE_URL = "https://api.solana.fm/"
 
     fun getTokens(req: TokenInfoReq): Response<HashMap<String, TokenInfoResult>> {
         val logging = HttpLoggingInterceptor()

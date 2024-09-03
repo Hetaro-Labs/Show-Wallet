@@ -18,10 +18,10 @@ import java.math.BigInteger
 
 interface ApiService {
 
-    @POST("tokens")
+    @POST("v1/tokens")
     fun getTokens(@Body reqBean: TokenInfoReq): Call<HashMap<String, TokenInfoResult>>
 
-    @GET("accounts/{publicKeyString}/transfers?utcFrom=0&utcTo=12698883199&page=1")
+    @GET("v0/accounts/{publicKeyString}/transfers?utcFrom=0&utcTo=12698883199&page=1")
     fun getTransactions(@Path("publicKeyString") publicKeyString: String?): Call<TransactionsResp>
 
     @GET("v6/quote")

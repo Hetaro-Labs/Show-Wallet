@@ -64,7 +64,7 @@ class ConvertedTransaction(
             } else if (outAmount == null) {
                 ConvertedTransaction(TYPE_RECEIVE, handler, inAmount, null, timestamp, icon1, icon2)
             } else {
-                ConvertedTransaction(TYPE_SWAP, "Jupiter", inAmount, outAmount, timestamp, icon1, icon2)
+                ConvertedTransaction(TYPE_SWAP, "", inAmount, outAmount, timestamp, icon1, icon2)
             }
         }
     }
