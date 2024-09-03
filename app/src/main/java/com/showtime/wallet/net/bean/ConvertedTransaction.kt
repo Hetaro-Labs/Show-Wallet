@@ -45,11 +45,11 @@ class ConvertedTransaction(
                         }
 
                         if (item.source == myPublicKey) {
-                            outAmount = amount
+                            outAmount = "-$amount"
                             handler = item.destination!!
                             icon1 = token?.logo
                         } else if (item.destination == myPublicKey) {
-                            inAmount = amount
+                            inAmount = "+$amount"
                             handler = item.source!!
                             icon2 = token?.logo
                         }

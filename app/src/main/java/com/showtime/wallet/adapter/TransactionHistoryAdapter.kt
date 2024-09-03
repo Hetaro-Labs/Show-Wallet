@@ -134,14 +134,14 @@ class TransactionHistoryAdapter(
                 swapIconGroup.gone()
 
                 tvTransactionType.text = mContext.getString(R.string.sent)
-//                ImageHelper.obtainImage(mContext, bean.icon1!!, iconToken)
+                ImageHelper.obtainImage(mContext, bean.icon1!!, iconToken)
             } else if (bean.type == ConvertedTransaction.TYPE_RECEIVE) {
                 transferIconGroup.visible()
                 swapIconGroup.gone()
 
                 tvTransactionType.text = mContext.getString(R.string.received)
 
-//                ImageHelper.obtainImage(mContext, bean.icon2!!, iconToken)
+                ImageHelper.obtainImage(mContext, bean.icon2!!, iconToken)
             } else if (bean.type == ConvertedTransaction.TYPE_SWAP) {
                 transferIconGroup.gone()
                 swapIconGroup.visible()

@@ -12,7 +12,6 @@ import com.amez.mall.lib_base.bean.TransactionsResp
 import com.amez.mall.lib_base.utils.Logger
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.bouncycastle.util.test.FixedSecureRandom.BigInteger
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -114,7 +113,7 @@ object ApiRequest {
         })
     }
 
-    fun getPriceInUSD(
+    fun getAmountInUSD(
         uiAmount: Double,
         decimals: Int,
         mint: String,
@@ -138,7 +137,6 @@ object ApiRequest {
                 callback(outUiAmount)
             }
         }
-
     }
 
     fun getTokenPairUpdated(

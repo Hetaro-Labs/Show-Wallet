@@ -10,6 +10,6 @@
             android:layout_height="wrap_content"
             android:text="to EjAX...gnFX"
             android:textColor="#888888"
-            android:textSize="10sp" />
+            android:textSize="@dimen/text_size_medium" />
 
 </RelativeLayout>

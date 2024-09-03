@@ -98,14 +98,18 @@ class WalletHomeVModel : BaseWalletVModel() {
             val token = tList[i]
             log("getPriceInUSD[${token.tokenName}]=" + token.mint)
 
-            ApiRequest.getPriceInUSD(
+            ApiRequest.getAmountInUSD(
                 token.uiAmount,
                 token.decimals,
                 token.mint
             ) { balance ->
                 //called 3 times
-                log("getPriceInUSD[${token.tokenName}]->" + token+ ": " + balance)
+                log("getPriceInUSD[${token.tokenName}]->" + token + ": " + balance)
                 token.amountInUsd = balance
+
+                val price = balance / token.uiAmount
+                TokenListCache.savePrice(token.mint, price)
+
                 _getTokenPrice.postValue(token)
 
                 getTokenPriceInUsd(tList, i + 1, totalBalance + balance)
@@ -220,6 +224,11 @@ class WalletHomeVModel : BaseWalletVModel() {
                                         tokenAccount = ""
                                     )
                                 )
+                        }
+
+                        for (token in tokensList) {
+                            val price = TokenListCache.getPrice(token.mint)
+                            token.amountInUsd = token.uiAmount * price
                         }
 
                         //6.post data to fill adapter
