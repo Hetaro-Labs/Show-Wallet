@@ -8,6 +8,7 @@ import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenPairUpdatedResp
 import com.amez.mall.lib_base.net.ApiRequest
 import com.showtime.wallet.net.QuickNodeUrl
+import com.showtime.wallet.net.bean.Token
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,6 +28,32 @@ class SwapVModel : BaseWalletVModel() {
 
     private val _getSwapTransaction = MutableLiveData<SwapResp>()
     val getSwapTransaction: MutableLiveData<SwapResp> = _getSwapTransaction
+
+    private val _getToken1Price = MutableLiveData<Double>()
+    val getToken1Price: MutableLiveData<Double> = _getToken1Price
+
+    private val _getToken2Price = MutableLiveData<Double>()
+    val getToken2Price: MutableLiveData<Double> = _getToken2Price
+
+    fun getToken1PriceUpdated(token: Token) {
+        ApiRequest.getAmountInUSD(
+            1.0,
+            token.decimals,
+            token.mint
+        ){
+            _getToken1Price.postValue(it)
+        }
+    }
+
+    fun getToken2PriceUpdated(token: Token) {
+        ApiRequest.getAmountInUSD(
+            1.0,
+            token.decimals,
+            token.mint
+        ){
+            _getToken2Price.postValue(it)
+        }
+    }
 
     fun getTokenPairUpdated(mint1: String, mint2: String, amount1: BigInteger) {
         ApiRequest.getTokenPairUpdated(mint1, mint2, amount1) {

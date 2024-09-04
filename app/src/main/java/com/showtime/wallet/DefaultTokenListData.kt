@@ -26,6 +26,19 @@ class DefaultTokenListData {
             ""
         )
 
+        val USDC = Token(
+            "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "USDC",
+            "USDC",
+            6,
+            "drawable://${R.drawable.ic_usdc}",
+            0.0,
+            false,
+            "",
+            ""
+        )
+
+
         val JSON = "[\n" +
 //                "    {\n" +
 //                "        \"mint\": \"So11111111111111111111111111111111111111112\",\n" +

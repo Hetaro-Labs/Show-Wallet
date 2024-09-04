@@ -9,7 +9,7 @@
                 android:endColor="#5519FB9B"
                 android:startColor="#559945FF" />
             <corners
-                android:radius="6dp" />
+                android:radius="@dimen/background_radius" />
         </shape>
     </item>
     <!-- create the stroke for top, left, bottom and right with the dp you want -->
@@ -22,7 +22,7 @@
             <!-- fill the inside in the color you want (could also be a gradient again if you want to, just change solid to gradient and enter angle, start, maybe center, and end color) -->
             <solid android:color="#222" />
             <corners
-                android:radius="6dp" />
+                android:radius="@dimen/background_radius" />
         </shape>
     </item>
 </layer-list>

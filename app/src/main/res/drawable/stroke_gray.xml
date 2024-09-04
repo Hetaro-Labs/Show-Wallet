@@ -9,7 +9,7 @@
                 android:width="1dp"
                 />
             <corners
-                android:radius="8dp" />
+                android:radius="@dimen/background_radius" />
         </shape>
     </item>
 

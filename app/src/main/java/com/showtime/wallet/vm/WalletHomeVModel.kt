@@ -228,7 +228,7 @@ class WalletHomeVModel : BaseWalletVModel() {
 
                         for (token in tokensList) {
                             val price = TokenListCache.getPrice(token.mint)
-                            token.amountInUsd = token.uiAmount * price
+                            token.amountInUsd = token.uiAmount * (price ?: 0.0)
                         }
 
                         //6.post data to fill adapter

@@ -8,7 +8,7 @@
             <solid android:color="#33FFFFFF" />
 
             <corners
-                android:radius="12dp" />
+                android:radius="@dimen/background_radius" />
         </shape>
     </item>
 </layer-list>

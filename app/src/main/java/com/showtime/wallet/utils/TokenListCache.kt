@@ -13,8 +13,8 @@ object TokenListCache {
         put("price_$mint", price)
     }
 
-    fun getPrice(mint: String): Double {
-        return getDouble("price_$mint") ?: 0.0
+    fun getPrice(mint: String): Double? {
+        return getDouble("price_$mint")
     }
 
     fun saveList(list: List<Token>) {

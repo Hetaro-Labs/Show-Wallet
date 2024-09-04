@@ -46,4 +46,5 @@
     <dimen name="loading_bar">30dp</dimen>
 
     <dimen name="swap_token_icon_size">40dp</dimen>
+    <dimen name="background_radius">16dp</dimen>
 </resources>

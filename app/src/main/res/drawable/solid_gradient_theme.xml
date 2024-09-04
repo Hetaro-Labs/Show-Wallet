@@ -9,7 +9,7 @@
                 android:endColor="#FF19FB9B"
                 android:startColor="#FF9945FF" />
             <corners
-                android:radius="6dp" />
+                android:radius="@dimen/background_radius" />
         </shape>
     </item>
 
