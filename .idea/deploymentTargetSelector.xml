@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-08-12T04:00:28.305792Z">
+        <DropdownSelection timestamp="2024-10-29T05:49:04.108238Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/ss/.android/avd/Showtime_Watch_API_34.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/ss/.android/avd/showtime_Android8.0.avd" />
             </handle>
           </Target>
         </DropdownSelection>
