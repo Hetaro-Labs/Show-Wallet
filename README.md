@@ -1,5 +1,6 @@
 ![Show Wallet](https://github.com/Hetaro-Labs/Show-Wallet/blob/main/show-wallet.png?raw=true)
 
+Show Wallet is an open-source wallet on Solana, craft for smart watches. 
 
 # Build Guide
 
