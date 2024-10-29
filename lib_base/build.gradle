@@ -7,7 +7,7 @@ plugins {
 android.buildFeatures.buildConfig true
 
 ext {
-    apiKey = 'a9daec3e-c89d-41c3-a197-f7d7522fdfd7'
+    apiKey = 'your-key-helius-rpc'
 }
 
 android {

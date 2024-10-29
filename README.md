@@ -27,6 +27,13 @@ signingConfigs {
 }
 ```
 
+Adn update your own api key in lib_base/build.gradle
+```
+ext {
+apiKey = 'your-helius-rpc-key'
+}
+```
+
 ## Building the Project
 ### Using Android Studio
 Open Android Studio and load your project.
