@@ -3,8 +3,14 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id 'kotlin-parcelize'
 }
-android {
 
+android.buildFeatures.buildConfig true
+
+ext {
+    apiKey = 'a9daec3e-c89d-41c3-a197-f7d7522fdfd7'
+}
+
+android {
     namespace = "com.amez.mall.lib_base"
 
     compileSdk 34
@@ -23,6 +29,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_KEY", "\"${apiKey}\""
+        }
+        debug {
+            buildConfigField "String", "API_KEY", "\"${apiKey}\""
         }
     }
     //Prevent OOM and GC during compilation
