@@ -1,4 +1,7 @@
-# Android Project Build Guide
+![Show Wallet](https://github.com/Hetaro-Labs/Show-Wallet/blob/main/show-wallet.png?raw=true)
+
+
+# Build Guide
 
 This guide will walk you through the process of building your Android project using Gradle.
 
@@ -21,13 +24,6 @@ signingConfigs {
 		keyAlias ""
 		keyPassword ""
 	}
-}
-```
-
-Then update your own api key in lib_base/build.gradle
-```
-ext {
-apiKey = 'a9daec3e-c89d-41c3-a197-f7d7522fdfd7'
 }
 ```
 
