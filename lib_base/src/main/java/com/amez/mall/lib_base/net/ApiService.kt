@@ -30,7 +30,7 @@ interface ApiService {
                             @Query("amount") parameterThree: BigInteger?,
                             @Query("slippageBps") slippageBps:Int): Call<TokenPairUpdatedResp>
 
-    @POST("?api-key=a9daec3e-c89d-41c3-a197-f7d7522fdfd7")
+    @POST("?api-key=") //update your own key, for instance, a9daec3e-c89d-41c3-a197-f7d7522fdfd7
     fun getAssetsByOwner(@Body reqBean: GetAssetsByOwnerReq): Call<GetAssetsByOwnerResp>
 
     @POST("v6/swap")
