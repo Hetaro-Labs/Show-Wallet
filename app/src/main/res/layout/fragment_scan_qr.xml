@@ -40,9 +40,9 @@
             />
 
         <TextView
-            android:id="@+id/btn_add_to_address_book"
+            android:id="@+id/btn_mint_nft"
             android:layout_marginTop="4dp"
-            android:text="@string/add_to_address_book"
+            android:text="Mint NFT"
             style="@style/Button"
             />
 

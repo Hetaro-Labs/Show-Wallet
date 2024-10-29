@@ -203,12 +203,14 @@ class WalletHomeVModel : BaseWalletVModel() {
                             log("token: " + token.symbol + "->" + token.mint)
                         }
 
+                        val json = DefaultTokenListData.JSON
+                        log(json)
+
                         //5.if tokenList has the data, do not add,else add DefaultTokenListData
                         val gson = Gson()
-                        val type =
-                            object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
+                        val type = object : TypeToken<List<DefaultTokenListData.DefaultToken?>?>() {}.type
                         val defaultTokenList: List<DefaultTokenListData.DefaultToken> =
-                            gson.fromJson(DefaultTokenListData.JSON, type)
+                            gson.fromJson(json, type)
                         defaultTokenList.forEach { defaultToken ->
                             if (tokensList.find { it.mint == defaultToken.mint } == null)
                                 tokensList.add(

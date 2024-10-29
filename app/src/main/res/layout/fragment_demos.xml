@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+
+    </data>
+    <LinearLayout
+        android:id="@+id/result_buttons"
+        android:padding="6dp"
+        android:background="@drawable/background_dialog_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/btn_running_app"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:text="Running App"
+                style="@style/Button"
+                />
+
+            <TextView
+                android:id="@+id/btn_price_alert"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:text="Price Alert"
+                style="@style/Button"
+                />
+
+            <TextView
+                android:id="@+id/btn_transaction"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:text="Transaction"
+                style="@style/Button"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loading"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mint in progress"
+                android:textSize="@dimen/text_size_medium"
+                />
+
+            <ProgressBar
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

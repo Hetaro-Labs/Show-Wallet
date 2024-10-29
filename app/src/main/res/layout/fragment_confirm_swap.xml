@@ -1,310 +1,305 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
 
     </data>
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:layout_above="@id/swap_button">
 
-            <ScrollView
-                android:layout_above="@id/swap_button"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/stroke_gray"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/paymentSection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/global_padding">
+
+                        <ImageView
+                            android:id="@+id/paymentIcon"
+                            android:layout_width="@dimen/token_icon_size"
+                            android:layout_height="@dimen/token_icon_size"
+                            android:layout_alignParentStart="true"
+                            android:src="@drawable/ic_solana" />
+
+                        <TextView
+                            android:id="@+id/paymentLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@id/paymentIcon"
+                            android:text="@string/swap_spend"
+                            android:textColor="#B0B0B0"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/paymentAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/paymentLabel"
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@id/paymentIcon"
+                            android:text="0.001 SOL"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/paymentValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text=""
+                            android:textColor="#B0B0B0"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </RelativeLayout>
+
+                    <!-- Exchange Section -->
+                    <RelativeLayout
+                        android:id="@+id/exchangeSection"
+                        android:background="@drawable/background_solid_gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:padding="@dimen/global_padding">
+
+                        <ImageView
+                            android:id="@+id/exchangeIcon"
+                            android:layout_width="@dimen/token_icon_size"
+                            android:layout_height="@dimen/token_icon_size"
+                            android:layout_alignParentStart="true"
+                            android:src="@drawable/ic_solana" />
+
+                        <TextView
+                            android:id="@+id/exchangeLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@id/exchangeIcon"
+                            android:text="@string/swap_receive"
+                            android:textColor="#B0B0B0"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/exchangeAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/exchangeLabel"
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@id/exchangeIcon"
+                            android:text="0.15684 USDC"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/exchangeValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text=""
+                            android:textColor="#B0B0B0"
+                            android:textSize="@dimen/text_size_medium" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <!-- Info Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:orientation="vertical"
-                    >
+                    android:padding="4dp">
 
-            <!-- Payment Section -->
-            <RelativeLayout
-                android:id="@+id/paymentSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/info_background"
-                android:padding="4dp">
-
-                <ImageView
-                    android:id="@+id/paymentIcon"
-                    android:layout_width="@dimen/token_icon_size"
-                    android:layout_height="@dimen/token_icon_size"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_solana" />
-
-                <TextView
-                    android:id="@+id/paymentLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/paymentIcon"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/swap_spend"
-                    android:textColor="#B0B0B0"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/paymentAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/paymentLabel"
-                    android:layout_toEndOf="@id/paymentIcon"
-                    android:layout_marginStart="8dp"
-                    android:text="0.001 SOL"
-                    android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/paymentValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="$0.1578"
-                    android:textColor="#B0B0B0"
-                    android:textSize="@dimen/text_size_large" />
-            </RelativeLayout>
-
-            <!-- Exchange Section -->
-            <RelativeLayout
-                android:id="@+id/exchangeSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/paymentSection"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/info_background"
-                android:padding="4dp"
-                >
-
-                <ImageView
-                    android:id="@+id/exchangeIcon"
-                    android:layout_width="@dimen/token_icon_size"
-                    android:layout_height="@dimen/token_icon_size"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_solana" />
-
-                <TextView
-                    android:id="@+id/exchangeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/exchangeIcon"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/swap_receive"
-                    android:textColor="#B0B0B0"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/exchangeAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/exchangeLabel"
-                    android:layout_toEndOf="@id/exchangeIcon"
-                    android:layout_marginStart="8dp"
-                    android:text="0.15684 USDC"
-                    android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/exchangeValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="$0.15683"
-                    android:textColor="#B0B0B0"
-                    android:textSize="@dimen/text_size_large" />
-            </RelativeLayout>
-
-            <!-- Info Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/exchangeSection"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:background="@drawable/info_background"
-                android:padding="4dp"
-                >
-
-                <!-- Info Row -->
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/best_price"
-                        android:textColor="@color/text_info"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:id="@+id/lowest_price_value"
-                        android:gravity="right"
-                        android:layout_marginLeft="10dp"
+                    <!-- Info Row -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/best_price"
+                            android:textColor="@color/text_info"
+                            android:textSize="@dimen/text_size_small" />
 
-                <!-- Info Row -->
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp">
+                        <TextView
+                            android:id="@+id/lowest_price_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="right"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/provider"
-                        android:textColor="@color/text_info"
-                        android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/provider_name"
-                        android:layout_marginLeft="10dp"
+                    <!-- Info Row -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/provider"
+                            android:textColor="@color/text_info"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:id="@+id/provider_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="right"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small" />
+                    </LinearLayout>
+
+                    <!-- Info Row -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/price_impact"
+                            android:textColor="@color/text_info"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:id="@+id/price_impact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="0%"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small" />
+                    </RelativeLayout>
+
+                    <!-- Info Row -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/slippage"
+                            android:textColor="@color/text_info"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:id="@+id/slippage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="0.50%"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small" />
+                    </RelativeLayout>
+
+
+                    <!-- Info Row -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/swap_fee"
+                            android:textColor="@color/text_info"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="$0.005"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small" />
+                    </RelativeLayout>
+
+                    <!-- Info Row -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/swap_fee_includes"
+                            android:textColor="@color/text_info"
+                            android:textSize="@dimen/text_size_small" />
+                    </RelativeLayout>
+
                 </LinearLayout>
-
-                <!-- Info Row -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/price_impact"
-                        android:textColor="@color/text_info"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:id="@+id/price_impact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="0%"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_medium" />
-                </RelativeLayout>
-
-                <!-- Info Row -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/slippage"
-                        android:textColor="@color/text_info"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:id="@+id/slippage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="0.50%"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_medium" />
-                </RelativeLayout>
-
-
-
-                <!-- Info Row -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/swap_fee"
-                        android:textColor="@color/text_info"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="$0.005"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_medium" />
-                </RelativeLayout>
-
-                <!-- Info Row -->
-                <RelativeLayout
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/swap_fee_includes"
-                        android:textColor="@color/text_info"
-                        android:textSize="@dimen/text_size_small" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/error_message"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/error"
-                        android:text="error: "
-                        android:textSize="10dp"
-                        />
-
-                </LinearLayout>
-            </ScrollView>
-
-            <!-- Swap Button -->
-            <LinearLayout
-                android:id="@+id/swap_button"
-                android:layout_alignParentBottom="true"
-                style="@style/Button"
-                >
 
                 <TextView
-                    android:id="@+id/swap_button_label"
+                    android:id="@+id/error_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/swap"
-                    android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
-
-                <ProgressBar
-                    android:id="@+id/swap_progress"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    />
+                    android:text="error: "
+                    android:textColor="@color/error"
+                    android:textSize="10dp"
+                    android:visibility="gone" />
 
             </LinearLayout>
+        </ScrollView>
 
-        </RelativeLayout>
+        <!-- Swap Button -->
+        <LinearLayout
+            android:id="@+id/swap_button"
+            style="@style/Button"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/swap_button_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/swap"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/swap_progress"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </layout>

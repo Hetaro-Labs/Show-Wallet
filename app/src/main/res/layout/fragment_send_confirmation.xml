@@ -5,151 +5,159 @@
 
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@drawable/wallet_background"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <!-- Icon -->
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="@dimen/send_token_icon_size"
-                android:layout_height="@dimen/send_token_icon_size"
-                android:layout_below="@id/title"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:src="@drawable/ic_solana" />
-
-            <!-- Amount -->
-            <TextView
-                android:id="@+id/tv_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/icon"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="6dp"
-                android:text="0.00236 SOL"
-                android:textColor="#fff"
-                android:textSize="@dimen/text_size_xl"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <!-- Details Container -->
-        <LinearLayout
-            android:id="@+id/details_container"
-            android:padding="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/info_background"
-            android:clipToPadding="false"
+            tools:background="@drawable/wallet_background"
             android:orientation="vertical"
             >
 
-            <!-- Detail Row 1 -->
-            <LinearLayout style="@style/Info.Group">
-
-                <TextView
-                    android:text="@string/to"
-                    style="@style/Info.Label" />
-
-                <TextView
-                    android:id="@+id/tv_info_to_address"
-                    android:text="wallet (23xY...YZPA)"
-                    style="@style/Info.Value" />
-
-            </LinearLayout>
-
-            <!-- Detail Row 2 -->
-            <LinearLayout style="@style/Info.Group">
-
-                <TextView
-                    android:text="@string/transaction_network"
-                    style="@style/Info.Label" />
-
-                <TextView
-                    android:text="Solana"
-                    style="@style/Info.Value" />
-                    />
-            </LinearLayout>
-
-            <LinearLayout style="@style/Info.Group">
-
-                <TextView
-                    style="@style/Info.Label"
-                    android:text="@string/network_fee"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_info_network_fee"
-                    style="@style/Info.Value"
-                    android:text="$0.0027"
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Buttons Container -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <!-- Cancel Button -->
-            <TextView
-                android:id="@+id/cancel_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:text="@string/cancel"
-                style="@style/Button"
-                />
-
-            <!-- Confirm Button -->
-
             <LinearLayout
-                android:id="@+id/confirm_button"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/Button"
-                android:orientation="horizontal"
                 android:gravity="center"
-                >
+                android:orientation="vertical">
 
+                <!-- Icon -->
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="@dimen/send_token_icon_size"
+                    android:layout_height="@dimen/send_token_icon_size"
+                    android:layout_below="@id/title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/ic_solana" />
+
+                <!-- Amount -->
                 <TextView
-                    android:id="@+id/confirm_button_label"
+                    android:id="@+id/tv_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="12dp"
-                    android:text="@string/send"
-                    />
-
-                <ProgressBar
-                    android:id="@+id/confirm_button_progress"
-                    android:visibility="gone"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    />
+                    android:layout_below="@id/icon"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="6dp"
+                    android:text="0.00236 SOL"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/text_size_xl"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
+            <!-- Details Container -->
+            <LinearLayout
+                android:id="@+id/details_container"
+                android:padding="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/info_background"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                >
+
+                <!-- Detail Row 1 -->
+                <LinearLayout style="@style/Info.Group">
+
+                    <TextView
+                        android:text="@string/to"
+                        style="@style/Info.Label" />
+
+                    <TextView
+                        android:id="@+id/tv_info_to_address"
+                        android:text="wallet (23xY...YZPA)"
+                        style="@style/Info.Value" />
+
+                </LinearLayout>
+
+                <!-- Detail Row 2 -->
+                <LinearLayout style="@style/Info.Group">
+
+                    <TextView
+                        android:text="@string/transaction_network"
+                        style="@style/Info.Label" />
+
+                    <TextView
+                        android:text="Solana"
+                        style="@style/Info.Value" />
+                    />
+                </LinearLayout>
+
+                <LinearLayout style="@style/Info.Group">
+
+                    <TextView
+                        style="@style/Info.Label"
+                        android:text="@string/network_fee"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_info_network_fee"
+                        style="@style/Info.Value"
+                        android:text="$0.0027"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Buttons Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <!-- Cancel Button -->
+                <TextView
+                    android:id="@+id/cancel_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/cancel"
+                    style="@style/Button"
+                    />
+
+                <!-- Confirm Button -->
+
+                <LinearLayout
+                    android:id="@+id/confirm_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/Button"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/confirm_button_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_large"
+                        android:text="@string/send"
+                        />
+
+                    <ProgressBar
+                        android:id="@+id/confirm_button_progress"
+                        android:visibility="gone"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
+
 </layout>

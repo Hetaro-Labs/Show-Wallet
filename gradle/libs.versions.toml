@@ -90,6 +90,7 @@ zxing={ module = "com.google.zxing:core", version.ref = "zxingVersion"}
 mmkv={ module = "com.tencent:mmkv", version.ref = "mmkvVersion"}
 json= { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "jsonVersion"}
 gson= { module = "com.google.code.gson:gson", version.ref = "gsonVersion"}
+speechRecView= { module = "com.github.zagum:SpeechRecognitionView", version = "1.2.2"}
 
 
 [plugins]

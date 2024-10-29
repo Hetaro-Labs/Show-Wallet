@@ -33,13 +33,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             >
 
             <TextView
                 android:id="@+id/status_body"
                 android:textColor="@color/white"
-                android:text="Swapping 1 SOL for 12221.12 LOS"
+                android:text="sending... mint to 123212..."
                 android:textSize="@dimen/text_size_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

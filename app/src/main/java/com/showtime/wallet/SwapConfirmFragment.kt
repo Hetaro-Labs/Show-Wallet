@@ -80,7 +80,7 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
             mBinding.swapButton.isEnabled = true
             resp = it
 
-            mBinding.slippage.text = it.slippageBps?.toString() + "%"
+            mBinding.slippage.text = (it.slippageBps!!.toFloat() / 100.0f).toString() + "%"
 
             mBinding.priceImpact.text = String.format("%.2f", (it.priceImpactPct!!.toDouble() * 100.0)) + "%"
 
@@ -113,14 +113,14 @@ class SwapConfirmFragment : BaseSecondaryFragment<FragmentConfirmSwapBinding, Sw
             //Payment Section
             ImageHelper.obtainImage(requireContext(), it.logo, mBinding.paymentIcon)
             mBinding.paymentAmount.text = "${it.uiAmount} ${it.symbol}"
-            mBinding.paymentValue.text = ""
+            mBinding.paymentValue.text = "$${String.format("%.2f", it.amountInUsd)}"
         }
         token2.let {
             //Exchange Section
             ImageHelper.obtainImage(requireContext(), it.logo, mBinding.exchangeIcon)
             mBinding.exchangeAmount.text =
                 getString(R.string.loading) //"${it.uiAmount} ${it.symbol}"
-            mBinding.exchangeValue.text = ""
+            mBinding.exchangeValue.text = "$${String.format("%.2f", it.amountInUsd)}"
         }
 
         swapButton.clickNoRepeat {

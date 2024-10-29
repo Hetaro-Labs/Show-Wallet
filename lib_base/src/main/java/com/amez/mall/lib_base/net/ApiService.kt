@@ -2,6 +2,8 @@ package com.amez.mall.lib_base.net
 
 import com.amez.mall.lib_base.bean.GetAssetsByOwnerReq
 import com.amez.mall.lib_base.bean.GetAssetsByOwnerResp
+import com.amez.mall.lib_base.bean.MintNFTReq
+import com.amez.mall.lib_base.bean.MintNFTResp
 import com.amez.mall.lib_base.bean.SwapReq
 import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenInfoReq
@@ -17,6 +19,9 @@ import retrofit2.http.Query
 import java.math.BigInteger
 
 interface ApiService {
+
+    @POST("mint")
+    fun mintNFT(@Body reqBean: MintNFTReq): Call<MintNFTResp>
 
     @POST("v1/tokens")
     fun getTokens(@Body reqBean: TokenInfoReq): Call<HashMap<String, TokenInfoResult>>

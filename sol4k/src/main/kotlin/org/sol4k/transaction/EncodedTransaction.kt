@@ -28,7 +28,7 @@ class EncodedTransaction(val message: ByteArray, val signatures: MutableList<Byt
                 )
             }
 
-            //remove version
+            //do not remove version
 //            TransactionHelper.guardedShift(byteArray)
             return EncodedTransaction(byteArray.toByteArray(), signatures)
         }

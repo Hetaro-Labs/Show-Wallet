@@ -9,6 +9,7 @@ import com.amez.mall.lib_base.ui.BaseProjFragment
 import com.showtime.wallet.adapter.HomeButtonAdapter
 import com.showtime.wallet.adapter.TokenAccountsByOwnerAdapter
 import com.showtime.wallet.databinding.FragmentWalletHomeBinding
+import com.showtime.wallet.demo.DemoFragment
 import com.showtime.wallet.utils.EventConstants
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.vm.WalletHomeVModel
@@ -75,8 +76,7 @@ class WalletHomeFragment : BaseProjFragment<FragmentWalletHomeBinding, WalletHom
                     )
                 },
                 HomeButtonAdapter.HomeButton(R.drawable.ic_status_success, R.string.test) {
-                    val tx = "iTdfPbv9eckM9udR3wBnbib2v1jGhaM6TMjdkEfdhe21fmQEqc3nAgy2hF9JEb3ichU5rNn3UkH6YAVL8MnKvYq"
-                    TransactionStatusFragment.start(requireContext(), TransactionStatusFragment.TYPE_SWAP, tx, tx)
+                    DemoFragment.start(requireContext(), selectedPublicKey)
                 },
             )
         )

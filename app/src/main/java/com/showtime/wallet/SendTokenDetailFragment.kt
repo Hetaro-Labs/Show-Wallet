@@ -6,15 +6,12 @@ import android.os.Bundle
 import com.amez.mall.lib_base.utils.ImageHelper
 import com.showtime.wallet.databinding.FragmentSendTokenDetailBinding
 import com.showtime.wallet.net.bean.Token
-import com.showtime.wallet.utils.AppConstants
-import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.TokenListCache
 import com.showtime.wallet.utils.addTextChangeListener
 import com.showtime.wallet.utils.clickNoRepeat
 import com.showtime.wallet.utils.gone
 import com.showtime.wallet.utils.visible
 import com.showtime.wallet.vm.SendTokenVModel
-import com.showtime.wallet.vm.SwapVModel
 
 class SendTokenDetailFragment :
     BaseSecondaryFragment<FragmentSendTokenDetailBinding, SendTokenVModel>() {

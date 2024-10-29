@@ -3,6 +3,8 @@ package com.amez.mall.lib_base.net
 import com.amez.mall.lib_base.bean.GetAssetsByOwnerReq
 import com.amez.mall.lib_base.bean.GetAssetsByOwnerReqParams
 import com.amez.mall.lib_base.bean.GetAssetsByOwnerResp
+import com.amez.mall.lib_base.bean.MintNFTReq
+import com.amez.mall.lib_base.bean.MintNFTResp
 import com.amez.mall.lib_base.bean.SwapReq
 import com.amez.mall.lib_base.bean.SwapResp
 import com.amez.mall.lib_base.bean.TokenInfoReq
@@ -24,6 +26,36 @@ object ApiRequest {
     private val TAG = ApiRequest::class.simpleName
 
     private const val SOLAN_BASE_URL = "https://api.solana.fm/"
+
+    fun mintNFT(req: MintNFTReq, callback: (MintNFTResp) -> Unit) {
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY) //Set Log Level
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(logging)  //Adding interceptors to OkHttp
+
+        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://wallet-api-dev.h8s.xyz/")
+            .baseUrl("https://wallet-api.h8s.xyz/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient.build())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+        val call: Call<MintNFTResp> = apiService.mintNFT(req)
+
+        call.enqueue(object : Callback<MintNFTResp> {
+            override fun onFailure(call: Call<MintNFTResp>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<MintNFTResp>, response: Response<MintNFTResp>) {
+                if (response.isSuccessful || response.code() == 400) callback.invoke(
+                    response.body() ?: MintNFTResp("")
+                )
+            }
+        })
+    }
+
+
 
     fun getTokens(req: TokenInfoReq): Response<HashMap<String, TokenInfoResult>> {
         val logging = HttpLoggingInterceptor()
@@ -147,7 +179,7 @@ object ApiRequest {
 
         val apiService = retrofit.create(ApiService::class.java)
         val call: Call<TokenPairUpdatedResp> =
-            apiService.getTokenPairUpdated(mint1, mint2, amount1, 1)
+            apiService.getTokenPairUpdated(mint1, mint2, amount1, 500)
         call.enqueue(object : Callback<TokenPairUpdatedResp> {
             override fun onFailure(call: Call<TokenPairUpdatedResp>, t: Throwable) {
                 Logger.d("WalletHomeVModel", "get price failed: $t")

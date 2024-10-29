@@ -1,209 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
 
     </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/stroke_gray"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:elevation="4dp"
-                android:orientation="vertical"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/swap_spend"
-                    android:visibility="gone"
-                    android:layout_marginBottom="4dp"
-                    android:textColor="@color/text_info"
-                    android:textSize="@dimen/text_size_small"
-                    />
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:padding="@dimen/global_padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:elevation="4dp"
                     android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/swap_spend"
+                        android:textColor="@color/text_info"
+                        android:textSize="@dimen/text_size_small"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        >
-
-                        <RelativeLayout
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content">
-
-                            <EditText
-                                android:id="@+id/coin_amount_1"
-                                style="@style/Input"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="#FFFFFF"
-                                android:textSize="@dimen/text_size_xl" />
-
-                            <TextView
-                                android:id="@+id/max_button_1"
-                                android:padding="4dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="8dp"
-                                android:text="@string/max"
-                                android:textColor="#8E8EFC"
-                                android:textSize="@dimen/text_size_large" />
-
-                        </RelativeLayout>
-
+                        android:orientation="vertical"
+                        android:padding="@dimen/global_padding">
 
                         <LinearLayout
-                            android:id="@+id/btn_swap_token_1"
-                            android:layout_marginLeft="@dimen/global_padding"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
-                            <ImageView
-                                android:id="@+id/coin_icon_1"
-                                android:layout_width="@dimen/swap_token_icon_size"
-                                android:layout_height="@dimen/swap_token_icon_size"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_solana" />
-
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="4dp"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:layout_weight="1">
 
-                                <TextView
-                                    android:id="@+id/coin_name_1"
-                                    android:layout_width="wrap_content"
+                                <EditText
+                                    android:id="@+id/coin_amount_1"
+                                    style="@style/Input"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="SOL"
+                                    android:layout_gravity="center_vertical"
+                                    android:inputType="numberDecimal"
                                     android:textColor="#FFFFFF"
-                                    android:textSize="@dimen/text_size_medium"
-                                    android:textStyle="bold" />
+                                    android:textSize="@dimen/text_size_xl" />
 
                                 <TextView
-                                    android:id="@+id/coin_balance_1"
-                                    android:visibility="gone"
+                                    android:id="@+id/max_button_1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="0.00391 SOL"
-                                    android:textColor="#9A9A9A"
-                                    android:textSize="@dimen/text_size_small" />
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="8dp"
+                                    android:padding="4dp"
+                                    android:text="@string/max"
+                                    android:textColor="#8E8EFC"
+                                    android:textSize="@dimen/text_size_large" />
+
+                            </RelativeLayout>
+
+
+                            <LinearLayout
+                                android:id="@+id/btn_swap_token_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/global_padding"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/coin_icon_1"
+                                    android:layout_width="@dimen/swap_token_icon_size"
+                                    android:layout_height="@dimen/swap_token_icon_size"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/ic_solana" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="4dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/coin_name_1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="SOL"
+                                        android:textColor="#FFFFFF"
+                                        android:textSize="@dimen/text_size_medium"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/coin_balance_1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0.00391 SOL"
+                                        android:textColor="#9A9A9A"
+                                        android:textSize="@dimen/text_size_small"
+                                        android:visibility="gone" />
+                                </LinearLayout>
+
                             </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/amount1_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text_info"
+                                android:textSize="@dimen/text_size_small" />
+
+                            <TextView
+                                android:id="@+id/amount1_error_message"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/insufficient_balance"
+                                android:textColor="#FF0000"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="gone" />
 
                         </LinearLayout>
 
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btn_select_token"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/stroke_gray"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/swap_add_button_size"
+                        android:layout_height="@dimen/swap_add_button_size"
+                        android:src="@android:drawable/ic_menu_add" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:orientation="horizontal"
-                        >
-
-                        <TextView
-                            android:id="@+id/amount1_price"
-                            android:textColor="@color/text_info"
-                            android:textSize="@dimen/text_size_small"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            />
-
-                        <TextView
-                            android:id="@+id/amount1_error_message"
-                            android:visibility="gone"
-                            android:textColor="#FF0000"
-                            android:textSize="@dimen/text_size_small"
-                            android:text="@string/insufficient_balance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            />
-
-                    </LinearLayout>
-
+                        android:text="@string/select_token"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_xl" />
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/btn_select_token"
-                android:visibility="gone"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/stroke_gray"
-                android:layout_width="match_parent"
-                android:padding="4dp"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <ImageView
-                    android:src="@android:drawable/ic_menu_add"
-                    android:layout_width="@dimen/swap_add_button_size"
-                    android:layout_height="@dimen/swap_add_button_size"
-                    />
-
-                <TextView
-                    android:text="@string/select_token"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_xl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-
-            </LinearLayout>
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/token2_layout"
-                        android:background="@drawable/background_solid_gray"
-                        android:layout_marginTop="32dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginTop="32dp"
+                        android:background="@drawable/background_solid_gray"
                         android:orientation="vertical"
                         android:padding="@dimen/global_padding">
 
@@ -212,8 +201,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/swap_receive"
                             android:textColor="@color/text_info"
-                            android:textSize="@dimen/text_size_small"
-                            />
+                            android:textSize="@dimen/text_size_small" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -221,25 +209,24 @@
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:gravity="center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                >
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <RelativeLayout
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
 
                                     <EditText
                                         android:id="@+id/coin_amount_2"
                                         style="@style/Input"
-                                        android:background="@color/transparent"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:inputType="numberDecimal"
                                         android:layout_gravity="center_vertical"
+                                        android:background="@color/transparent"
+                                        android:inputType="numberDecimal"
                                         android:textColor="#FFFFFF"
                                         android:textSize="@dimen/text_size_xl" />
 
@@ -248,11 +235,10 @@
 
                                 <LinearLayout
                                     android:id="@+id/btn_swap_token_2"
-                                    android:layout_marginLeft="@dimen/global_padding"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    >
+                                    android:layout_marginLeft="@dimen/global_padding"
+                                    android:orientation="vertical">
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -289,12 +275,11 @@
 
                                     <TextView
                                         android:id="@+id/amount2_price"
-                                        android:layout_gravity="right"
-                                        android:textColor="@color/text_info"
-                                        android:text="$1.021"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        />
+                                        android:layout_gravity="right"
+                                        android:text=""
+                                        android:textColor="@color/text_info" />
 
                                 </LinearLayout>
 
@@ -305,8 +290,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
-                                android:orientation="horizontal"
-                                >
+                                android:orientation="horizontal">
 
 
                             </LinearLayout>
@@ -317,15 +301,15 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btn_switch_tokens"
-                        android:layout_gravity="center"
-                        android:layout_centerHorizontal="true"
-                        app:contentPadding="@dimen/setting_icon_padding"
-                        app:cardCornerRadius="@dimen/swap_icon_size"
-                        app:cardBackgroundColor="@color/black"
-                        app:cardElevation="5dp"
                         android:layout_width="@dimen/swap_icon_size"
                         android:layout_height="@dimen/swap_icon_size"
-                        >
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        app:cardBackgroundColor="@color/black"
+                        app:cardCornerRadius="@dimen/swap_icon_size"
+                        app:cardElevation="5dp"
+                        app:contentPadding="@dimen/setting_icon_padding">
+
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -339,13 +323,13 @@
 
             <LinearLayout
                 android:id="@+id/layout_llm_info"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:orientation="vertical"
                 android:elevation="4dp"
-                android:padding="4dp">
+                android:orientation="vertical"
+                android:padding="4dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/provider_info"
@@ -353,7 +337,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/provider"
                     android:textColor="@color/text_info"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_small" />
 
                 <TextView
                     android:id="@+id/provider_name"
@@ -361,7 +345,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_small" />
 
 
                 <TextView
@@ -370,7 +354,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/best_price"
                     android:textColor="@color/text_info"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_small" />
 
                 <TextView
                     android:id="@+id/lowest_price_value"
@@ -378,17 +362,16 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/btn_review_swap"
                 style="@style/Button"
-                android:enabled="false"
                 android:layout_margin="4dp"
-                android:text="@string/review_swap"
-                />
+                android:enabled="false"
+                android:text="@string/review_swap" />
 
         </LinearLayout>
 

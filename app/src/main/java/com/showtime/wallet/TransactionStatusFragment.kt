@@ -23,6 +23,8 @@ class TransactionStatusFragment :
     companion object {
         val TYPE_SWAP = 1
         val TYPE_SEND_TOKEN = 2
+        val TYPE_MINT = 3
+        val TYPE_TRANSACTION = 4
         val KEY_TYPE = "type"
         val KEY_TX_HASH = "txHash"
         val KEY_MESSAGE = "message"
@@ -51,30 +53,42 @@ class TransactionStatusFragment :
 
     override fun getContentViewLayoutID() = R.layout.fragment_transaction_status
 
+    private var retries = 0
+    private val MAX_RETRY = 4
+
+    private fun onTransactionSuccess(){
+        FlowEventBus.with<Boolean>(EventConstants.EVENT_REFRESH_BALANCE).post(true)
+        mBinding.statusIcon.setImageResource(R.drawable.ic_status_success)
+        mBinding.statusProgress.gone()
+        mBinding.statusBody.text =
+            when (keyType) {
+                TYPE_SWAP -> {
+                    getString(R.string.swapped) + " " + message
+                }
+                TYPE_SEND_TOKEN -> {
+                    getString(R.string.sent) + " " + message
+                }
+                else -> {
+                    message
+                }
+            }
+    }
+
     override fun initLiveDataObserve() {
         mViewModel.getTransaction.observe(viewLifecycleOwner){
             if (null == it) {
-                //retry in 4s
-                Handler().postDelayed({
-                    mViewModel.getTransaction(keyTxHash)
-                }, 4000L)
+                if (retries++ >= MAX_RETRY){
+                    onTransactionSuccess()
+                }else{
+                    //retry in 4s
+                    Handler().postDelayed({
+                        mViewModel.getTransaction(keyTxHash)
+                    }, 4000L)
+                }
             } else {
                 if (it.meta.err == null) {
-                    FlowEventBus.with<Boolean>(EventConstants.EVENT_REFRESH_BALANCE).post(true)
-                    mBinding.statusIcon.setImageResource(R.drawable.ic_status_success)
-                    mBinding.statusProgress.gone()
-                    mBinding.statusBody.text =
-                        when (keyType) {
-                            TYPE_SWAP -> {
-                                getString(R.string.swapped) + " " + message
-                            }
-                            TYPE_SEND_TOKEN -> {
-                                getString(R.string.sent) + " " + message
-                            }
-                            else -> {
-                                message
-                            }
-                        }
+                    onTransactionSuccess()
+
                 } else {
                     //failed
                     mBinding.statusIcon.setImageResource(R.drawable.ic_error)
@@ -86,7 +100,13 @@ class TransactionStatusFragment :
     }
 
     override fun initRequestData() {
-        mViewModel.getTransaction(keyTxHash)
+        if (keyTxHash.isNotEmpty()){
+            mViewModel.getTransaction(keyTxHash)
+        }else{
+            Handler().postDelayed({
+                onTransactionSuccess()
+            }, 3000L)
+        }
     }
 
     override fun FragmentTransactionStatusBinding.initView() {

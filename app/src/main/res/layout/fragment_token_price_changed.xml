@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/status_icon_size"
+            android:layout_height="@dimen/status_icon_size"
+            android:src="@drawable/icon_bonk" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bonk price up by 6%"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large" />
+
+        <TextView
+            android:id="@+id/btn_activate_ai"
+            style="@style/Button"
+            android:layout_marginLeft="@dimen/window_padding"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/window_padding"
+            android:text="Bonk me in!" />
+
+    </LinearLayout>
+
+</layout>

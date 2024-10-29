@@ -118,36 +118,39 @@ class SendTokenVModel : BaseWalletVModel() {
         val toAssociatedTokenAddress =
             PublicKey.findProgramDerivedAddress(receiverAddress, tokenMintAddress)
 
-        val destination = connection.getAccountInfo(toAssociatedTokenAddress.publicKey)
-        if (destination == null) {
+        viewModelScope.launch {
+            val destination = withContext(Dispatchers.IO) {
+                connection.getAccountInfo(toAssociatedTokenAddress.publicKey)
+            }
+
+            if (destination == null) {
+                instructions.add(
+                    CreateAssociatedTokenAccountInstruction(
+                        myAccount.publicKey,
+                        toAssociatedTokenAddress.publicKey,
+                        receiverAddress,
+                        tokenMintAddress
+                    )
+                )
+            }
+
+            log(
+                "send SPL: ${myAccount.publicKey.toBase58()}, \n" +
+                        "${fromAssociatedTokenAddress.publicKey.toBase58()}, \n" +
+                        "${toAssociatedTokenAddress.publicKey.toBase58()}, \n" +
+                        "${receiverAddress.toBase58()}, \n" +
+                        "${tokenMintAddress.toBase58()}, \n"
+            )
+
             instructions.add(
-                CreateAssociatedTokenAccountInstruction(
-                    myAccount.publicKey,
+                SplTransferInstruction(
+                    fromAssociatedTokenAddress.publicKey,
                     toAssociatedTokenAddress.publicKey,
-                    receiverAddress,
-                    tokenMintAddress
+                    myAccount.publicKey,
+                    amount
                 )
             )
-        }
 
-        log(
-            "send SPL: ${myAccount.publicKey.toBase58()}, \n" +
-                    "${fromAssociatedTokenAddress.publicKey.toBase58()}, \n" +
-                    "${toAssociatedTokenAddress.publicKey.toBase58()}, \n" +
-                    "${receiverAddress.toBase58()}, \n" +
-                    "${tokenMintAddress.toBase58()}, \n"
-        )
-
-        instructions.add(
-            SplTransferInstruction(
-                fromAssociatedTokenAddress.publicKey,
-                toAssociatedTokenAddress.publicKey,
-                myAccount.publicKey,
-                amount
-            )
-        )
-
-        viewModelScope.launch {
             val blockhash = withContext(Dispatchers.IO) {
                 connection.getLatestBlockhash()
             }
@@ -161,6 +164,7 @@ class SendTokenVModel : BaseWalletVModel() {
 
             _getTransactionHash.postValue(signature)
         }
+
     }
 
 

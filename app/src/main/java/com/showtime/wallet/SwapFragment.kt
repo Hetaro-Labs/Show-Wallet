@@ -88,7 +88,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             var providerName = ""
             for (plan in it.routePlan ?: arrayListOf())
                 providerName = providerName + plan.swapInfo?.label + "+"
-            mBinding.providerName.text = providerName.substring(0, providerName.length-1)
+            mBinding.providerName.text = providerName.substring(0, providerName.length - 1)
 
             mBinding.layoutLlmInfo.visible()
 
@@ -110,15 +110,16 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             }
         }
 
-
-        mViewModel.getToken1Price.observe(viewLifecycleOwner){
+        mViewModel.getToken1Price.observe(viewLifecycleOwner) {
             price1 = it
-            mBinding.amount1Price.text = "$" + String.format("%.2f", getAmount(mBinding.coinAmount1) * it)
+            mBinding.amount1Price.text =
+                "$" + String.format("%.2f", getAmount(mBinding.coinAmount1) * it)
         }
 
-        mViewModel.getToken2Price.observe(viewLifecycleOwner){
+        mViewModel.getToken2Price.observe(viewLifecycleOwner) {
             price2 = it
-            mBinding.amount2Price.text = "$" + String.format("%.2f", getAmount(mBinding.coinAmount2) * it)
+            mBinding.amount2Price.text =
+                "$" + String.format("%.2f", getAmount(mBinding.coinAmount2) * it)
         }
     }
 
@@ -126,11 +127,13 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
     }
 
     private fun insufficientBalance() {
+        mBinding.amount1Price.gone()
         mBinding.btnReviewSwap.isEnabled = false
         mBinding.amount1ErrorMessage.visible()
     }
 
     private fun sufficientBalance() {
+        mBinding.amount1Price.visible()
         mBinding.btnReviewSwap.isEnabled = true
         mBinding.amount1ErrorMessage.gone()
     }
@@ -182,9 +185,9 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
                 updateInAmount(outAmount)
             }
 
-            if (price2 == null){
+            if (price2 == null) {
                 mViewModel.getToken1PriceUpdated(token2!!)
-            }else{
+            } else {
                 mBinding.amount2Price.text = "$" + String.format("%.2f", outAmount * price2!!)
             }
         }
@@ -199,24 +202,25 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
 
             inputInAmount = true
 
-            if (inAmount <= 0.0){
+            if (inAmount <= 0.0) {
                 mBinding.btnReviewSwap.isEnabled = false
-            }else{
+            } else {
                 if (token1!!.uiAmount >= inAmount) {
                     sufficientBalance()
-                    if (price == null) {
-                        onTokenPairUpdated()
-                    } else {
-                        updateOutAmount(inAmount)
-                    }
                 } else {
                     insufficientBalance()
                 }
+
+                if (price == null) {
+                    onTokenPairUpdated()
+                } else {
+                    updateOutAmount(inAmount)
+                }
             }
 
-            if (price1 == null){
+            if (price1 == null) {
                 mViewModel.getToken1PriceUpdated(token1!!)
-            }else{
+            } else {
                 mBinding.amount1Price.text = "$" + String.format("%.2f", inAmount * price1!!)
             }
         }
@@ -246,7 +250,7 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
 
         if (extras.containsKey("token2")) {
             onTokenSelected(SwapVModel.TokenTypeEnum.TOKEN2, extras.getParcelable("token2"))
-        }else{
+        } else {
             val token2 = TokenListCache.getList().find { it.mint == DefaultTokenListData.USDC.mint }
                 ?: DefaultTokenListData.USDC
 
@@ -313,9 +317,9 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
             insufficientBalance()
         }
 
-        if (price1 != null){
+        if (price1 != null) {
             mBinding.amount1Price.text = "$" + String.format("%.2f", inAmount * price1!!)
-        }else{
+        } else {
             mViewModel.getToken1PriceUpdated(token1!!)
         }
     }
@@ -325,9 +329,9 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
         onInputValueChanged = true
         mBinding.coinAmount2.setText(outAmount.toString())
 
-        if (price2 != null){
+        if (price2 != null) {
             mBinding.amount2Price.text = "$" + String.format("%.2f", outAmount * price2!!)
-        }else{
+        } else {
             mViewModel.getToken2PriceUpdated(token2!!)
         }
     }
@@ -349,6 +353,9 @@ class SwapFragment : BaseSecondaryFragment<FragmentSwapBinding, SwapVModel>() {
 
         token1!!.uiAmount = mBinding.coinAmount1.text.toString().toDouble()
         token2!!.uiAmount = mBinding.coinAmount2.text.toString().toDouble()
+
+        token1!!.amountInUsd = mBinding.amount1Price.text.toString().substring(1).toDouble()
+        token2!!.amountInUsd = mBinding.amount2Price.text.toString().substring(1).toDouble()
 
         TerminalActivity.start(
             requireContext(),

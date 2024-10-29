@@ -4,8 +4,13 @@ import android.content.Context
 import android.widget.ImageView
 import com.aminography.redirectglide.GlideApp
 import com.aminography.redirectglide.RedirectGlideUrl
+import com.bumptech.glide.Glide
 
 object ImageHelper {
+
+    fun displayGif(content: Context, iv: ImageView, id: Int) {
+        Glide.with(content).asGif().load(id).into(iv);
+    }
 
     fun obtainImage(content: Context, url: String, iv: ImageView) {
         if (url.startsWith("drawable://")){
@@ -17,4 +22,5 @@ object ImageHelper {
                 .into(iv)
         }
     }
+
 }

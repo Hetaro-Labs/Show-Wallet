@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.amez.mall.lib_base.bean.MintNFTReq
+import com.amez.mall.lib_base.net.ApiRequest
 import com.showtime.wallet.databinding.FragmentScanQrBinding
 import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.clickNoRepeat
@@ -72,8 +74,10 @@ class ScanQRFragment : BaseSecondaryNotMVVMFragment<FragmentScanQrBinding>() {
                 mBinding.btnSend.clickNoRepeat {
                     SearchTokenFragment.start(requireContext(), key, text)
                 }
+                mBinding.btnMintNft.clickNoRepeat {
+                    MintNFTFragment.start(requireContext(), key, text)
+                }
             }
-
         }
 
         // Use this function to enable/disable decoding

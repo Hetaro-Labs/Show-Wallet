@@ -9,6 +9,7 @@ import com.showtime.wallet.databinding.FragmentSendConfirmationBinding
 import com.showtime.wallet.net.QuickNodeUrl
 import com.showtime.wallet.net.bean.Token
 import com.showtime.wallet.utils.AppConstants
+import com.showtime.wallet.utils.CryptoUtils
 import com.showtime.wallet.utils.clickNoRepeat
 import com.showtime.wallet.utils.visible
 import com.showtime.wallet.vm.SendTokenVModel
@@ -32,7 +33,6 @@ class SendTokenConfirmationFragment :
         private val KEY_RECEIVER = "receiver"
 
         fun start(context: Context, key: String, token: Token, receiver: String, uiAmount: Double) {
-
             val bundle = Bundle()
             bundle.putDouble(KEY_AMOUNT, uiAmount)
             bundle.putString(KEY_RECEIVER, receiver)
@@ -87,7 +87,7 @@ class SendTokenConfirmationFragment :
     }
 
     private fun assembleMessage(): String{
-        return getString(R.string.sending_token_to, uiAmount.toString() + token.symbol, receiver)
+        return getString(R.string.sending_token_to, uiAmount.toString() + token.symbol, CryptoUtils.getDisplayAddress(receiver))
     }
 
     override fun getContentViewLayoutID(): Int {

@@ -38,6 +38,18 @@ class DefaultTokenListData {
             ""
         )
 
+        val BONK = Token(
+            "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+            "Bonk",
+            "Bonk",
+            5,
+            "drawable://${R.drawable.icon_bonk}",
+            0.0,
+            false,
+            "",
+            ""
+        )
+
 
         val JSON = "[\n" +
 //                "    {\n" +
@@ -67,6 +79,20 @@ class DefaultTokenListData {
                 "        \"icon\": \"https://assets.coingecko.com/coins/images/13928/standard/PSigc4ie_400x400.jpg\",\n" +
                 "        \"token_id\": \"raydium\",\n" +
                 "        \"decimals\": 8\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"mint\": \"EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm\",\n" +
+                "        \"symbol\": \"WIF\",\n" +
+                "        \"icon\": \"https://assets.coingecko.com/coins/images/33566/standard/dogwifhat.jpg\",\n" +
+                "        \"token_id\": \"dogwifhat\",\n" +
+                "        \"decimals\": 6\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"mint\": \"ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82\",\n" +
+                "        \"symbol\": \"BOME\",\n" +
+                "        \"icon\": \"https://assets.coingecko.com/coins/images/36071/standard/bome.png\",\n" +
+                "        \"token_id\": \"book-on-meme\",\n" +
+                "        \"decimals\": 6\n" +
                 "    }\n" +
                 "]"
     }
